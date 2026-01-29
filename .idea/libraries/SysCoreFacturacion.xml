@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SysCoreFacturacion">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/SysCoreFacturacion.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
