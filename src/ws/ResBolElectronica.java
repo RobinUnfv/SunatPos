@@ -224,7 +224,7 @@ public class ResBolElectronica {
     public static String[] pedirStatus(String path, String zipFileName, String vruc, String tiket) {
         String resultado[] = new String [2];
         resultado[0]="";
-        String sws = "3";
+        String sws = "1";
         log.info("enviarASunat - Prepara ambiente: " + sws);
         try {
 

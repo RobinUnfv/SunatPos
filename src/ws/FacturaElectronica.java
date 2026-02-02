@@ -99,7 +99,7 @@ public class FacturaElectronica {
     
      public static String enviarZipASunat(String path, String zipFileName, String vruc) {
         String resultado = "";
-        String sws = "3";
+        String sws = "1";
         log.info("enviarASunat - Prepara ambiente: " + sws);
         try {
 
