@@ -7,7 +7,7 @@ package Modelo.Beans;
 
 /**
  *
- * @author LUISINHO
+ * @author Robin
  */
 public class CabeceraBean {
  private int docu_codigo;

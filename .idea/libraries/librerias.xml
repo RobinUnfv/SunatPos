@@ -27,6 +27,7 @@
       <root url="jar://$PROJECT_DIR$/src/librerias/commons-collections-3.2.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/librerias/xmlsec-1.4.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/librerias/commons-httpclient-3.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/librerias/ojdbc8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,32 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package factory;
-
-
-
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.activation.DataSource;
+import oracle.jdbc.OracleDriver;
 
 /**
  *
- * @author luis_
+ * @author Robin
  */
 public class ConnectionPool {
-     public static Connection obtenerConexion(String fuente) throws SQLException{
-        DataSource ds=null;
-        Connection conexion=null;
-        try{
-           DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 
-            conexion = DriverManager.getConnection (
-                "jdbc:mysql://localhost/factura2023","root", "luis");
-            
+    private static String host = System.getenv("COMPUTERNAME");
+    private static String puerto = "1521";
+    private static String sid = "BDNX1";
+    private static String usuario = "LLE";
+    private static String password = "YVL";
+
+     public static Connection obtenerConexion(String fuente) throws SQLException{
+        //DataSource ds = null;
+        Connection conexion = null;
+        try{
+            /*
+            DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+            conexion = DriverManager.getConnection ("jdbc:mysql://localhost/factura2023","root", "luis");
+            */
+            DriverManager.registerDriver(new OracleDriver());
+            conexion = DriverManager.getConnection("jdbc:oracle:thin:@" + host + ":" + puerto + ":" + sid, usuario, password);
+
         }catch(Exception ex){
             throw new SQLException(ex);
         }
