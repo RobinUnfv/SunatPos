@@ -6,10 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import oracle.jdbc.OracleDriver;
 
-/**
- *
- * @author Robin
- */
 public class ConnectionPool {
 
     private static String host = System.getenv("COMPUTERNAME");

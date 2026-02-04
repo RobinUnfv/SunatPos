@@ -1,19 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Modelo.Dispatchers;
 
-/**
- *
- * @author LUISINHO
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package Modelo.Dispatchers;
 
 import Modelo.Beans.CabeceraBean;
 import Modelo.Beans.DetalleBean;
@@ -28,10 +14,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- *
- * @author Robin
- */
 public class DElectronicoDespachador {
     private static Log log = LogFactory.getLog(DElectronicoDespachador.class);
 
@@ -365,10 +347,25 @@ public class DElectronicoDespachador {
 //        Connection conn = null;
         try {
 //            conn = ConnectionPool.obtenerConexionMysql();
-            String sql = "SELECT * ";
-            sql += " FROM cabecera";
-            sql += " WHERE  (docu_proce_status = 'N' or docu_proce_status = 'A' ) ";
-            sql += " order by docu_codigo LIMIT 1 ";
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
+                    "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
+                    "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
+                    "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
+                    "A.OPER_INAFECTAS, A.OPER_GRATUITAS, A.IMP_ISC, " +
+                    "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
+                    "A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
+                    "A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
+                    "A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
+                    "A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
+                    "A.ENVIAWS, A.NOMBRE_RQ, A.ESTADO, A.PROCE_STATUS " +
+                    "FROM FACTU.ARFAFE A " +
+                    "WHERE A.NO_CIA = ? " +
+                    "AND A.ESTADO = 'D' " +
+                    "AND A.PROCE_STATUS = 'N' " +
+                    "AND A.ENVIAWS = 'S' " +
+                    "AND ROWNUM = 1 ";
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
