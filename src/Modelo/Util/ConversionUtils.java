@@ -8,8 +8,8 @@ public class ConversionUtils {
         switch (tipoDocOracle.toUpperCase().trim()) {
             case "F": return "01";
             case "B": return "03";
-            case "C": return "07";
-            case "D": return "08";
+            case "NC": return "07";
+            case "ND": return "08";
             default:  return "01";
         }
     }

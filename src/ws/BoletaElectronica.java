@@ -1,5 +1,6 @@
 
 package ws;
+
 import Modelo.Beans.CabeceraBean;
 import Modelo.Beans.DetalleBean;
 import Modelo.Beans.LeyendaBean;
@@ -191,13 +192,18 @@ public class BoletaElectronica {
             //Parametros del keystore
            
             //Datos por RUC
+            /*
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
             String keystorePass = "Peru##2026";
             String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
             String privateKeyPass = "Peru##2026";
             String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-
+            */
+            String keystoreType = "PKCS12";  // ← Cambiar a PKCS12
+            String keystoreFile = "d:\\envio\\certificado.p12";  // ← Tu archivo .p12
+            String keystorePass = "CORPTEx2218";  // ← Contraseña del P12
+            String privateKeyPass = "CORPTEx2218";
 
             System.out.println("generarXMLZipiadoBoleta - Lectura de cerificado ");
             CDATASection cdata;
@@ -208,12 +214,19 @@ public class BoletaElectronica {
             KeyStore ks = KeyStore.getInstance(keystoreType);
             FileInputStream fis = new FileInputStream(keystoreFile);
             ks.load(fis, keystorePass.toCharArray());
+            fis.close();
+
+            // Obtener el primer alias automáticamente
+            String privateKeyAlias = ks.aliases().nextElement();
+            //System.out.println("Alias encontrado: " + privateKeyAlias);
+
             //obtener la clave privada para firmar
             PrivateKey privateKey = (PrivateKey) ks.getKey(privateKeyAlias, privateKeyPass.toCharArray());
             if (privateKey == null) {
                 throw new RuntimeException("Private key is null");
             }
-            X509Certificate cert = (X509Certificate) ks.getCertificate(certificateAlias);
+            X509Certificate cert = (X509Certificate) ks.getCertificate(privateKeyAlias);
+            //System.out.println("Certificado obtenido: " + cert.getSubjectDN());
             //////////////////////////////////////////////////
             javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
             //Firma XML genera espacio para los nombres o tag
@@ -923,7 +936,7 @@ public class BoletaElectronica {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            resultado = "0100|Error al generar el archivo de formato xml de la Factura.";
+            resultado = "0100|Error al generar el archivo de formato xml de la Boleta.";
             System.out.println("generarXMLZipiadoBoleta - error  " + ex.toString());
 
         }

@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import Modelo.Util.ConversionUtils;
@@ -24,8 +25,9 @@ public class DElectronicoDespachador {
 
     public static CabeceraBean pendienteDocElectronico(Connection conn) {
         System.out.println("ENTRO A pendienteDocElectronico");
-        CabeceraBean b = null;
+        CabeceraBean cabeceraBean = new CabeceraBean();
         try {
+            /*
             String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
                     "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
                     "A.NO_CLIENTE, A.NBR_CLIENTE, CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIRECCION, " +
@@ -44,15 +46,28 @@ public class DElectronicoDespachador {
                     "AND A.ESTADO = 'D' " +
                     "AND A.PROCE_STATUS = 'N' " +
                     "AND A.ENVIAWS = 'S' " +
-                    "AND ROWNUM = 1 ";
+                    "AND ROWNUM = 1 "; */
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU " +
+                        "FROM FACTU.ARFAFE A " +
+                        "WHERE A.NO_CIA = ? " +
+                        "AND A.ESTADO = 'D' " +
+                        "AND A.PROCE_STATUS = 'N' " +
+                        "AND A.ENVIAWS = 'S' " +
+                        "AND ROWNUM = 1 ";
 
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, NO_CIA_DEFAULT);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                b = mapearCabecera(rs, conn);
-                System.out.println("Pendiente encontrado: " + b.getDocu_numero());
+               // String noCia = rs.getString("NO_CIA");
+                String tipoDoc = rs.getString("TIPO_DOC");
+                String noFactu = rs.getString("NO_FACTU");
+
+                cabeceraBean.setDocu_codigo(noFactu);
+                cabeceraBean.setDocu_tipodocumento(ConversionUtils.convertirTipoDoc(tipoDoc));
+                cabeceraBean.setDocu_numero(ConversionUtils.formatearNumeroDocumento(noFactu));
+
             }
             rs.close();
             ps.close();
@@ -60,7 +75,7 @@ public class DElectronicoDespachador {
             System.out.println("Error pendienteDocElectronico: " + ex.getMessage());
             ex.printStackTrace();
         }
-        return b;
+        return cabeceraBean;
     }
 
     // ══════════════════════════════════════════════════════════════════════════
@@ -71,7 +86,7 @@ public class DElectronicoDespachador {
         try {
             String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
                     "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
-                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIRECCION, " +
                     "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
                     "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
                     "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
@@ -115,7 +130,7 @@ public class DElectronicoDespachador {
         try {
             String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
                     "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
-                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIR_CLIENTE, " +
                     "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
                     "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
                     "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
@@ -155,7 +170,7 @@ public class DElectronicoDespachador {
         try {
             String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
                     "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
-                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE,CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIRECCION, " +
                     "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
                     "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
                     "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
@@ -204,7 +219,7 @@ public class DElectronicoDespachador {
         b.setDocu_tipodocumento(ConversionUtils.convertirTipoDoc(tipoDocOracle));
         b.setDocu_numero(ConversionUtils.formatearNumeroDocumento(noFactu));
 
-        java.sql.Date fecha = rs.getDate("FECHA");
+        Date fecha = rs.getDate("FECHA");
         if (fecha != null) {
             b.setDocu_fecha(new SimpleDateFormat("yyyy-MM-dd").format(fecha));
         }
@@ -262,17 +277,17 @@ public class DElectronicoDespachador {
         b.setDocu_motivoanular(rs.getString("MOTIVO_NC"));
 
         // Cargar datos adicionales
-        cargarDatosEmpresa(b, noCia, codTienda, conn);
-        cargarCorreoCliente(b, noCia, noCliente, conn);
-        b.setIdExterno(ConversionUtils.generarIdExterno(b.getEmpr_nroruc(), tipoDocOracle, noFactu));
+        CabeceraBean cabeceraBean = cargarDatosEmpresa(b, NO_CIA_DEFAULT, codTienda, conn);
+        CabeceraBean cabecera = cargarCorreoCliente(cabeceraBean, NO_CIA_DEFAULT, noCliente, conn);
+        cabecera.setIdExterno(ConversionUtils.generarIdExterno(cabecera.getEmpr_nroruc(), tipoDocOracle, noFactu));
 
-        return b;
+        return cabecera;
     }
 
     // ══════════════════════════════════════════════════════════════════════════
     // CARGAR DATOS EMPRESA
     // ══════════════════════════════════════════════════════════════════════════
-    private static void cargarDatosEmpresa(CabeceraBean b, String noCia, String codTienda, Connection conn) {
+    private static CabeceraBean cargarDatosEmpresa(CabeceraBean b, String noCia, String codTienda, Connection conn) {
         try {
             PreparedStatement ps1 = conn.prepareStatement(
                     "SELECT NOMBRE, NO_CLIENTE_ONLINE FROM FACTU.ARFAMC WHERE NO_CIA = ?");
@@ -291,10 +306,9 @@ public class DElectronicoDespachador {
             if (ruc != null) {
                 PreparedStatement ps2 = conn.prepareStatement(
                         "SELECT DIRECCION, CODI_DEPA||CODI_PROV||CODI_DIST AS UBIGEO, " +
-                                "CODI_DEPA, CODI_PROV, CODI_DIST FROM CXC.ARCCTDA " +
-                                "WHERE NO_CIA = ? AND NO_CLIENTE = ? AND ROWNUM = 1");
-                ps2.setString(1, noCia);
-                ps2.setString(2, ruc);
+                                "CODI_DEPA, CODI_PROV, CODI_DIST FROM SUCURSAL_PTOVTA " +
+                                "WHERE NO_CIA = ?");
+                ps2.setString(1, NO_CIA_DEFAULT);
                 ResultSet rs2 = ps2.executeQuery();
                 if (rs2.next()) {
                     b.setEmpr_direccion(limpiar(rs2.getString("DIRECCION")));
@@ -315,11 +329,14 @@ public class DElectronicoDespachador {
             if (b.getEmpr_ubigeo() == null || b.getEmpr_ubigeo().isEmpty()) {
                 b.setEmpr_ubigeo("150101");
             }
+
+
         } catch (Exception ex) {
             b.setEmpr_tipodoc("6");
             b.setEmpr_pais("PE");
             b.setEmpr_ubigeo("150101");
         }
+        return b;
     }
 
     private static String getUbigeo(Connection conn, String noCia, String t, String d, String p, String i) {
@@ -342,11 +359,11 @@ public class DElectronicoDespachador {
         }
     }
 
-    private static void cargarCorreoCliente(CabeceraBean b, String noCia, String noCliente, Connection conn) {
+    private static CabeceraBean cargarCorreoCliente(CabeceraBean b, String noCia, String noCliente, Connection conn) {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT EMAIL FROM CXC.ARCCMC WHERE NO_CIA=? AND NO_CLIENTE=?");
-            ps.setString(1, noCia);
+            ps.setString(1, NO_CIA_DEFAULT);
             ps.setString(2, noCliente);
             ResultSet rs = ps.executeQuery();
             if (rs.next() && rs.getString("EMAIL") != null) {
@@ -355,8 +372,9 @@ public class DElectronicoDespachador {
             rs.close();
             ps.close();
         } catch (Exception e) {
-            // Ignorar
+            System.out.println("Error cargarCorreoCliente: " + e.getMessage());
         }
+        return b;
     }
 
     // ══════════════════════════════════════════════════════════════════════════

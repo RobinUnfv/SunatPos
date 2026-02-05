@@ -25,7 +25,7 @@ public class GenFactura {
      */
     public static void main(String[] args) throws Exception {
 
-
+		System.setProperty("keystore.pkcs12.legacy", "true");
 
 		      JobDetail job = JobBuilder.newJob(DisparaJobws.class)
 			.withIdentity("dummyJobName", "group1").build();

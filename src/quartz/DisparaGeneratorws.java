@@ -35,22 +35,20 @@ public class DisparaGeneratorws {
             System.out.println("__Ejecución disparar " + new Date().toString());
             //System.out.println("generator - buscar pendientes");
             CabeceraBean item = DElectronicoDespachador.pendienteDocElectronico(conn);
-            String iddoc = null;
             String tipodoc = null;
+            String iddoc = null;
             String result = "x";
             if (item != null) {
                 System.out.println("generator - Existe pendiente");
                 iddoc = item.getDocu_codigo().trim();
-
-                //tipodoc = Integer.valueOf(item.getDocu_tipodocumento()).toString().trim();
                 tipodoc = item.getDocu_tipodocumento().trim();//  BOLETA 03   FACTURAS 01    NOTAS CRED 07
 
                 System.out.println("Tipo Doc: " + tipodoc + " NoFactu: " + iddoc);
 
                 switch (tipodoc) {
                     case "03":
-                        System.out.println("ENVIAR LA BOLETA : "+item.getDocu_numero());
-                        result = BoletaElectronica.generarXMLZipiadoBoleta(iddoc, conn);
+                        System.out.println("ENVIAR LA BOLETA : "+iddoc);
+                        result = BoletaElectronica.generarXMLZipiadoBoleta( iddoc, conn);
                         //result = ResBolElectronica.generarXMLZipiadoBoleta(iddoc, conn);
                         System.out.println("RESULTADO BOLETA : "+result);
                         break;
@@ -60,15 +58,15 @@ public class DisparaGeneratorws {
                         result = FacturaElectronica.generarXMLZipiadoFactura(iddoc, conn);
                        //result = DarBajaDocElectronica.generarXMLZipiadoBoleta(iddoc, conn);
                         System.out.println("RESULTADO  FACTURA : "+result);
-                       
+
                         break;
                     case "07":
                         result = NotaCred.generarXMLZipiadoNotaCred(iddoc, conn);
-//                        
+//
                         break;
                     default:
                         result = "0100|Operacion nula";
-                        
+
                         break;
 
                 }
