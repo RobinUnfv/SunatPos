@@ -10,7 +10,7 @@ package Modelo.Beans;
  * @author Robin
  */
 public class CabeceraBean {
- private int docu_codigo;
+ private String docu_codigo;
  private String idExterno;
  private String empr_razonsocial;
  private String empr_ubigeo;
@@ -85,11 +85,11 @@ public class CabeceraBean {
         this.docu_motivoanular = docu_motivoanular;
     }
 
-    public int getDocu_codigo() {
+    public String getDocu_codigo() {
         return docu_codigo;
     }
 
-    public void setDocu_codigo(int docu_codigo) {
+    public void setDocu_codigo(String docu_codigo) {
         this.docu_codigo = docu_codigo;
     }
 

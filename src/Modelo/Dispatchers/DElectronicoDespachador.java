@@ -9,347 +9,26 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import Modelo.Util.ConversionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class DElectronicoDespachador {
-    private static Log log = LogFactory.getLog(DElectronicoDespachador.class);
 
-    public static CabeceraBean cargarDocElectronico(String pdocu_codigo, Connection conn) {
-        CabeceraBean b = null;
-
-//        Connection conn = null;
-        try {
-//            conn = ConnectionPool.obtenerConexionMysql();
-            String sql = "SELECT DOCU_CODIGO,";
-            sql += " EMPR_RAZONSOCIAL,";
-            sql += " EMPR_UBIGEO,";
-            sql += " EMPR_NOMBRECOMERCIAL,";
-            sql += " EMPR_DIRECCION,";
-            sql += " EMPR_PROVINCIA,";
-            sql += " EMPR_DEPARTAMENTO,";
-            sql += " EMPR_DISTRITO,";
-            sql += " EMPR_PAIS,";
-            sql += " EMPR_NRORUC,";
-            sql += " EMPR_TIPODOC,";
-            sql += " CLIE_NUMERO,";
-            sql += " CLIE_TIPODOC,";
-            sql += " CLIE_NOMBRE,";
-            sql += " DOCU_FECHA,";
-            sql += " DOCU_HORA,";
-            sql += " DOCU_TIPODOCUMENTO,";
-            sql += " DOCU_NUMERO,"; // serie y num
-            sql += " DOCU_MONEDA,";
-            sql += " DOCU_GRAVADA  as  DOCU_GRAVADA,";
-            sql += " DOCU_INAFECTA  as  DOCU_INAFECTA,";
-            sql += " DOCU_EXONERADA  as  DOCU_EXONERADA,";
-            sql += " DOCU_GRATUITA  as  DOCU_GRATUITA,";
-            sql += " DOCU_DESCUENTO  as  DOCU_DESCUENTO,";
-            sql += " DOCU_SUBTOTAL  as  DOCU_SUBTOTAL,";
-            sql += " DOCU_TOTAL  as  DOCU_TOTAL,";
-            sql += " DOCU_IGV  as  DOCU_IGV,";
-            sql += " TASA_IGV,";
-            sql += " DOCU_ISC,";
-            sql += " TASA_ISC,";
-            sql += " DOCU_OTROSTRIBUTOS  as  DOCU_OTROSTRIBUTOS,";
-            sql += " TASA_OTROSTRIBUTOS,";
-
-            sql += " DOCU_OTROSCARGOS  as  DOCU_OTROSCARGOS,";
-            sql += " DOCU_PERCEPCION  as  DOCU_PERCEPCION,";
-            sql += " docu_enviaws, ";
-            sql += " idExterno, ";
-            sql += " clie_correo_cpe1, ";
-            sql += " clie_correo_cpe2, ";
-            sql += " docu_tipodcocumento_anular, ";
-            sql += " docu_tipodcocumento_numero, ";
-            sql += " docu_motivoanular ";
-            
-            
-            sql += " FROM cabecera";
-            sql += " WHERE  DOCU_CODIGO = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, pdocu_codigo);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                b = new CabeceraBean();
-                b.setDocu_codigo(rs.getInt("docu_codigo"));
-                b.setEmpr_razonsocial(rs.getString("empr_razonsocial"));
-                b.setEmpr_ubigeo(rs.getString("empr_ubigeo"));
-                b.setEmpr_nombrecomercial(rs.getString("empr_nombrecomercial"));
-                b.setEmpr_direccion(rs.getString("empr_direccion"));
-                b.setEmpr_provincia(rs.getString("empr_provincia"));
-                b.setEmpr_departamento(rs.getString("empr_departamento"));
-                b.setEmpr_distrito(rs.getString("empr_distrito"));
-                b.setEmpr_pais(rs.getString("empr_pais"));
-                b.setEmpr_nroruc(rs.getString("empr_nroruc"));
-                b.setEmpr_tipodoc(rs.getString("empr_tipodoc"));
-                b.setClie_numero(rs.getString("clie_numero"));
-                b.setClie_tipodoc(rs.getString("clie_tipodoc"));
-                b.setClie_nombre(rs.getString("clie_nombre"));
-                b.setDocu_fecha(rs.getString("docu_fecha"));
-                b.setDocu_hora(rs.getString("docu_hora"));
-                b.setDocu_tipodocumento(rs.getString("docu_tipodocumento"));
-                b.setDocu_numero(rs.getString("docu_numero"));
-                b.setDocu_moneda(rs.getString("docu_moneda"));
-                b.setDocu_gravada(rs.getDouble("docu_gravada"));
-                b.setDocu_inafecta(rs.getDouble("docu_inafecta"));
-                b.setDocu_exonerada(rs.getDouble("docu_exonerada"));
-                b.setDocu_gratuita(rs.getDouble("docu_gratuita"));
-                b.setDocu_descuento(rs.getDouble("docu_descuento"));
-                b.setDocu_subtotal(rs.getDouble("docu_subtotal"));
-                b.setDocu_total(rs.getDouble("docu_total"));
-                b.setDocu_igv(rs.getDouble("docu_igv"));
-                b.setTasa_igv(rs.getString("tasa_igv"));
-                b.setDocu_isc(rs.getDouble("docu_isc"));
-                b.setTasa_isc(rs.getString("tasa_isc"));
-                b.setDocu_otrostributos(rs.getDouble("docu_otrostributos"));
-                b.setTasa_otrostributos(rs.getString("tasa_otrostributos"));
-                b.setDocu_otroscargos(rs.getDouble("docu_otroscargos"));
-
-                b.setDocu_enviaws(rs.getString("docu_enviaws"));
-                b.setIdExterno(rs.getString("idExterno"));
-                b.setClie_correo_cpe1(rs.getString("clie_correo_cpe1"));
-                b.setClie_correo_cpe2(rs.getString("clie_correo_cpe2"));
-                b.setDocu_tipodcocumento_anular(rs.getString("docu_tipodcocumento_anular"));
-                b.setDocu_tipodcocumento_numero(rs.getString("docu_tipodcocumento_numero"));
-                b.setDocu_motivoanular(rs.getString("docu_motivoanular"));
-
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-//            ConnectionPool.closeConexion(conn);
-        }
-        return b;
-    }
-    public static List<CabeceraBean> ResumenDiario(String Pendiente,String tipodoc, Connection conn) {
-       List<CabeceraBean> resumen=new ArrayList<CabeceraBean>();
-        
-        CabeceraBean b = null;
-
-//        Connection conn = null;
-        try {
-//            conn = ConnectionPool.obtenerConexionMysql();
-            String sql = "SELECT DOCU_CODIGO,";
-            sql += " EMPR_RAZONSOCIAL,";
-            sql += " EMPR_UBIGEO,";
-            sql += " EMPR_NOMBRECOMERCIAL,";
-            sql += " EMPR_DIRECCION,";
-            sql += " EMPR_PROVINCIA,";
-            sql += " EMPR_DEPARTAMENTO,";
-            sql += " EMPR_DISTRITO,";
-            sql += " EMPR_PAIS,";
-            sql += " EMPR_NRORUC,";
-            sql += " EMPR_TIPODOC,";
-            sql += " CLIE_NUMERO,";
-            sql += " CLIE_TIPODOC,";
-            sql += " CLIE_NOMBRE,";
-            sql += " DOCU_FECHA,";
-            sql += " DOCU_HORA,";
-            sql += " DOCU_TIPODOCUMENTO,"; //03 boleta  | 01 factura | 07 nota decre 
-            sql += " DOCU_NUMERO,";
-            sql += " DOCU_MONEDA,";
-            sql += " DOCU_GRAVADA  as  DOCU_GRAVADA,";
-            sql += " DOCU_INAFECTA  as  DOCU_INAFECTA,";
-            sql += " DOCU_EXONERADA  as  DOCU_EXONERADA,";
-            sql += " DOCU_GRATUITA  as  DOCU_GRATUITA,";
-            sql += " DOCU_DESCUENTO  as  DOCU_DESCUENTO,";
-            sql += " DOCU_SUBTOTAL  as  DOCU_SUBTOTAL,";
-            sql += " DOCU_TOTAL  as  DOCU_TOTAL,";
-            sql += " DOCU_IGV  as  DOCU_IGV,";
-            sql += " TASA_IGV,";
-            sql += " DOCU_ISC,";
-            sql += " TASA_ISC,";
-            sql += " DOCU_OTROSTRIBUTOS  as  DOCU_OTROSTRIBUTOS,";
-            sql += " TASA_OTROSTRIBUTOS,";
-
-            sql += " DOCU_OTROSCARGOS  as  DOCU_OTROSCARGOS,";
-            sql += " DOCU_PERCEPCION  as  DOCU_PERCEPCION,";
-            sql += " docu_enviaws, ";
-            sql += " idExterno, ";
-            sql += " clie_correo_cpe1, ";
-            sql += " clie_correo_cpe2, ";
-            sql += " docu_tipodcocumento_anular, ";
-            sql += " docu_tipodcocumento_numero, ";
-            sql += " docu_motivoanular ";
-            
-            sql += " FROM cabecera";
-            sql += " WHERE  docu_proce_status = ? and docu_tipodocumento=? ;";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, Pendiente);
-            ps.setString(2, tipodoc);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                b = new CabeceraBean();
-                b.setDocu_codigo(rs.getInt("docu_codigo"));
-                b.setEmpr_razonsocial(rs.getString("empr_razonsocial"));
-                b.setEmpr_ubigeo(rs.getString("empr_ubigeo"));
-                b.setEmpr_nombrecomercial(rs.getString("empr_nombrecomercial"));
-                b.setEmpr_direccion(rs.getString("empr_direccion"));
-                b.setEmpr_provincia(rs.getString("empr_provincia"));
-                b.setEmpr_departamento(rs.getString("empr_departamento"));
-                b.setEmpr_distrito(rs.getString("empr_distrito"));
-                b.setEmpr_pais(rs.getString("empr_pais"));
-                b.setEmpr_nroruc(rs.getString("empr_nroruc"));
-                b.setEmpr_tipodoc(rs.getString("empr_tipodoc"));
-                b.setClie_numero(rs.getString("clie_numero"));
-                b.setClie_tipodoc(rs.getString("clie_tipodoc"));
-                b.setClie_nombre(rs.getString("clie_nombre"));
-                b.setDocu_fecha(rs.getString("docu_fecha"));
-                b.setDocu_hora(rs.getString("docu_hora"));
-                b.setDocu_tipodocumento(rs.getString("docu_tipodocumento"));
-                b.setDocu_numero(rs.getString("docu_numero"));
-                b.setDocu_moneda(rs.getString("docu_moneda"));
-                b.setDocu_gravada(rs.getDouble("docu_gravada"));
-                b.setDocu_inafecta(rs.getDouble("docu_inafecta"));
-                b.setDocu_exonerada(rs.getDouble("docu_exonerada"));
-                b.setDocu_gratuita(rs.getDouble("docu_gratuita"));
-                b.setDocu_descuento(rs.getDouble("docu_descuento"));
-                b.setDocu_subtotal(rs.getDouble("docu_subtotal"));
-                b.setDocu_total(rs.getDouble("docu_total"));
-                b.setDocu_igv(rs.getDouble("docu_igv"));
-                b.setTasa_igv(rs.getString("tasa_igv"));
-                b.setDocu_isc(rs.getDouble("docu_isc"));
-                b.setTasa_isc(rs.getString("tasa_isc"));
-                b.setDocu_otrostributos(rs.getDouble("docu_otrostributos"));
-                b.setTasa_otrostributos(rs.getString("tasa_otrostributos"));
-                b.setDocu_otroscargos(rs.getDouble("docu_otroscargos"));
-
-                b.setDocu_enviaws(rs.getString("docu_enviaws"));
-                b.setIdExterno(rs.getString("idExterno"));
-                b.setClie_correo_cpe1(rs.getString("clie_correo_cpe1"));
-                b.setClie_correo_cpe2(rs.getString("clie_correo_cpe2"));
-                b.setDocu_tipodcocumento_anular(rs.getString("docu_tipodcocumento_anular"));
-                b.setDocu_tipodcocumento_numero(rs.getString("docu_tipodcocumento_numero"));
-                b.setDocu_motivoanular(rs.getString("docu_motivoanular"));
-               resumen.add(b);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-//            ConnectionPool.closeConexion(conn);
-        }
-        return resumen;
-    }
-
-    public static List<DetalleBean> cargarDetDocElectronico(String pdocu_codigo, Connection conn) throws SQLException {
-        List<DetalleBean> detalle = new ArrayList<DetalleBean>();
-//        Connection conn = null;
-        try {
-//            conn = ConnectionPool.obtenerConexionMysql();
-            String sql = "SELECT  DOCU_CODIGO,";
-            sql += " ITEM_ORDEN,";
-            sql += " ITEM_UNIDAD,";
-            sql += " ITEM_CANTIDAD,";
-            sql += " ITEM_CODPRODUCTO,";
-            sql += " ITEM_DESCRIPCION,";
-            sql += " ITEM_AFECTACION,";
-            sql += " ITEM_PVENTA, ";
-            sql += " item_pventa_nohonerosa,";
-            sql += " ITEM_TO_SUBTOTAL,";
-            sql += " ITEM_TO_IGV, ";
-            sql += " item_pvtaigv ";
-
-            sql += " FROM detalle";
-            sql += " WHERE DOCU_CODIGO = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, pdocu_codigo);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                DetalleBean cdetalle = new DetalleBean();
-                cdetalle.setDocu_codigo(rs.getInt("docu_codigo"));
-                cdetalle.setItem_orden(rs.getInt("item_orden"));
-                cdetalle.setItem_unidad(rs.getString("item_unidad"));
-                cdetalle.setItem_cantidad(rs.getInt("item_cantidad"));
-                cdetalle.setItem_codproducto(rs.getString("item_codproducto"));
-                cdetalle.setItem_descripcion(rs.getString("item_descripcion"));
-                cdetalle.setItem_afectacion(rs.getString("item_afectacion"));
-                cdetalle.setItem_pventa(rs.getDouble("item_pventa"));
-                cdetalle.setItem_pventa_nohonerosa(rs.getDouble("item_pventa_nohonerosa"));
-                cdetalle.setItem_to_subtotal(rs.getDouble("item_to_subtotal"));
-                cdetalle.setItem_to_igv(rs.getDouble("item_to_igv"));
-                cdetalle.setItem_pvtaigv(rs.getDouble("item_pvtaigv"));
-               
-
-                detalle.add(cdetalle);
-            }
-        } catch (Exception ex) {
-            throw new SQLException(ex);
-        } finally {
-//            ConnectionPool.closeConexion(conn);
-        }
-        return detalle;
-    }
-
-    public static List<LeyendaBean> cargarDetDocElectronicoLeyenda(String pdocu_codigo, Connection conn) throws SQLException {
-        List<LeyendaBean> detalle = new ArrayList<LeyendaBean>();
-
-        try {
-
-            String sql = "SELECT  leyenda_codigo, "
-                    + "leyenda_texto ";
-            // Anticipos
-            sql += " FROM leyenda ";
-            sql += " WHERE DOCU_CODIGO = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, pdocu_codigo);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                LeyendaBean leyenda = new LeyendaBean();
-                leyenda.setLeyenda_codigo(rs.getString("leyenda_codigo"));
-                leyenda.setLeyenda_texto(rs.getString("leyenda_texto"));
-                // Anticipos
-
-                detalle.add(leyenda);
-            }
-        } catch (Exception ex) {
-            throw new SQLException(ex);
-        } finally {
-        }
-        return detalle;
-    }
-    public static List<PagoBean> cargarDetDocElectronicoPagos(String pdocu_codigo, Connection conn) throws SQLException {
-        List<PagoBean> pago = new ArrayList<PagoBean>();
-
-        try {
-
-            String sql = "SELECT  idPago, docu_codigo,fecha,monto, "
-                    + "nrocuota ";
-            // Anticipos
-            sql += " FROM pago ";
-            sql += " WHERE DOCU_CODIGO = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, pdocu_codigo);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                PagoBean Pagos = new PagoBean();
-                Pagos.setIdpago(rs.getInt("idPago"));
-                Pagos.setDocu_codigo(rs.getInt("docu_codigo"));
-                Pagos.setFecha(rs.getDate("fecha"));
-                Pagos.setMonto(rs.getDouble("monto"));
-                Pagos.setNrocuota(rs.getInt("nrocuota"));
-                // Anticipos
-
-                pago.add(Pagos);
-            }
-        } catch (Exception ex) {
-            throw new SQLException(ex);
-        } finally {
-        }
-        return pago;
-    }
+    //private static Log log = LogFactory.getLog(DElectronicoDespachador.class);
+    private static String NO_CIA_DEFAULT = "01";
 
     public static CabeceraBean pendienteDocElectronico(Connection conn) {
+        System.out.println("ENTRO A pendienteDocElectronico");
         CabeceraBean b = null;
-
-//        Connection conn = null;
         try {
-//            conn = ConnectionPool.obtenerConexionMysql();
             String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
                     "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
-                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIRECCION, " +
                     "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
                     "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
                     "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
@@ -368,111 +47,609 @@ public class DElectronicoDespachador {
                     "AND ROWNUM = 1 ";
 
             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                b = new CabeceraBean();
-                b.setDocu_codigo(rs.getInt("docu_codigo"));
-                b.setEmpr_razonsocial(rs.getString("empr_razonsocial"));
-                b.setEmpr_ubigeo(rs.getString("empr_ubigeo"));
-                b.setEmpr_nombrecomercial(rs.getString("empr_nombrecomercial"));
-                b.setEmpr_direccion(rs.getString("empr_direccion"));
-                b.setEmpr_provincia(rs.getString("empr_provincia"));
-                b.setEmpr_departamento(rs.getString("empr_departamento"));
-                b.setEmpr_distrito(rs.getString("empr_distrito"));
-                b.setEmpr_pais(rs.getString("empr_pais"));
-                b.setEmpr_nroruc(rs.getString("empr_nroruc"));
-                b.setEmpr_tipodoc(rs.getString("empr_tipodoc"));
-                b.setClie_numero(rs.getString("clie_numero"));
-                b.setClie_tipodoc(rs.getString("clie_tipodoc"));
-                b.setClie_nombre(rs.getString("clie_nombre"));
-                b.setDocu_fecha(rs.getString("docu_fecha"));
-                b.setDocu_hora(rs.getString("docu_hora"));
-                b.setDocu_tipodocumento(rs.getString("docu_tipodocumento"));
-                b.setDocu_numero(rs.getString("docu_numero"));
-                b.setDocu_moneda(rs.getString("docu_moneda"));
-                b.setDocu_gravada(rs.getDouble("docu_gravada"));
-                b.setDocu_inafecta(rs.getDouble("docu_inafecta"));
-                b.setDocu_exonerada(rs.getDouble("docu_exonerada"));
-                b.setDocu_gratuita(rs.getDouble("docu_gratuita"));
-                b.setDocu_descuento(rs.getDouble("docu_descuento"));
-                b.setDocu_subtotal(rs.getDouble("docu_subtotal"));
-                b.setDocu_total(rs.getDouble("docu_total"));
-                b.setDocu_igv(rs.getDouble("docu_igv"));
-                b.setTasa_igv(rs.getString("tasa_igv"));
-                b.setDocu_isc(rs.getDouble("docu_isc"));
-                b.setTasa_isc(rs.getString("tasa_isc"));
-                b.setDocu_otrostributos(rs.getDouble("docu_otrostributos"));
-                b.setTasa_otrostributos(rs.getString("tasa_otrostributos"));
-                b.setDocu_otroscargos(rs.getDouble("docu_otroscargos"));
-                b.setDocu_enviaws(rs.getString("docu_enviaws"));
 
+            if (rs.next()) {
+                b = mapearCabecera(rs, conn);
+                System.out.println("Pendiente encontrado: " + b.getDocu_numero());
             }
+            rs.close();
+            ps.close();
         } catch (Exception ex) {
+            System.out.println("Error pendienteDocElectronico: " + ex.getMessage());
             ex.printStackTrace();
-        } finally {
-//            ConnectionPool.closeConexion(conn);
         }
         return b;
     }
 
+    // ══════════════════════════════════════════════════════════════════════════
+    // BUSCAR DOCUMENTOS PARA REPROCESO (más de 10 min en proceso/error)
+    // ══════════════════════════════════════════════════════════════════════════
     public static CabeceraBean noPendienteDocElectronico(Connection conn) {
         CabeceraBean b = null;
-
-//        Connection conn = null;
         try {
-//            conn = ConnectionPool.obtenerConexionMysql();
-            String sql = "SELECT * ";
-            sql += " FROM cabecera";
-            sql += " WHERE  docu_proce_status in ('B','P','E','X') and docu_proce_fecha <=  DATE_SUB(NOW(), INTERVAL 10 MINUTE)";
-            sql += " order by docu_codigo LIMIT 1 ";
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
+                    "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
+                    "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
+                    "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
+                    "A.OPER_INAFECTAS, A.OPER_GRATUITAS, A.IMP_ISC, " +
+                    "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
+                    "A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
+                    "A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
+                    "A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
+                    "A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
+                    "A.ENVIAWS, A.NOMBRE_RQ, A.ESTADO, A.PROCE_STATUS " +
+                    "FROM FACTU.ARFAFE A " +
+                    "WHERE A.NO_CIA = ? " +
+                    "AND A.ESTADO = 'D' " +
+                    "AND A.PROCE_STATUS IN ('B', 'P', 'E', 'X') " +
+                    "AND A.PROCE_FECHA <= SYSDATE - INTERVAL '10' MINUTE " +
+                    "AND A.TIPO_DOC IN ('F', 'B', 'C', 'D') " +
+                    "AND ROWNUM = 1";
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            //ps.setString(1, proceso);
+            ps.setString(1, NO_CIA_DEFAULT);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                b = new CabeceraBean();
-                b.setDocu_codigo(rs.getInt("docu_codigo"));
-                b.setEmpr_razonsocial(rs.getString("empr_razonsocial"));
-                b.setEmpr_ubigeo(rs.getString("empr_ubigeo"));
-                b.setEmpr_nombrecomercial(rs.getString("empr_nombrecomercial"));
-                b.setEmpr_direccion(rs.getString("empr_direccion"));
-                b.setEmpr_provincia(rs.getString("empr_provincia"));
-                b.setEmpr_departamento(rs.getString("empr_departamento"));
-                b.setEmpr_distrito(rs.getString("empr_distrito"));
-                b.setEmpr_pais(rs.getString("empr_pais"));
-                b.setEmpr_nroruc(rs.getString("empr_nroruc"));
-                b.setEmpr_tipodoc(rs.getString("empr_tipodoc"));
-                b.setClie_numero(rs.getString("clie_numero"));
-                b.setClie_tipodoc(rs.getString("clie_tipodoc"));
-                b.setClie_nombre(rs.getString("clie_nombre"));
-                b.setDocu_fecha(rs.getString("docu_fecha"));
-                b.setDocu_hora(rs.getString("docu_hora"));
-                b.setDocu_tipodocumento(rs.getString("docu_tipodocumento"));
-                b.setDocu_numero(rs.getString("docu_numero"));
-                b.setDocu_moneda(rs.getString("docu_moneda"));
-                b.setDocu_gravada(rs.getDouble("docu_gravada"));
-                b.setDocu_inafecta(rs.getDouble("docu_inafecta"));
-                b.setDocu_exonerada(rs.getDouble("docu_exonerada"));
-                b.setDocu_gratuita(rs.getDouble("docu_gratuita"));
-                b.setDocu_descuento(rs.getDouble("docu_descuento"));
-                b.setDocu_subtotal(rs.getDouble("docu_subtotal"));
-                b.setDocu_total(rs.getDouble("docu_total"));
-                b.setDocu_igv(rs.getDouble("docu_igv"));
-                b.setTasa_igv(rs.getString("tasa_igv"));
-                b.setDocu_isc(rs.getDouble("docu_isc"));
-                b.setTasa_isc(rs.getString("tasa_isc"));
-                b.setDocu_otrostributos(rs.getDouble("docu_otrostributos"));
-                b.setTasa_otrostributos(rs.getString("tasa_otrostributos"));
-                b.setDocu_otroscargos(rs.getDouble("docu_otroscargos"));
-                b.setDocu_enviaws(rs.getString("docu_enviaws"));
-
+                b = mapearCabecera(rs, conn);
             }
+            rs.close();
+            ps.close();
         } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-//            ConnectionPool.closeConexion(conn);
+            System.out.println("Error noPendienteDocElectronico: " + ex.getMessage());
         }
         return b;
     }
-}
 
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR DOCUMENTO POR NÚMERO
+    // ══════════════════════════════════════════════════════════════════════════
+    public static CabeceraBean cargarDocElectronico(String pdocu_codigo, Connection conn) {
+        CabeceraBean b = null;
+
+        String noFactu = pdocu_codigo.replace("-", "").trim();
+
+        try {
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
+                    "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
+                    "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
+                    "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
+                    "A.OPER_INAFECTAS, A.OPER_GRATUITAS, A.IMP_ISC, " +
+                    "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
+                    "A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
+                    "A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
+                    "A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
+                    "A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
+                    "A.ENVIAWS, A.NOMBRE_RQ, A.ESTADO, A.PROCE_STATUS, " +
+                    "A.TIP_DOC_ANULAR, A.NUM_ANULAR, A.MOT_ANULAR " +
+                    "FROM FACTU.ARFAFE A " +
+                    "WHERE A.NO_CIA = ? AND A.NO_FACTU = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, noFactu);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                b = mapearCabecera(rs, conn);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            System.out.println("Error cargarDocElectronico: " + ex.getMessage());
+        }
+        return b;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // LISTA PARA RESUMEN DIARIO
+    // ══════════════════════════════════════════════════════════════════════════
+    public static List<CabeceraBean> ResumenDiario(String pendiente, String tipodoc, Connection conn) {
+        List<CabeceraBean> resumen = new ArrayList<CabeceraBean>();
+        String tipoDocOracle = ConversionUtils.convertirTipoDocInverso(tipodoc);
+
+        try {
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
+                    "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, A.DIRECCION, " +
+                    "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
+                    "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
+                    "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
+                    "A.OPER_INAFECTAS, A.OPER_GRATUITAS, A.IMP_ISC, " +
+                    "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
+                    "A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
+                    "A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
+                    "A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
+                    "A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
+                    "A.ENVIAWS, A.NOMBRE_RQ, A.ESTADO, A.PROCE_STATUS " +
+                    "FROM FACTU.ARFAFE A " +
+                    "WHERE A.NO_CIA = ? AND A.PROCE_STATUS = ? AND A.TIPO_DOC = ? " +
+                    "AND A.ESTADO = 'D' ORDER BY A.FECHA, A.NO_FACTU";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, pendiente);
+            ps.setString(3, tipoDocOracle);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                resumen.add(mapearCabecera(rs, conn));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            System.out.println("Error ResumenDiario: " + ex.getMessage());
+        }
+        return resumen;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // MAPEAR RESULTSET A CABECERABEAN
+    // ══════════════════════════════════════════════════════════════════════════
+    private static CabeceraBean mapearCabecera(ResultSet rs, Connection conn) throws SQLException {
+        CabeceraBean b = new CabeceraBean();
+
+        String noCia = rs.getString("NO_CIA");
+        String tipoDocOracle = rs.getString("TIPO_DOC");
+        String noFactu = rs.getString("NO_FACTU");
+        String codTienda = rs.getString("COD_TIENDA");
+        String noCliente = rs.getString("NO_CLIENTE");
+        codTienda = (codTienda != null && !codTienda.trim().isEmpty()) ? codTienda.trim() : "000";
+        // Datos documento
+        //b.setDocu_codigo(Math.abs(noFactu.hashCode()));
+        b.setDocu_codigo(noFactu);
+        b.setDocu_tipodocumento(ConversionUtils.convertirTipoDoc(tipoDocOracle));
+        b.setDocu_numero(ConversionUtils.formatearNumeroDocumento(noFactu));
+
+        java.sql.Date fecha = rs.getDate("FECHA");
+        if (fecha != null) {
+            b.setDocu_fecha(new SimpleDateFormat("yyyy-MM-dd").format(fecha));
+        }
+        b.setDocu_hora(rs.getString("HORA") != null ? rs.getString("HORA") : "00:00:00");
+        b.setDocu_moneda(ConversionUtils.convertirMoneda(rs.getString("MONEDA")));
+
+        // Montos
+        b.setDocu_gravada(rs.getDouble("OPER_GRAVADAS"));
+        b.setDocu_exonerada(rs.getDouble("OPER_EXONERADAS"));
+        b.setDocu_inafecta(rs.getDouble("OPER_INAFECTAS"));
+        b.setDocu_gratuita(rs.getDouble("OPER_GRATUITAS"));
+        b.setDocu_subtotal(rs.getDouble("VALOR_VENTA"));
+        b.setDocu_igv(rs.getDouble("IMPUESTO"));
+        b.setDocu_total(rs.getDouble("TOTAL"));
+        b.setDocu_descuento(rs.getDouble("T_DESCUENTO"));
+        b.setDocu_isc(rs.getDouble("IMP_ISC"));
+        b.setTasa_igv(String.valueOf((int)rs.getDouble("TASA_IGV")));
+        b.setTasa_isc("0");
+        b.setDocu_otrostributos(0.0);
+        b.setTasa_otrostributos("0");
+        b.setDocu_otroscargos(0.0);
+        b.setDocu_percepcion(0.0);
+
+        // Cliente
+        String tipoDocCli = rs.getString("TIPO_DOC_CLI");
+        String numDocCli = rs.getString("NUM_DOC_CLI");
+        String docCliente = (numDocCli != null && !numDocCli.trim().isEmpty()) ? numDocCli.trim() : noCliente;
+
+        if (tipoDocCli == null || tipoDocCli.trim().isEmpty()) {
+            tipoDocCli = ConversionUtils.determinarTipoDocPorLongitud(docCliente);
+        } else {
+            tipoDocCli = ConversionUtils.convertirTipoDocIdentidad(tipoDocCli);
+        }
+
+        b.setClie_tipodoc(tipoDocCli);
+        b.setClie_numero(docCliente);
+        b.setClie_nombre(limpiar(rs.getString("NBR_CLIENTE")));
+
+        // Datos SUNAT
+        b.setHashcode(rs.getString("COD_HASH"));
+        b.setCdr(rs.getString("CDR"));
+        b.setCdr_nota(rs.getString("CDR_NOTA"));
+        b.setCdr_observacion(rs.getString("CDR_OBSERVACION"));
+        b.setDocu_enviaws(rs.getString("ENVIAWS") != null ? rs.getString("ENVIAWS") : "S");
+
+        // NC/ND
+        String tipoRefe = rs.getString("TIPO_REFE_FACTU");
+        String noRefe = rs.getString("NO_REFE_FACTU");
+        if (tipoRefe != null && noRefe != null && !noRefe.trim().isEmpty()) {
+            //b.setDocu_tipodocumento_anular(ConversionUtils.convertirTipoDoc(tipoRefe));
+            b.setDocu_tipodcocumento_anular(ConversionUtils.convertirTipoDoc(tipoRefe));
+            //b.setDocu_tipodocumento_numero(ConversionUtils.formatearNumeroDocumento(noRefe));
+            b.setDocu_tipodcocumento_numero(ConversionUtils.formatearNumeroDocumento(noRefe));
+        }
+        b.setDocu_motivoanular(rs.getString("MOTIVO_NC"));
+
+        // Cargar datos adicionales
+        cargarDatosEmpresa(b, noCia, codTienda, conn);
+        cargarCorreoCliente(b, noCia, noCliente, conn);
+        b.setIdExterno(ConversionUtils.generarIdExterno(b.getEmpr_nroruc(), tipoDocOracle, noFactu));
+
+        return b;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR DATOS EMPRESA
+    // ══════════════════════════════════════════════════════════════════════════
+    private static void cargarDatosEmpresa(CabeceraBean b, String noCia, String codTienda, Connection conn) {
+        try {
+            PreparedStatement ps1 = conn.prepareStatement(
+                    "SELECT NOMBRE, NO_CLIENTE_ONLINE FROM FACTU.ARFAMC WHERE NO_CIA = ?");
+            ps1.setString(1, noCia);
+            ResultSet rs1 = ps1.executeQuery();
+            String ruc = null;
+            if (rs1.next()) {
+                b.setEmpr_razonsocial(limpiar(rs1.getString("NOMBRE")));
+                b.setEmpr_nombrecomercial(limpiar(rs1.getString("NOMBRE")));
+                ruc = rs1.getString("NO_CLIENTE_ONLINE");
+                b.setEmpr_nroruc(ruc);
+            }
+            rs1.close();
+            ps1.close();
+
+            if (ruc != null) {
+                PreparedStatement ps2 = conn.prepareStatement(
+                        "SELECT DIRECCION, CODI_DEPA||CODI_PROV||CODI_DIST AS UBIGEO, " +
+                                "CODI_DEPA, CODI_PROV, CODI_DIST FROM CXC.ARCCTDA " +
+                                "WHERE NO_CIA = ? AND NO_CLIENTE = ? AND ROWNUM = 1");
+                ps2.setString(1, noCia);
+                ps2.setString(2, ruc);
+                ResultSet rs2 = ps2.executeQuery();
+                if (rs2.next()) {
+                    b.setEmpr_direccion(limpiar(rs2.getString("DIRECCION")));
+                    b.setEmpr_ubigeo(rs2.getString("UBIGEO"));
+                    String cDepa = rs2.getString("CODI_DEPA");
+                    String cProv = rs2.getString("CODI_PROV");
+                    String cDist = rs2.getString("CODI_DIST");
+                    b.setEmpr_departamento(getUbigeo(conn, noCia, "D", cDepa, null, null));
+                    b.setEmpr_provincia(getUbigeo(conn, noCia, "P", cDepa, cProv, null));
+                    b.setEmpr_distrito(getUbigeo(conn, noCia, "I", cDepa, cProv, cDist));
+                }
+                rs2.close();
+                ps2.close();
+            }
+
+            b.setEmpr_tipodoc("6");
+            b.setEmpr_pais("PE");
+            if (b.getEmpr_ubigeo() == null || b.getEmpr_ubigeo().isEmpty()) {
+                b.setEmpr_ubigeo("150101");
+            }
+        } catch (Exception ex) {
+            b.setEmpr_tipodoc("6");
+            b.setEmpr_pais("PE");
+            b.setEmpr_ubigeo("150101");
+        }
+    }
+
+    private static String getUbigeo(Connection conn, String noCia, String t, String d, String p, String i) {
+        try {
+            String sql = t.equals("D") ? "SELECT DESC_DEPA FROM CXC.ARCCDP WHERE NO_CIA=? AND CODI_DEPA=?" :
+                    t.equals("P") ? "SELECT DESC_PROV FROM CXC.ARCCPR WHERE NO_CIA=? AND CODI_DEPA=? AND CODI_PROV=?" :
+                            "SELECT DESC_DIST FROM CXC.ARCCDI WHERE NO_CIA=? AND CODI_DEPA=? AND CODI_PROV=? AND CODI_DIST=?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, noCia);
+            ps.setString(2, d);
+            if (!t.equals("D")) ps.setString(3, p);
+            if (t.equals("I")) ps.setString(4, i);
+            ResultSet rs = ps.executeQuery();
+            String r = rs.next() ? rs.getString(1) : "";
+            rs.close();
+            ps.close();
+            return limpiar(r);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static void cargarCorreoCliente(CabeceraBean b, String noCia, String noCliente, Connection conn) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT EMAIL FROM CXC.ARCCMC WHERE NO_CIA=? AND NO_CLIENTE=?");
+            ps.setString(1, noCia);
+            ps.setString(2, noCliente);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next() && rs.getString("EMAIL") != null) {
+                b.setClie_correo_cpe1(rs.getString("EMAIL").trim());
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            // Ignorar
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR DETALLE
+    // ══════════════════════════════════════════════════════════════════════════
+    public static List<DetalleBean> cargarDetDocElectronico(String pdocu_codigo, Connection conn) throws SQLException {
+        List<DetalleBean> det = new ArrayList<DetalleBean>();
+        String noFactu = pdocu_codigo.replace("-", "").trim();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT L.CONSECUTIVO, NVL(L.MEDIDA,'NIU') AS MEDIDA, L.CANTIDAD_FACT, L.NO_ARTI, " +
+                            "NVL(L.DESCRIPCION,A.DESCRIPCION) AS DESCRIPCION, L.PRECIO_UNIT, L.TOTAL, " +
+                            "ROUND(NVL(L.IMP_IGV,0),2) AS IMP_IGV, " +
+                            "NVL(L.PREC_IGV,ROUND(L.PRECIO_UNIT*1.18,2)) AS PREC_IGV, " +
+                            "NVL(L.TIPO_AFECTACION,'10') AS TIPO_AFECTACION " +
+                            "FROM FACTU.ARFAFL L " +
+                            "LEFT JOIN INVE.ARINDA A ON L.NO_CIA=A.NO_CIA AND L.NO_ARTI=A.NO_ARTI " +
+                            "WHERE L.NO_CIA=? AND L.NO_FACTU=? ORDER BY L.CONSECUTIVO");
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, noFactu);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                DetalleBean d = new DetalleBean();
+                d.setDocu_codigo(Math.abs(noFactu.hashCode()));
+                d.setItem_orden(rs.getInt("CONSECUTIVO"));
+                d.setItem_unidad(rs.getString("MEDIDA"));
+                d.setItem_cantidad(rs.getInt("CANTIDAD_FACT"));
+                d.setItem_codproducto(rs.getString("NO_ARTI"));
+                d.setItem_descripcion(limpiar(rs.getString("DESCRIPCION")));
+                d.setItem_pventa(rs.getDouble("PRECIO_UNIT"));
+                d.setItem_pvtaigv(rs.getDouble("PREC_IGV"));
+                d.setItem_to_subtotal(rs.getDouble("TOTAL"));
+                d.setItem_to_igv(rs.getDouble("IMP_IGV"));
+
+                String ta = rs.getString("TIPO_AFECTACION");
+                d.setItem_afectacion(ConversionUtils.convertirTipoAfectacion(ta));
+
+                if (ConversionUtils.esOperacionGratuita(ta)) {
+                    d.setItem_pventa_nohonerosa(rs.getDouble("PRECIO_UNIT"));
+                    d.setItem_pventa(0.0);
+                } else {
+                    d.setItem_pventa_nohonerosa(0.0);
+                }
+
+                det.add(d);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            throw new SQLException(ex);
+        }
+        return det;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR LEYENDAS
+    // ══════════════════════════════════════════════════════════════════════════
+    public static List<LeyendaBean> cargarDetDocElectronicoLeyenda(String pdocu_codigo, Connection conn) throws SQLException {
+        List<LeyendaBean> ley = new ArrayList<LeyendaBean>();
+        String noFactu = pdocu_codigo.replace("-", "").trim();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT TOTAL, MONEDA FROM FACTU.ARFAFE WHERE NO_CIA=? AND NO_FACTU=?");
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, noFactu);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                LeyendaBean l = new LeyendaBean();
+                l.setLeyenda_codigo("1000");
+                l.setLeyenda_texto(numLetras(rs.getDouble("TOTAL"), rs.getString("MONEDA")));
+                ley.add(l);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            // Ignorar
+        }
+        return ley;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR PAGOS/CUOTAS
+    // ══════════════════════════════════════════════════════════════════════════
+    public static List<PagoBean> cargarDetDocElectronicoPagos(String pdocu_codigo, Connection conn) throws SQLException {
+        List<PagoBean> pag = new ArrayList<PagoBean>();
+        String noFactu = pdocu_codigo.replace("-", "").trim();
+
+        try {
+            PreparedStatement ps1 = conn.prepareStatement(
+                    "SELECT TIPO_FPAGO, TOTAL, NO_CLIENTE, MONEDA FROM FACTU.ARFAFE WHERE NO_CIA=? AND NO_FACTU=?");
+            ps1.setString(1, NO_CIA_DEFAULT);
+            ps1.setString(2, noFactu);
+            ResultSet rs1 = ps1.executeQuery();
+
+            String tf = "CON";
+            double tot = 0;
+            String nc = "";
+            String mon = "PEN";
+
+            if (rs1.next()) {
+                tf = rs1.getString("TIPO_FPAGO");
+                tot = rs1.getDouble("TOTAL");
+                nc = rs1.getString("NO_CLIENTE");
+                mon = ConversionUtils.convertirMoneda(rs1.getString("MONEDA"));
+            }
+            rs1.close();
+            ps1.close();
+
+            if ("CRE".equalsIgnoreCase(tf)) {
+                PreparedStatement ps2 = conn.prepareStatement(
+                        "SELECT NO_CREDITO, MONTO, FEC_PAGO FROM FACTU.ARFCRED " +
+                                "WHERE NO_CIA=? AND NO_CLIENTE=? AND NO_ORDEN=? ORDER BY NO_CREDITO");
+                ps2.setString(1, NO_CIA_DEFAULT);
+                ps2.setString(2, nc);
+                ps2.setString(3, noFactu);
+                ResultSet rs2 = ps2.executeQuery();
+
+                int id = 1;
+                while (rs2.next()) {
+                    PagoBean p = new PagoBean();
+                    p.setIdpago(id++);
+                    p.setDocu_codigo(Math.abs(noFactu.hashCode()));
+                    p.setNrocuota(rs2.getInt("NO_CREDITO"));
+                    p.setMonto(rs2.getDouble("MONTO"));
+                    p.setFecha(rs2.getDate("FEC_PAGO"));
+                    pag.add(p);
+                }
+                rs2.close();
+                ps2.close();
+            } else {
+                PagoBean p = new PagoBean();
+                p.setIdpago(1);
+                p.setDocu_codigo(Math.abs(noFactu.hashCode()));
+                p.setNrocuota(0);
+                p.setMonto(tot);
+                p.setFecha(null);
+                pag.add(p);
+            }
+        } catch (Exception e) {
+            // Ignorar
+        }
+        return pag;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // MÉTODOS DE ACTUALIZACIÓN DE ESTADO
+    // ══════════════════════════════════════════════════════════════════════════
+
+    public static void bloquearDocumento(String noFactu, Connection conn) {
+        ejecutarUpdate(
+                "UPDATE FACTU.ARFAFE SET PROCE_STATUS='B', PROCE_FECHA=SYSDATE WHERE NO_CIA=? AND NO_FACTU=?",
+                noFactu, conn);
+    }
+
+    public static void marcarEnProceso(String noFactu, Connection conn) {
+        ejecutarUpdate(
+                "UPDATE FACTU.ARFAFE SET PROCE_STATUS='P', PROCE_FECHA=SYSDATE WHERE NO_CIA=? AND NO_FACTU=?",
+                noFactu, conn);
+    }
+
+    public static void marcarEnviado(String noFactu, String hash, String cdr, String nota, Connection conn) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE FACTU.ARFAFE SET ESTADO='E', PROCE_STATUS='E', PROCE_FECHA=SYSDATE, " +
+                            "COD_HASH=?, CDR=?, CDR_NOTA=?, FEC_ENVIO=SYSDATE, FEC_MODI=SYSDATE, USU_MODI=USER " +
+                            "WHERE NO_CIA=? AND NO_FACTU=?");
+            ps.setString(1, hash);
+            ps.setString(2, cdr);
+            ps.setString(3, nota);
+            ps.setString(4, NO_CIA_DEFAULT);
+            ps.setString(5, noFactu.replace("-", ""));
+            ps.executeUpdate();
+            conn.commit();
+            ps.close();
+            System.out.println("Documento enviado: " + noFactu);
+        } catch (Exception e) {
+            System.out.println("Error marcarEnviado: " + e.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    public static void marcarError(String noFactu, String cdr, String nota, String obs, Connection conn) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE FACTU.ARFAFE SET PROCE_STATUS='X', PROCE_FECHA=SYSDATE, " +
+                            "CDR=?, CDR_NOTA=?, CDR_OBSERVACION=?, FEC_MODI=SYSDATE, USU_MODI=USER " +
+                            "WHERE NO_CIA=? AND NO_FACTU=?");
+            ps.setString(1, cdr);
+            ps.setString(2, nota);
+            ps.setString(3, obs);
+            ps.setString(4, NO_CIA_DEFAULT);
+            ps.setString(5, noFactu.replace("-", ""));
+            ps.executeUpdate();
+            conn.commit();
+            ps.close();
+            System.out.println("Documento con error: " + noFactu + " - " + nota);
+        } catch (Exception e) {
+            System.out.println("Error marcarError: " + e.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    public static void marcarPendiente(String noFactu, Connection conn) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "UPDATE FACTU.ARFAFE SET PROCE_STATUS='N', PROCE_FECHA=NULL, " +
+                            "COD_HASH=NULL, CDR=NULL, CDR_NOTA=NULL, CDR_OBSERVACION=NULL " +
+                            "WHERE NO_CIA=? AND NO_FACTU=?");
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, noFactu.replace("-", ""));
+            ps.executeUpdate();
+            conn.commit();
+            ps.close();
+            System.out.println("Documento pendiente: " + noFactu);
+        } catch (Exception e) {
+            System.out.println("Error marcarPendiente: " + e.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    public static int contarPendientes(Connection conn) {
+        int c = 0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT COUNT(*) FROM FACTU.ARFAFE WHERE NO_CIA=? AND ESTADO='D' " +
+                            "AND (PROCE_STATUS='N' OR PROCE_STATUS IS NULL) AND TIPO_DOC IN('F','B','C','D')");
+            ps.setString(1, NO_CIA_DEFAULT);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) c = rs.getInt(1);
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error contarPendientes: " + e.getMessage());
+        }
+        return c;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // UTILITARIOS
+    // ══════════════════════════════════════════════════════════════════════════
+
+    private static void ejecutarUpdate(String sql, String noFactu, Connection conn) {
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, noFactu.replace("-", ""));
+            ps.executeUpdate();
+            conn.commit();
+            ps.close();
+        } catch (Exception e) {
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    private static String limpiar(String t) {
+        return t == null ? "" : t.replaceAll("[|%•$¿?^Çªº°~€¬ç¡\"]", "").replaceAll("\\s+", " ").trim();
+    }
+
+    private static String numLetras(double n, String m) {
+        int e = (int) n;
+        int d = (int) Math.round((n - e) * 100);
+        String mt = "SOL".equalsIgnoreCase(m) || "PEN".equalsIgnoreCase(m) ? "SOLES" : "DOLARES AMERICANOS";
+        return nTexto(e).toUpperCase() + " Y " + String.format("%02d", d) + "/100 " + mt;
+    }
+
+    private static String nTexto(int n) {
+        if (n == 0) return "cero";
+        if (n == 100) return "cien";
+        String[] u = {"", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"};
+        String[] e = {"diez", "once", "doce", "trece", "catorce", "quince"};
+        String[] d = {"", "", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"};
+        String[] c = {"", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"};
+        StringBuilder sb = new StringBuilder();
+        if (n >= 1000) {
+            int m = n / 1000;
+            sb.append(m == 1 ? "mil " : nTexto(m) + " mil ");
+            n %= 1000;
+        }
+        if (n >= 100) {
+            sb.append(c[n / 100]).append(" ");
+            n %= 100;
+        }
+        if (n >= 10 && n <= 15) sb.append(e[n - 10]);
+        else if (n >= 16 && n <= 19) sb.append("dieci").append(u[n - 10]);
+        else if (n >= 20 && n <= 29 && n != 20) sb.append("veinti").append(u[n - 20]);
+        else if (n >= 20) {
+            sb.append(d[n / 10]);
+            if (n % 10 > 0) sb.append(" y ").append(u[n % 10]);
+        } else if (n > 0) sb.append(u[n]);
+        return sb.toString().trim();
+    }
+}

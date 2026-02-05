@@ -326,11 +326,11 @@ public class DarBajaDocElectronica {
             //ventanilla
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
-            String keystorePass = "Rojo1234";
-            String privateKeyAlias = "||USO TRIBUTARIO|| NEGOCIACIONES SUDA EIRL CDT 20601441102";
-            String privateKeyPass = "Rojo1234";
-            String certificateAlias = "||USO TRIBUTARIO|| NEGOCIACIONES SUDA EIRL CDT 20601441102";   
-           //comas
+            String keystorePass = "Peru##2026";
+            String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
+            String privateKeyPass = "Peru##2026";
+            String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
+            //comas
 //            String keystoreType = "JKS";
 //            String keystoreFile = "d:\\envio\\certificado.pfx";
 //            String keystorePass = "UovjvAHvH6";

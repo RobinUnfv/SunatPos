@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ws;
 import Modelo.Beans.CabeceraBean;
 import Modelo.Beans.DetalleBean;
@@ -43,17 +40,13 @@ import org.apache.xml.security.utils.ElementProxy;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
-/**
-/**
- *
- * @author luis_
- */
+
 public class BoletaElectronica {
-      private static Log log = LogFactory.getLog(BoletaElectronica.class);
+      //private static Log log = LogFactory.getLog(BoletaElectronica.class);
       
       
        public static String generarXMLZipiadoBoleta(String iddocument, Connection conn) { 
-        log.info("generarXMLZipiadoBoleta - Inicializamos el ambiente");
+        System.out.println("generarXMLZipiadoBoleta - Inicializamos el ambiente");
         org.apache.xml.security.Init.init();
         String resultado = "";
         String nrodoc = iddocument;
@@ -65,11 +58,11 @@ public class BoletaElectronica {
             List<LeyendaBean> leyendas = DElectronicoDespachador.cargarDetDocElectronicoLeyenda(nrodoc, conn);
             List<PagoBean> pagos = DElectronicoDespachador.cargarDetDocElectronicoPagos(nrodoc, conn);
 
-            log.info("generarXMLZipiadoFactura - Extraemos datos para preparar XML ");
+            System.out.println("generarXMLZipiadoFactura - Extraemos datos para preparar XML ");
              unidadEnvio = "d:\\envio\\";
 
-            log.info("generarXMLZipiadoFactura - Ruta de directorios " + unidadEnvio);
-            log.info("generarXMLZipiadoFactura - Iniciamos cabecera ");
+            System.out.println("generarXMLZipiadoBoleta - Ruta de directorios " + unidadEnvio);
+            System.out.println("generarXMLZipiadoBoleta - Iniciamos cabecera ");
             //crear el Xml firmado
             if (items != null) {
                 pathXMLFile = unidadEnvio + items.getEmpr_nroruc() + "-03-" + items.getDocu_numero() + ".xml";
@@ -77,11 +70,11 @@ public class BoletaElectronica {
                 resultado = creaXml(items, detdocelec, leyendas,pagos, unidadEnvio);
                 /*=======================ENVIO A SUNAT=============*/
                 if (items.getDocu_enviaws().equals("S")) {
-                    log.info("generarXMLZipiadoFactura - Preparando para enviar a SUNAT");
+                    System.out.println("generarXMLZipiadoFactura - Preparando para enviar a SUNAT");
                     resultado = enviarZipASunat(unidadEnvio, items.getEmpr_nroruc() + "-03-" + items.getDocu_numero() + ".zip", items.getEmpr_nroruc());
                 } else {
                     /*este caso de boleta no se envia al sunat*/
-                    log.info("generarXMLZipiadoFactura - No se envia a SUNAT");
+                    System.out.println("generarXMLZipiadoFactura - No se envia a SUNAT");
                     resultado = "0|El Comprobante numero " + items.getDocu_numero() + ", ha sido aceptado.";
 //                    Ctrl.estadodecompelectr(conn,nrodoc);
                     
@@ -92,7 +85,7 @@ public class BoletaElectronica {
         } catch (Exception ex) {
             ex.printStackTrace();
             resultado = "0100|Error al generar el archivo de formato xml de la Factura.";
-            log.error("generarXMLZipiadoFactura - error  " + ex.toString());
+            System.out.println("generarXMLZipiadoFactura - error  " + ex.toString());
         }
 
         return resultado;
@@ -101,7 +94,7 @@ public class BoletaElectronica {
     public static String enviarZipASunat(String path, String zipFileName, String vruc) {
         String resultado = "";
         String sws = "1";
-        log.info("enviarASunat - Prepara ambiente: " + sws);
+        System.out.println("enviarASunat - Prepara ambiente: " + sws);
         try {
 
             javax.activation.FileDataSource fileDataSource = new javax.activation.FileDataSource(path + zipFileName);
@@ -116,7 +109,7 @@ public class BoletaElectronica {
                     ws1.setHandlerResolver(handlerResolver1);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService port1 = ws1.getBillServicePort();
                     respuestaSunat = port1.sendBill(zipFileName, dataHandler);
-                    log.info("enviarASunat - Ambiente Beta: " + sws);
+                    System.out.println("enviarASunat - Ambiente Beta: " + sws);
                     break;
                 case "2": // servicio de homologacion
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa ws2 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa();
@@ -125,7 +118,7 @@ public class BoletaElectronica {
                     ws2.setHandlerResolver(handlerResolver2);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService port2 = ws2.getBillServicePort();
                     respuestaSunat = port2.sendBill(zipFileName, dataHandler);
-                    log.info("enviarASunat - Ambiente QA " + sws);
+                    System.out.println("enviarASunat - Ambiente QA " + sws);
                     break;
                 case "3":// servicio de produccion
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe ws3 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe();
@@ -135,7 +128,7 @@ public class BoletaElectronica {
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService port3 = ws3.getBillServicePort();
                     respuestaSunat = port3.sendBill(zipFileName, dataHandler);
                     System.out.println("servidor produccion");
-                    log.info("enviarASunat - Ambiente Produccion " + sws);
+                    System.out.println("enviarASunat - Ambiente Produccion " + sws);
                     break;
             }
 
@@ -147,7 +140,7 @@ public class BoletaElectronica {
             fos.write(respuestaSunat);
             fos.close();
             //================Descompremiendo el zip de Sunat
-            log.info("enviarASunat - Descomprimiendo CDR " + pathRecepcion + "R-" + zipFileName);
+            System.out.println("enviarASunat - Descomprimiendo CDR " + pathRecepcion + "R-" + zipFileName);
             ZipFile archive = new ZipFile(pathRecepcion + "R-" + zipFileName);
             Enumeration e = archive.entries();
             while (e.hasMoreElements()) {
@@ -176,16 +169,16 @@ public class BoletaElectronica {
             archive.close();
             //================leeyendo la resuesta de Sunat
             zipFileName = zipFileName.substring(0, zipFileName.indexOf(".zip"));
-            log.info("enviarASunat - Lectura del contenido del CDR ");
+            System.out.println("enviarASunat - Lectura del contenido del CDR ");
             resultado = LecturaXML.getRespuestaSunat(pathRecepcion + "R-" + zipFileName + ".xml");
             System.out.println("==>El envio del Zip a sunat fue exitoso");
-            log.info("enviarASunat - Envio a Sunat Exitoso ");
+            System.out.println("enviarASunat - Envio a Sunat Exitoso ");
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
             System.out.println(ex.toString());
-            //log.error("enviarASunat - Error " + ex.toString());
+            //System.out.println("enviarASunat - Error " + ex.toString());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("enviarASunat - Error " + e.toString());
+            System.out.println("enviarASunat - Error " + e.toString());
         }
         return resultado;
     }   
@@ -200,15 +193,15 @@ public class BoletaElectronica {
             //Datos por RUC
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
-            String keystorePass = "Rojo1234";
-            String privateKeyAlias = "||USO TRIBUTARIO|| NEGOCIACIONES SUDA EIRL CDT 20601441102";
-            String privateKeyPass = "Rojo1234";
-            String certificateAlias = "||USO TRIBUTARIO|| NEGOCIACIONES SUDA EIRL CDT 20601441102";    
+            String keystorePass = "Peru##2026";
+            String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
+            String privateKeyPass = "Peru##2026";
+            String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
 
 
-            log.info("generarXMLZipiadoBoleta - Lectura de cerificado ");
+            System.out.println("generarXMLZipiadoBoleta - Lectura de cerificado ");
             CDATASection cdata;
-            log.info("generarXMLZipiadoBoleta - Iniciamos la generacion del XML");
+            System.out.println("generarXMLZipiadoBoleta - Iniciamos la generacion del XML");
             String pathXMLFile = unidadEnvio + items.getEmpr_nroruc() + "-03-" + items.getDocu_numero() + ".xml";
             File signatureFile = new File(pathXMLFile);
             ///////////////////Creación del certificado//////////////////////////////
@@ -228,7 +221,7 @@ public class BoletaElectronica {
             javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
             org.w3c.dom.Document doc = db.newDocument();
             ////////////////////////////////////////////////// 
-            log.info("generarXMLZipiadoBoleta - cabecera XML ");
+            System.out.println("generarXMLZipiadoBoleta - cabecera XML ");
             Element envelope = doc.createElementNS("", "Invoice");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2");
@@ -714,7 +707,7 @@ public class BoletaElectronica {
             LegalMonetaryTotal.appendChild(PayableAmount);//se anade al grupo LegalMonetaryTotal
             PayableAmount.appendChild(doc.createTextNode(items.getDocu_total()+""));
 //detalle factura
-            log.info("generarXMLZipiadoBoleta - Iniciamos detalle XML ");
+            System.out.println("generarXMLZipiadoBoleta - Iniciamos detalle XML ");
             for (DetalleBean   listaDet : detdocelec) {
                 Element InvoiceLine = doc.createElementNS("", "cac:InvoiceLine");
                 envelope.appendChild(InvoiceLine);
@@ -899,7 +892,7 @@ public class BoletaElectronica {
                 Price.appendChild(PriceAmount2);//se anade al grupo Price
                 PriceAmount2.appendChild(doc.createTextNode(listaDet.getItem_pvtaigv()+""));
             }
-            log.info("generarXMLZipiadoBoleta - Prepara firma digital ");
+            System.out.println("generarXMLZipiadoBoleta - Prepara firma digital ");
             sig.setId("Sign"+items.getEmpr_nroruc());
             sig.addKeyInfo(cert);
             {
@@ -909,7 +902,7 @@ public class BoletaElectronica {
             }
             {
                 //Firmar el documento
-                log.info("generarXMLZipiadoBoleta - firma el XML ");
+                System.out.println("generarXMLZipiadoBoleta - firma el XML ");
                 sig.sign(privateKey);
             }
             //--------------------fin de construccion del xml---------------------
@@ -924,14 +917,14 @@ public class BoletaElectronica {
             tf.transform(new DOMSource(doc), sr);
             sr.getOutputStream().close();
 
-            log.info("generarXMLZipiadoBoleta - XML creado " + pathXMLFile);
+            System.out.println("generarXMLZipiadoBoleta - XML creado " + pathXMLFile);
             //====================== CREAR ZIP PARA EL ENVIO A SUNAT =======================
             resultado = GeneralFunctions.crearZip(items, unidadEnvio, signatureFile);
 
         } catch (Exception ex) {
             ex.printStackTrace();
             resultado = "0100|Error al generar el archivo de formato xml de la Factura.";
-            log.error("generarXMLZipiadoBoleta - error  " + ex.toString());
+            System.out.println("generarXMLZipiadoBoleta - error  " + ex.toString());
 
         }
         return resultado;

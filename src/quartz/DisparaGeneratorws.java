@@ -24,41 +24,42 @@ import ws.ResBolElectronica;
  */
 public class DisparaGeneratorws {
 
-private static Log log = LogFactory.getLog(DisparaGeneratorws.class);
+//private static Log log = LogFactory.getLog(DisparaGeneratorws.class);
 
     public synchronized static void generator() {
-        //log.info("generator");
+        //System.out.println("generator");
         Connection conn = null;
         try {
-            //log.info("generator - conectar a MySQl");
+            //System.out.println("generator - conectar a MySQl");
             conn = ConnectionPool.obtenerConexionMysql();
             System.out.println("__Ejecución disparar " + new Date().toString());
-            //log.info("generator - buscar pendientes");
+            //System.out.println("generator - buscar pendientes");
             CabeceraBean item = DElectronicoDespachador.pendienteDocElectronico(conn);
             String iddoc = null;
             String tipodoc = null;
             String result = "x";
-            if (item != null && item.getDocu_tipodocumento().trim() != null) {
-                log.info("generator - Existe pendiente");
-                iddoc = item.getDocu_codigo()+"";
+            if (item != null) {
+                System.out.println("generator - Existe pendiente");
+                iddoc = item.getDocu_codigo().trim();
+
                 //tipodoc = Integer.valueOf(item.getDocu_tipodocumento()).toString().trim();
                 tipodoc = item.getDocu_tipodocumento().trim();//  BOLETA 03   FACTURAS 01    NOTAS CRED 07
 
-                //System.out.println("___Preparando el doc. " + Util.equivalenciaTipoDocNombre(tipodoc) + " " + iddoc);
-                System.out.println("___Preparando el doc. " + tipodoc + " " + iddoc);
-                log.info("generator - extrayendo datos");
+                System.out.println("Tipo Doc: " + tipodoc + " NoFactu: " + iddoc);
+
                 switch (tipodoc) {
                     case "03":
-                        
-                        //result = BoletaElectronica.generarXMLZipiadoBoleta(iddoc, conn);
+                        System.out.println("ENVIAR LA BOLETA : "+item.getDocu_numero());
+                        result = BoletaElectronica.generarXMLZipiadoBoleta(iddoc, conn);
                         //result = ResBolElectronica.generarXMLZipiadoBoleta(iddoc, conn);
-                       //System.out.println("ENVIAR LA BOLETA : "+item.getDocu_numero());
+                        System.out.println("RESULTADO BOLETA : "+result);
                         break;
                     case "01":
+                        System.out.println("ENVIAR LA FACTURA : "+item.getDocu_numero());
                        // System.out.println("ENVIAR LA FACTURA : "+item.getDocu_numero());
                         result = FacturaElectronica.generarXMLZipiadoFactura(iddoc, conn);
                        //result = DarBajaDocElectronica.generarXMLZipiadoBoleta(iddoc, conn);
-                            
+                        System.out.println("RESULTADO  FACTURA : "+result);
                        
                         break;
                     case "07":
@@ -73,12 +74,12 @@ private static Log log = LogFactory.getLog(DisparaGeneratorws.class);
                 }
             }
             if (!result.equals("x")) {
-                System.out.println("Resultado " + result);
+                System.out.println("Resultado => " + result);
             }
 
         } catch (Exception er) {
             er.printStackTrace();
-                log.error("generator - error " + er.toString());
+            System.out.println("generator - error " + er.toString());
             
         } finally {
             ConnectionPool.closeConexion(conn);

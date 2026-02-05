@@ -195,14 +195,14 @@ public class NotaCred {
         String resultado = "";
         try {
             ElementProxy.setDefaultPrefix(Constants.SignatureSpecNS, "ds");
-           
+
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
-            String keystorePass = "Rojo1234";
-            String privateKeyAlias = "||USO TRIBUTARIO|| NEGOCIACIONES SUDA EIRL CDT 20601441102";
-            String privateKeyPass = "Rojo1234";
-            String certificateAlias = "||USO TRIBUTARIO|| NEGOCIACIONES SUDA EIRL CDT 20601441102";  
-        
+            String keystorePass = "Peru##2026";
+            String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
+            String privateKeyPass = "Peru##2026";
+            String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
+
             log.info("generarXMLZipiadoNotaCred - Lectura de cerificado ");
             CDATASection cdata;
             log.info("generarXMLZipiadoNotaCred - Iniciamos la generacion del XML");
