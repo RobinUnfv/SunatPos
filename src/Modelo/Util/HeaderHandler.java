@@ -1,23 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Modelo.Util;
 
-/**
- *
- * @author LUISINHO
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package Modelo.Util;
 
 import java.util.Set;
 import java.util.HashSet;
-
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
@@ -72,15 +57,16 @@ envelope.setPrefix("soapenv");
                 SOAPElement username = usernameToken.addChildElement("Username", "wsse");
 
                 //aqui va el RUC JUNTO AL USUARIO SECUNDARIO DE LA EMPRESA
-                username.addTextNode("20609272016CORPOTCE");
+                //username.addTextNode("20609272016CORPOTCE"); // PRODUCCION
+                username.addTextNode("20609272016MODDATOS");
 
                 SOAPElement password = usernameToken.addChildElement("Password", "wsse");
 //                password.setAttribute("Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
                 //aqui va la clave sol
-                password.addTextNode("DRAVErFACEL2");
+                //password.addTextNode("DRAVErFACEL2"); // PRODUCCION
+                password.addTextNode("MODDATOS");
                 //Print out the outbound SOAP message to System.out
                     message.writeTo(System.out);
-                    System.out.println("");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -92,7 +78,6 @@ envelope.setPrefix("soapenv");
             //we just print out the SOAP message.
             SOAPMessage message = smc.getMessage();
             message.writeTo(System.out);
-            System.out.println("");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

@@ -60,9 +60,8 @@ public class BoletaElectronica {
             List<PagoBean> pagos = DElectronicoDespachador.cargarDetDocElectronicoPagos(nrodoc, conn);
 
             System.out.println("generarXMLZipiadoFactura - Extraemos datos para preparar XML ");
-             unidadEnvio = "d:\\envio\\";
+            unidadEnvio = "d:\\envio\\";
 
-            System.out.println("generarXMLZipiadoBoleta - Ruta de directorios " + unidadEnvio);
             System.out.println("generarXMLZipiadoBoleta - Iniciamos cabecera ");
             //crear el Xml firmado
             if (items != null) {
@@ -96,6 +95,7 @@ public class BoletaElectronica {
         String resultado = "";
         String sws = "1";
         System.out.println("enviarASunat - Prepara ambiente: " + sws);
+        System.out.println("RUC CIA => " + vruc);
         try {
 
             javax.activation.FileDataSource fileDataSource = new javax.activation.FileDataSource(path + zipFileName);
