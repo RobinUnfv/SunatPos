@@ -58,15 +58,16 @@ envelope.setPrefix("soapenv");
 
                 //aqui va el RUC JUNTO AL USUARIO SECUNDARIO DE LA EMPRESA
                 //username.addTextNode("20609272016CORPOTCE"); // PRODUCCION
-                username.addTextNode("20609272016MODDATOS");
+                username.addTextNode("20609272016MODDATOS"); //DEMO
 
                 SOAPElement password = usernameToken.addChildElement("Password", "wsse");
 //                password.setAttribute("Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText");
                 //aqui va la clave sol
                 //password.addTextNode("DRAVErFACEL2"); // PRODUCCION
-                password.addTextNode("MODDATOS");
+                password.addTextNode("MODDATOS"); // DEMO
+
                 //Print out the outbound SOAP message to System.out
-                    message.writeTo(System.out);
+                message.writeTo(System.out);
 
             } catch (Exception e) {
                 e.printStackTrace();

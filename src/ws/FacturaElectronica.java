@@ -9,6 +9,7 @@ import Modelo.Beans.DetalleBean;
 import Modelo.Beans.LeyendaBean;
 import Modelo.Beans.PagoBean;
 import Modelo.Dispatchers.DElectronicoDespachador;
+import Modelo.Util.ConversionUtils;
 import Modelo.Util.GeneralFunctions;
 import Modelo.Util.HeaderHandlerResolver;
 import Modelo.Util.LecturaXML;
@@ -44,10 +45,7 @@ import org.apache.xml.security.utils.ElementProxy;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
-/**
- *
- * @author luis_
- */
+
 public class FacturaElectronica {
     private static Log log = LogFactory.getLog(FacturaElectronica.class);
     
@@ -181,7 +179,8 @@ public class FacturaElectronica {
             log.info("enviarASunat - Envio a Sunat Exitoso ");
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
             System.out.println(ex.toString());
-            //log.error("enviarASunat - Error " + ex.toString());
+            resultado = ex.toString();
+            return resultado;
         } catch (Exception e) {
             e.printStackTrace();
             log.error("enviarASunat - Error " + e.toString());
@@ -196,19 +195,20 @@ public class FacturaElectronica {
             //Parametros del keystore
            
             //Datos por RUC
-            /*
+
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
-            String keystorePass = "Peru##2026";
-            String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-            String privateKeyPass = "Peru##2026";
-            String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-            */
+            String keystorePass = "123456789";
+            //String privateKeyAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
+            String privateKeyPass = "CORPTEx2218";
+            //String certificateAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
+
+            /*
             String keystoreType = "PKCS12";  // ← Cambiar a PKCS12
             String keystoreFile = "d:\\envio\\certificado.p12";  // ← Tu archivo .p12
             String keystorePass = "CORPTEx2218";  // ← Contraseña del P12
             String privateKeyPass = "CORPTEx2218";
-
+            */
             log.info("generarXMLZipiadoFactura - Lectura de cerificado ");
             CDATASection cdata;
             log.info("generarXMLZipiadoFactura - Iniciamos la generacion del XML");
@@ -621,10 +621,10 @@ public class FacturaElectronica {
             TaxSubtotal.appendChild(doc.createTextNode("\n"));
 
             Element TaxableAmount1 = doc.createElementNS("", "cbc:TaxableAmount");
-            TaxableAmount1.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
+            TaxableAmount1.setAttributeNS(null, "currencyID", ConversionUtils.convertirTextoDosDecimales(items.getDocu_moneda()));
             TaxableAmount1.setIdAttributeNS(null, "currencyID", true);
             TaxSubtotal.appendChild(TaxableAmount1);//se anade al grupo TaxSubtotal
-            TaxableAmount1.appendChild(doc.createTextNode(items.getDocu_gravada()+""));
+            TaxableAmount1.appendChild(doc.createTextNode(ConversionUtils.formatoDosDecimales(items.getDocu_gravada())));
             
              Element TaxAmount1 = doc.createElementNS("", "cbc:TaxAmount");
             TaxAmount1.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
@@ -827,7 +827,7 @@ public class FacturaElectronica {
                 TaxSubtotal1.appendChild(doc.createTextNode("\n"));
 
                 Element TaxableAmount = doc.createElementNS("", "cbc:TaxableAmount");
-                TaxableAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
+                TaxableAmount.setAttributeNS(null, "currencyID", ConversionUtils.convertirTextoDosDecimales(items.getDocu_moneda()));
                 TaxableAmount.setIdAttributeNS(null, "currencyID", true);
 
                 TaxSubtotal1.appendChild(TaxableAmount);//se anade al grupo TaxSubtotal1

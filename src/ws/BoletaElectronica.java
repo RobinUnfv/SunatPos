@@ -192,19 +192,20 @@ public class BoletaElectronica {
             //Parametros del keystore
            
             //Datos por RUC
-            /*
+
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
-            String keystorePass = "Peru##2026";
-            String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-            String privateKeyPass = "Peru##2026";
-            String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-            */
+            String keystorePass = "123456789";
+            String privateKeyAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
+            String privateKeyPass = "CORPTEx2218";
+            String certificateAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
+
+            /*
             String keystoreType = "PKCS12";  // ← Cambiar a PKCS12
             String keystoreFile = "d:\\envio\\certificado.p12";  // ← Tu archivo .p12
             String keystorePass = "CORPTEx2218";  // ← Contraseña del P12
             String privateKeyPass = "CORPTEx2218";
-
+            */
             System.out.println("generarXMLZipiadoBoleta - Lectura de cerificado ");
             CDATASection cdata;
             System.out.println("generarXMLZipiadoBoleta - Iniciamos la generacion del XML");
@@ -217,7 +218,7 @@ public class BoletaElectronica {
             fis.close();
 
             // Obtener el primer alias automáticamente
-            String privateKeyAlias = ks.aliases().nextElement();
+            //String privateKeyAlias = ks.aliases().nextElement();
             //System.out.println("Alias encontrado: " + privateKeyAlias);
 
             //obtener la clave privada para firmar

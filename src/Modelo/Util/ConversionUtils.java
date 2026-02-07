@@ -1,5 +1,9 @@
 package Modelo.Util;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class ConversionUtils {
 
     /** Convierte tipo documento Oracle->SUNAT: F->01, B->03, C->07, D->08 */
@@ -120,4 +124,52 @@ public class ConversionUtils {
     public static double redondear2Decimales(double valor) {
         return Math.round(valor * 100.0) / 100.0;
     }
+
+    public static String formatoDosDecimales(double numero) {
+        // Redondeo a 2 decimales
+        BigDecimal bd = new BigDecimal(numero);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+
+        // Formatear con punto como separador decimal
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setDecimalSeparatorAlwaysShown(true);
+
+        return df.format(bd.doubleValue()).replace(",", ".");
+    }
+
+    public static String convertirTextoDosDecimales(String texto) {
+        if (texto == null || texto.trim().isEmpty()) {
+            return "0.00";
+        }
+
+        try {
+            // Limpiar el texto
+            String textoLimpio = texto.trim()
+                    .replace(",", ".")       // Reemplazar coma por punto
+                    .replace(" ", "")        // Eliminar espacios
+                    .replace("$", "")        // Eliminar símbolo de moneda
+                    .replace("€", "")
+                    .replace("S/", "")
+                    .replace("USD", "");
+
+            // Validar que sea un número
+            if (!textoLimpio.matches("-?\\d+(\\.\\d+)?")) {
+                return "0.00";
+            }
+
+            // Convertir a double
+            double numero = Double.parseDouble(textoLimpio);
+
+            // Formatear a 2 decimales
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setRoundingMode(RoundingMode.HALF_UP);
+
+            return df.format(numero).replace(",", ".");
+
+        } catch (Exception e) {
+            return "0.00";
+        }
+    }
+
+
 }

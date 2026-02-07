@@ -132,9 +132,9 @@ public class DElectronicoDespachador {
                     "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
                     "A.NO_CLIENTE, A.NBR_CLIENTE, CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIR_CLIENTE, " +
                     "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
-                    "A.MONEDA, A.VALOR_VENTA, A.SUB_TOTAL, A.IMPUESTO, A.TOTAL, " +
-                    "A.T_DESCUENTO, A.OPER_GRAVADAS, A.OPER_EXONERADAS, " +
-                    "A.OPER_INAFECTAS, A.OPER_GRATUITAS, A.IMP_ISC, " +
+                    "A.MONEDA, ROUND(A.VALOR_VENTA, 2) AS VALOR_VENTA, ROUND(A.SUB_TOTAL, 2) AS SUB_TOTAL, ROUND(A.IMPUESTO, 2) AS IMPUESTO, ROUND(A.TOTAL, 2) AS TOTAL, " +
+                    "ROUND(A.T_DESCUENTO, 2) AS T_DESCUENTO, ROUND(A.OPER_GRAVADAS, 2) AS OPER_GRAVADAS, ROUND(A.OPER_EXONERADAS, 2) AS OPER_EXONERADAS, " +
+                    "ROUND(A.OPER_INAFECTAS, 2) AS OPER_INAFECTAS, ROUND(A.OPER_GRATUITAS, 2) AS OPER_GRATUITAS, A.IMP_ISC, " +
                     "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
                     "A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
                     "A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
@@ -387,9 +387,9 @@ public class DElectronicoDespachador {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT L.CONSECUTIVO, NVL(L.MEDIDA,'NIU') AS MEDIDA, L.CANTIDAD_FACT, L.NO_ARTI, " +
-                            "NVL(L.DESCRIPCION,A.DESCRIPCION) AS DESCRIPCION, L.PRECIO_UNIT, L.TOTAL, " +
+                            "NVL(L.DESCRIPCION,A.DESCRIPCION) AS DESCRIPCION, ROUND(L.PRECIO_UNIT,2) AS PRECIO_UNIT, ROUND(L.TOTAL, 2) AS TOTAL, " +
                             "ROUND(NVL(L.IMP_IGV,0),2) AS IMP_IGV, " +
-                            "NVL(L.PREC_IGV,ROUND(L.PRECIO_UNIT*1.18,2)) AS PREC_IGV, " +
+                            "ROUND(NVL(L.PREC_IGV,ROUND(L.PRECIO_UNIT*1.18,2)),2) AS PREC_IGV, " +
                             "NVL(L.TIPO_AFECTACION,'10') AS TIPO_AFECTACION " +
                             "FROM FACTU.ARFAFL L " +
                             "LEFT JOIN INVE.ARINDA A ON L.NO_CIA=A.NO_CIA AND L.NO_ARTI=A.NO_ARTI " +
