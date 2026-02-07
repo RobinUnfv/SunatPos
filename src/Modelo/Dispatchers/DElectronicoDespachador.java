@@ -387,13 +387,13 @@ public class DElectronicoDespachador {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT L.CONSECUTIVO, NVL(L.MEDIDA,'NIU') AS MEDIDA, L.CANTIDAD_FACT, L.NO_ARTI, " +
-                            "NVL(L.DESCRIPCION,A.DESCRIPCION) AS DESCRIPCION, ROUND(L.PRECIO_UNIT,2) AS PRECIO_UNIT, ROUND(L.TOTAL, 2) AS TOTAL, " +
+                            "INVE.PR_ARTICULO.GET_NOMBRE(L.NO_CIA, L.NO_ARTI, L.NO_FACTU) AS DESCRIPCION, ROUND(L.PRECIO_UNIT,7) AS PRECIO_UNIT, ROUND(L.TOTAL, 2) AS TOTAL, " +
                             "ROUND(NVL(L.IMP_IGV,0),2) AS IMP_IGV, " +
                             "ROUND(NVL(L.PREC_IGV,ROUND(L.PRECIO_UNIT*1.18,2)),2) AS PREC_IGV, " +
                             "NVL(L.TIPO_AFECTACION,'10') AS TIPO_AFECTACION " +
                             "FROM FACTU.ARFAFL L " +
-                            "LEFT JOIN INVE.ARINDA A ON L.NO_CIA=A.NO_CIA AND L.NO_ARTI=A.NO_ARTI " +
                             "WHERE L.NO_CIA=? AND L.NO_FACTU=? ORDER BY L.CONSECUTIVO");
+
             ps.setString(1, NO_CIA_DEFAULT);
             ps.setString(2, noFactu);
             ResultSet rs = ps.executeQuery();
@@ -508,7 +508,8 @@ public class DElectronicoDespachador {
                 }
                 rs2.close();
                 ps2.close();
-            } else {
+            }
+            else {
                 PagoBean p = new PagoBean();
                 p.setIdpago(1);
                 p.setDocu_codigo(Math.abs(noFactu.hashCode()));

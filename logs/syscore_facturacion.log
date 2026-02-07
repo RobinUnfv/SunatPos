@@ -863,3 +863,133 @@
 2026-02-06 13:43:33 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
 2026-02-06 13:43:35 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
 2026-02-06 13:44:28 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 08:51:49 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 09:50:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 09:52:33 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 09:52:35 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 09:52:35 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 09:52:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 09:52:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 09:52:52 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-07 09:52:52 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-07 09:52:52 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-07 09:52:52 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-07 09:52:53 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\envio\20609272016-01-F001-0000099.xml
+2026-02-07 09:52:53 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 09:52:53 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
+2026-02-07 09:53:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 09:53:28 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 10:13:10 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 15:56:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 15:56:50 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 15:56:51 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 15:56:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 15:56:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 15:56:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 15:56:55 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-07 15:56:55 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-07 15:56:55 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-07 15:56:55 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-07 15:56:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\envio\20609272016-01-F001-0000099.xml
+2026-02-07 15:56:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 15:56:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
+2026-02-07 15:57:00 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 15:57:07 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 16:00:10 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 16:29:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 16:30:03 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 16:30:03 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 16:30:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 16:30:05 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 16:30:05 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 16:30:05 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-07 16:30:05 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-07 16:30:05 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-07 16:30:05 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-07 16:30:06 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\envio\20609272016-01-F001-0000099.xml
+2026-02-07 16:30:06 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 16:30:06 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
+2026-02-07 16:30:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 16:30:14 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 16:31:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 16:31:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 16:31:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 16:31:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 17:20:40 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 17:21:03 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 17:21:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 17:21:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 17:21:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de certificado 
+2026-02-07 17:21:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 17:21:07 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.p12 (El sistema no puede encontrar el archivo especificado)
+2026-02-07 17:21:18 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 17:21:43 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 17:37:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 17:37:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 17:37:58 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 17:37:58 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 17:38:01 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 17:38:01 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 17:38:01 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-07 17:38:01 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-07 17:38:01 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-07 17:38:01 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-07 17:38:02 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\envio\20609272016-01-F001-0000099.xml
+2026-02-07 17:38:02 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 17:38:02 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
+2026-02-07 17:38:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 17:38:12 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 17:47:51 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 17:51:48 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 17:51:58 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 17:51:59 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 17:52:00 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 17:52:03 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 17:52:03 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 17:52:03 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-07 17:52:03 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-07 17:52:03 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-07 17:52:03 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-07 17:52:04 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\envio\20609272016-01-F001-0000099.xml
+2026-02-07 17:52:04 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 17:52:04 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
+2026-02-07 17:52:10 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 17:52:16 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 17:53:01 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-07 17:53:09 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\envio\R-20609272016-01-F001-0000099.zip
+2026-02-07 17:53:32 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-07 17:53:33 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\envio\R-20609272016-01-F001-0000099.xml
+2026-02-07 17:53:57 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-07 17:54:32 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 17:54:32 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 17:54:32 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 17:54:32 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 17:54:32 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 17:54:32 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 18:08:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-07 18:08:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-07 18:09:12 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-07 18:09:13 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-07 18:09:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-07 18:09:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-07 18:09:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-07 18:09:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-07 18:09:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-07 18:09:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-07 18:09:17 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\envio\20609272016-01-F001-0000099.xml
+2026-02-07 18:09:17 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:09:17 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-01-F001-0000099.zip
+2026-02-07 18:09:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-07 18:09:29 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-07 18:14:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:14:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-03-B001-0000061.zip
+2026-02-07 18:15:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:15:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-03-B001-0000061.zip
+2026-02-07 18:15:15 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:15:15 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-03-B001-0000061.zip
+2026-02-07 18:15:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:15:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-03-B001-0000061.zip
+2026-02-07 18:15:35 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:15:35 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-03-B001-0000061.zip
+2026-02-07 18:15:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-07 18:15:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\envio\20609272016-03-B001-0000061.zip

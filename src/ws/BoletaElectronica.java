@@ -6,6 +6,7 @@ import Modelo.Beans.DetalleBean;
 import Modelo.Beans.LeyendaBean;
 import Modelo.Beans.PagoBean;
 import Modelo.Dispatchers.DElectronicoDespachador;
+import Modelo.Util.ConversionUtils;
 import Modelo.Util.GeneralFunctions;
 import Modelo.Util.HeaderHandlerResolver;
 import Modelo.Util.LecturaXML;
@@ -175,8 +176,13 @@ public class BoletaElectronica {
             System.out.println("==>El envio del Zip a sunat fue exitoso");
             System.out.println("enviarASunat - Envio a Sunat Exitoso ");
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
-            System.out.println(ex.toString());
-            //System.out.println("enviarASunat - Error " + ex.toString());
+            String mensaje = ConversionUtils.extraerMensajeSOAPFault(ex);
+            String codigo = ConversionUtils.extraerCodigoErrorSUNAT(ex);
+
+            resultado = (codigo != null ? codigo : "ERROR") + "|" + mensaje;
+
+            System.out.println("Error SUNAT [" + codigo + "]: " + mensaje);
+            return resultado;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("enviarASunat - Error " + e.toString());
@@ -196,9 +202,7 @@ public class BoletaElectronica {
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
             String keystorePass = "123456789";
-            String privateKeyAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
             String privateKeyPass = "CORPTEx2218";
-            String certificateAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
 
             /*
             String keystoreType = "PKCS12";  // ← Cambiar a PKCS12
@@ -218,7 +222,7 @@ public class BoletaElectronica {
             fis.close();
 
             // Obtener el primer alias automáticamente
-            //String privateKeyAlias = ks.aliases().nextElement();
+            String privateKeyAlias = ks.aliases().nextElement();
             //System.out.println("Alias encontrado: " + privateKeyAlias);
 
             //obtener la clave privada para firmar

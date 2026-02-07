@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ws;
+
 import Modelo.Beans.CabeceraBean;
 import Modelo.Beans.DetalleBean;
 import Modelo.Beans.LeyendaBean;
@@ -48,13 +45,13 @@ import org.w3c.dom.Element;
 
 public class FacturaElectronica {
     private static Log log = LogFactory.getLog(FacturaElectronica.class);
-    
-   public static String generarXMLZipiadoFactura(String iddocument, Connection conn) { 
+
+    public static String generarXMLZipiadoFactura(String iddocument, Connection conn) {
         log.info("generarXMLZipiadoFactura - Inicializamos el ambiente");
         org.apache.xml.security.Init.init();
         String resultado = "";
         String nrodoc = iddocument;
-        String unidadEnvio; 
+        String unidadEnvio;
         String pathXMLFile;
         try {
             CabeceraBean items = DElectronicoDespachador.cargarDocElectronico(nrodoc, conn);
@@ -63,7 +60,7 @@ public class FacturaElectronica {
             List<PagoBean> pagos = DElectronicoDespachador.cargarDetDocElectronicoPagos(nrodoc, conn);
 
             log.info("generarXMLZipiadoFactura - Extraemos datos para preparar XML ");
-             unidadEnvio = "d:\\envio\\";
+            unidadEnvio = "d:\\envio\\";
 
             log.info("generarXMLZipiadoFactura - Ruta de directorios " + unidadEnvio);
             log.info("generarXMLZipiadoFactura - Iniciamos cabecera ");
@@ -80,11 +77,7 @@ public class FacturaElectronica {
                     /*este caso de boleta no se envia al sunat*/
                     log.info("generarXMLZipiadoFactura - No se envia a SUNAT");
                     resultado = "0|El Comprobante numero " + items.getDocu_numero() + ", ha sido aceptado.";
-//                    Ctrl.estadodecompelectr(conn,nrodoc);
-                    
                 }
-
-                //resultado = "termino de generar el archivo xml de la Boleta Electronica";
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -93,9 +86,9 @@ public class FacturaElectronica {
         }
 
         return resultado;
-    } 
-    
-     public static String enviarZipASunat(String path, String zipFileName, String vruc) {
+    }
+
+    public static String enviarZipASunat(String path, String zipFileName, String vruc) {
         String resultado = "";
         String sws = "1";
         log.info("enviarASunat - Prepara ambiente: " + sws);
@@ -178,8 +171,12 @@ public class FacturaElectronica {
             System.out.println("==>El envio del Zip a sunat fue exitoso");
             log.info("enviarASunat - Envio a Sunat Exitoso ");
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
-            System.out.println(ex.toString());
-            resultado = ex.toString();
+            String mensaje = ConversionUtils.extraerMensajeSOAPFault(ex);
+            String codigo = ConversionUtils.extraerCodigoErrorSUNAT(ex);
+
+            resultado = (codigo != null ? codigo : "ERROR") + "|" + mensaje;
+
+            System.out.println("Error SUNAT [" + codigo + "]: " + mensaje);
             return resultado;
         } catch (Exception e) {
             e.printStackTrace();
@@ -188,27 +185,19 @@ public class FacturaElectronica {
         return resultado;
     }
 
-     private static String creaXml(CabeceraBean items, List<DetalleBean> detdocelec, List<LeyendaBean> leyendas,List<PagoBean> pagos, String unidadEnvio) {
+    private static String creaXml(CabeceraBean items, List<DetalleBean> detdocelec, List<LeyendaBean> leyendas,List<PagoBean> pagos, String unidadEnvio) {
         String resultado = "";
         try {
             ElementProxy.setDefaultPrefix(Constants.SignatureSpecNS, "ds");
             //Parametros del keystore
-           
+
             //Datos por RUC
 
             String keystoreType = "JKS";
             String keystoreFile = "d:\\envio\\certificado.jks";
             String keystorePass = "123456789";
-            //String privateKeyAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
             String privateKeyPass = "CORPTEx2218";
-            //String certificateAlias = "||uso tributario|| corporacion textil celia e.i.r.l. cdt 20609272016";
 
-            /*
-            String keystoreType = "PKCS12";  // ← Cambiar a PKCS12
-            String keystoreFile = "d:\\envio\\certificado.p12";  // ← Tu archivo .p12
-            String keystorePass = "CORPTEx2218";  // ← Contraseña del P12
-            String privateKeyPass = "CORPTEx2218";
-            */
             log.info("generarXMLZipiadoFactura - Lectura de cerificado ");
             CDATASection cdata;
             log.info("generarXMLZipiadoFactura - Iniciamos la generacion del XML");
@@ -234,7 +223,7 @@ public class FacturaElectronica {
             dbf.setNamespaceAware(true);
             javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
             org.w3c.dom.Document doc = db.newDocument();
-            ////////////////////////////////////////////////// 
+            //////////////////////////////////////////////////
             log.info("generarXMLZipiadoBoleta - cabecera XML ");
             Element envelope = doc.createElementNS("", "Invoice");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2");
@@ -247,7 +236,6 @@ public class FacturaElectronica {
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:sac", "urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:udt", "urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-           // envelope.setAttributeNS(Constants.NamespaceSpecNS,"xsi:schemaLocation","urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 2.1/maindoc/UBL-Invoice-2.1.xsd");
 
             envelope.appendChild(doc.createTextNode("\n"));
 
@@ -272,7 +260,6 @@ public class FacturaElectronica {
             //Crea un XML Signature objeto desde el documento, BaseURI and signature algorithm (in this case RSA)
 
             XMLSignature sig = new XMLSignature(doc,BaseURI, XMLSignature.ALGO_ID_SIGNATURE_RSA);
-//            sig.getId();
             ExtensionContent.appendChild(sig.getElement());
             UBLExtension.appendChild(ExtensionContent);
             UBLExtensions.appendChild(UBLExtension);
@@ -287,6 +274,16 @@ public class FacturaElectronica {
             envelope.appendChild(CustomizationID);
             CustomizationID.appendChild(doc.createTextNode("2.0"));
 
+            // ═══════════════════════════════════════════════════════════════════════
+            // *** CORRECCIÓN 1: ProfileID (Tipo de Operación) - AGREGADO ***
+            // ═══════════════════════════════════════════════════════════════════════
+            Element ProfileID = doc.createElementNS("", "cbc:ProfileID");
+            ProfileID.setAttribute("schemeName", "SUNAT:Identificador de Tipo de Operacion");
+            ProfileID.setAttribute("schemeAgencyName", "PE:SUNAT");
+            ProfileID.setAttribute("schemeURI", "urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo17");
+            envelope.appendChild(ProfileID);
+            ProfileID.appendChild(doc.createTextNode("0101")); // 0101 = Venta Interna
+
             Element ID5 = doc.createElementNS("", "cbc:ID");
             envelope.appendChild(ID5);
             ID5.appendChild(doc.createTextNode(items.getDocu_numero().trim()));
@@ -294,7 +291,7 @@ public class FacturaElectronica {
             Element IssueDate = doc.createElementNS("", "cbc:IssueDate");
             envelope.appendChild(IssueDate);
             IssueDate.appendChild(doc.createTextNode(items.getDocu_fecha()+""));
-            
+
             Element IssueTime = doc.createElementNS("", "cbc:IssueTime");
             envelope.appendChild(IssueTime);
             IssueTime.appendChild(doc.createTextNode(items.getDocu_hora().trim()));
@@ -305,7 +302,7 @@ public class FacturaElectronica {
             Attr listAgencyName =doc.createAttribute("listAgencyName");
             Attr listID =doc.createAttribute("listID");
             LISUT.setValue("urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01");
-            listName.setValue("SUNAT:Identificador de Tipo de Documento");
+            listName.setValue("Tipo de Documento");
             listAgencyName.setValue("PE:SUNAT");
             listID.setValue("0101");
             envelope.appendChild(InvoiceTypeCode);
@@ -314,7 +311,7 @@ public class FacturaElectronica {
             InvoiceTypeCode.setAttributeNode(listAgencyName);
             InvoiceTypeCode.setAttributeNode(listID);
             InvoiceTypeCode.appendChild(doc.createTextNode(items.getDocu_tipodocumento().trim()));
-           // LEYENDA 
+            // LEYENDA
             for (LeyendaBean leyenda : leyendas) {
 
                 Element Note = doc.createElementNS("", "cbc:Note");
@@ -324,7 +321,7 @@ public class FacturaElectronica {
                 Note.setAttributeNode(languageLocaleID);
                 Note.appendChild(doc.createTextNode(leyenda.getLeyenda_texto().trim()));
             }
-            
+
             Element DocumentCurrencyCode = doc.createElementNS("", "cbc:DocumentCurrencyCode");
             Attr listName1 =doc.createAttribute("listName");
             Attr listAgencyName1 =doc.createAttribute("listAgencyName");
@@ -341,18 +338,7 @@ public class FacturaElectronica {
             Element LineCountNumeric = doc.createElementNS("", "cbc:LineCountNumeric");
             envelope.appendChild(LineCountNumeric);
             LineCountNumeric.appendChild(doc.createTextNode(detdocelec.size()+""));
-           /* 
-            Element OrderReference = doc.createElementNS("", "cac:OrderReference");
-            envelope.appendChild(OrderReference);
-            OrderReference.appendChild(doc.createTextNode("\n"));
-            
-            Element ID_1 = doc.createElementNS("", "cbc:ID");
-            OrderReference.appendChild(ID_1);
-            ID_1.appendChild(doc.createTextNode("2621211"));
-            */
-            
-            
-            
+
 //bloque2 cac:Signature--------------------------------------------------------
             Element Signature = doc.createElementNS("", "cac:Signature");
             envelope.appendChild(Signature);
@@ -396,7 +382,7 @@ public class FacturaElectronica {
             ExternalReference.appendChild(URI);
 
             URI.appendChild(doc.createTextNode("sing"));
-            
+
 //bloque3 cac:AccountingSupplierParty-----------------------------------------
 
             Element AccountingSupplierParty = doc.createElementNS("", "cac:AccountingSupplierParty");
@@ -411,7 +397,7 @@ public class FacturaElectronica {
             Element PartyIdentification1 = doc.createElementNS("", "cac:PartyIdentification");
             Party.appendChild(PartyIdentification1);//se anade al grupo party
             PartyIdentification1.appendChild(doc.createTextNode("\n"));
-            
+
             Element ID = doc.createElementNS("", "cbc:ID");
             Attr schemeURI =doc.createAttribute("schemeURI");
             Attr schemeAgencyName =doc.createAttribute("schemeAgencyName");
@@ -419,7 +405,7 @@ public class FacturaElectronica {
             Attr schemeID =doc.createAttribute("schemeID");
             schemeURI.setValue("urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06");
             schemeAgencyName.setValue("PE:SUNAT");
-            schemeName.setValue("SUNAT:Identificador de Documento de Identidad");
+            schemeName.setValue("Documento de Identidad");
             schemeID.setValue(items.getEmpr_tipodoc().trim());
             PartyIdentification1.appendChild(ID);
             ID.setAttributeNode(schemeURI);
@@ -427,7 +413,7 @@ public class FacturaElectronica {
             ID.setAttributeNode(schemeName);
             ID.setAttributeNode(schemeID);
             ID.appendChild(doc.createTextNode(items.getEmpr_nroruc().trim()));
-            
+
             Element PartyName1 = doc.createElementNS("", "cac:PartyName");
             Party.appendChild(PartyName1);//se anade al grupo party
             PartyName1.appendChild(doc.createTextNode("\n"));
@@ -445,52 +431,52 @@ public class FacturaElectronica {
             PartyLegalEntity.appendChild(RegistrationName);//se anade al grupo Country
             cdata = doc.createCDATASection(items.getEmpr_razonsocial().trim());
             RegistrationName.appendChild(cdata);
-            
+
             Element RegistrationAddress = doc.createElementNS("", "cac:RegistrationAddress");
             PartyLegalEntity.appendChild(RegistrationAddress);//se anade al grupo Country
             RegistrationName.appendChild(doc.createTextNode("\n"));
-            
+
             Element AddressID = doc.createElementNS("","cbc:ID");
             RegistrationAddress.appendChild(AddressID);
             AddressID.appendChild(doc.createTextNode(items.getEmpr_ubigeo()));
-            
+
             Element AddressTypeCode = doc.createElementNS("","cbc:AddressTypeCode");
             RegistrationAddress.appendChild(AddressTypeCode);
             AddressTypeCode.appendChild(doc.createTextNode("0000"));
-            
+
             Element CitySubdivisionName = doc.createElementNS("","cbc:CitySubdivisionName");
             RegistrationAddress.appendChild(CitySubdivisionName);
             CitySubdivisionName.appendChild(doc.createTextNode("NONE"));
-            
+
             Element CityName = doc.createElementNS("","cbc:CityName");
             RegistrationAddress.appendChild(CityName);
             CityName.appendChild(doc.createTextNode(items.getEmpr_provincia()));
-            
+
             Element CountrySubentity = doc.createElementNS("","cbc:CountrySubentity");
             RegistrationAddress.appendChild(CountrySubentity);
             CountrySubentity.appendChild(doc.createTextNode(items.getEmpr_departamento()));
-            
+
             Element District = doc.createElementNS("","cbc:District");
             RegistrationAddress.appendChild(District);
             District.appendChild(doc.createTextNode(items.getEmpr_distrito()));
-            
+
             Element AddressLine = doc.createElementNS("","cac:AddressLine");
             RegistrationAddress.appendChild(AddressLine);
             AddressLine.appendChild(doc.createTextNode("\n"));
-            
+
             Element Line = doc.createElementNS("","cbc:Line");
             AddressLine.appendChild(Line);
             cdata = doc.createCDATASection(items.getEmpr_direccion().trim());
             Line.appendChild(cdata);
-            
+
             Element Country = doc.createElementNS("","cac:Country");
             RegistrationAddress.appendChild(Country);
             Country.appendChild(doc.createTextNode("\n"));
-            
+
             Element IdentificationCode = doc.createElementNS("","cbc:IdentificationCode");
             Country.appendChild(IdentificationCode);
             IdentificationCode.appendChild(doc.createTextNode(items.getEmpr_pais()));
-             
+
 // bloque4
             Element AccountingCustomerParty = doc.createElementNS("", "cac:AccountingCustomerParty");
             envelope.appendChild(AccountingCustomerParty);
@@ -499,11 +485,11 @@ public class FacturaElectronica {
             Element Party1 = doc.createElementNS("", "cac:Party");
             AccountingCustomerParty.appendChild(Party1);
             Party1.appendChild(doc.createTextNode("\n"));
-            
+
             Element PartyIdentification2 = doc.createElementNS("", "cac:PartyIdentification");
             Party1.appendChild(PartyIdentification2);
             PartyIdentification2.appendChild(doc.createTextNode("\n"));
-            
+
             Element ID1 = doc.createElementNS("", "cbc:ID");
             Attr schemeURI1 =doc.createAttribute("schemeURI");
             Attr schemeAgencyName1 =doc.createAttribute("schemeAgencyName");
@@ -511,7 +497,7 @@ public class FacturaElectronica {
             Attr schemeID1 =doc.createAttribute("schemeID");
             schemeURI1.setValue("urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06");
             schemeAgencyName1.setValue("PE:SUNAT");
-            schemeName1.setValue("SUNAT:Identificador de Documento de Identidad");
+            schemeName1.setValue("Documento de Identidad");
             schemeID1.setValue(items.getClie_tipodoc().trim());
             PartyIdentification2.appendChild(ID1);
             ID1.setAttributeNode(schemeURI1);
@@ -519,7 +505,7 @@ public class FacturaElectronica {
             ID1.setAttributeNode(schemeName1);
             ID1.setAttributeNode(schemeID1);
             ID1.appendChild(doc.createTextNode(items.getClie_numero().trim()));
-            
+
 
             Element PartyLegalEntity1 = doc.createElementNS("", "cac:PartyLegalEntity");
             Party1.appendChild(PartyLegalEntity1);//se anade al grupo Party1
@@ -528,82 +514,49 @@ public class FacturaElectronica {
             PartyLegalEntity1.appendChild(RegistrationName1);//se anade al grupo PartyLegalEntity1
             cdata = doc.createCDATASection(items.getClie_nombre().trim());
             RegistrationName1.appendChild(cdata);
-/*
-            Element registrationAdress = doc.createElementNS("","cac:RegistrationAdress")
-            Party1.appendChild(registrationAdress);
-            cdata = doc.createCDATASection("jr puno 1245 - centrocomercial paruro");
-            registrationAdress.appendChild(doc.createTextNode(cdata));
-            */
-            if(pagos.size()==0){
-            Element PaymentTerms = doc.createElementNS("", "cac:PaymentTerms");
-            envelope.appendChild(PaymentTerms);
-            PaymentTerms.appendChild(doc.createTextNode("\n"));
-            
-            Element IDP = doc.createElementNS("", "cbc:ID");
-            PaymentTerms.appendChild(IDP);
-            IDP.appendChild(doc.createTextNode("FormaPago"));
-            
-            Element PaymentMeansID = doc.createElementNS("", "cbc:PaymentMeansID");
-            PaymentTerms.appendChild(PaymentMeansID);
-            PaymentMeansID.appendChild(doc.createTextNode("Contado"));
-            
-            Element AmountP = doc.createElementNS("", "cbc:Amount");
-            AmountP.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
-            AmountP.setIdAttributeNS(null, "currencyID", true);
-            PaymentTerms.appendChild(AmountP);
-            AmountP.appendChild(doc.createTextNode(items.getDocu_total()+""));
-            }
+
+           // if(pagos.size()==0){
+                Element PaymentTerms = doc.createElementNS("", "cac:PaymentTerms");
+                envelope.appendChild(PaymentTerms);
+                PaymentTerms.appendChild(doc.createTextNode("\n"));
+
+                Element IDP = doc.createElementNS("", "cbc:ID");
+                PaymentTerms.appendChild(IDP);
+                IDP.appendChild(doc.createTextNode("FormaPago"));
+
+                Element PaymentMeansID = doc.createElementNS("", "cbc:PaymentMeansID");
+                PaymentTerms.appendChild(PaymentMeansID);
+                PaymentMeansID.appendChild(doc.createTextNode("Contado"));
+
+                Element AmountP = doc.createElementNS("", "cbc:Amount");
+                AmountP.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
+                AmountP.setIdAttributeNS(null, "currencyID", true);
+                PaymentTerms.appendChild(AmountP);
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                AmountP.appendChild(doc.createTextNode(redondea(items.getDocu_total(), 2)));
+           /* }
             else{
-                
-             Element PaymentTerms = doc.createElementNS("", "cac:PaymentTerms");
-            envelope.appendChild(PaymentTerms);
-            PaymentTerms.appendChild(doc.createTextNode("\n"));
-            
-            Element IDP = doc.createElementNS("", "cbc:ID");
-            PaymentTerms.appendChild(IDP);
-            IDP.appendChild(doc.createTextNode("FormaPago"));
-            
-            Element PaymentMeansID = doc.createElementNS("", "cbc:PaymentMeansID");
-            PaymentTerms.appendChild(PaymentMeansID);
-            PaymentMeansID.appendChild(doc.createTextNode("Credito"));
-            
-            Element AmountP = doc.createElementNS("", "cbc:Amount");
-            AmountP.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
-            AmountP.setIdAttributeNS(null, "currencyID", true);
-            PaymentTerms.appendChild(AmountP);
-            AmountP.appendChild(doc.createTextNode(items.getDocu_total()+""));
-            
-//                for (PagoBean pago : pagos) {
-//                    
-//                    Element PaymentTerms1 = doc.createElementNS("", "cac:PaymentTerms");
-//                    envelope.appendChild(PaymentTerms1);
-//                    PaymentTerms1.appendChild(doc.createTextNode("\n"));
-//                    
-//                    Element IDP1 = doc.createElementNS("", "cbc:ID");
-//                    PaymentTerms1.appendChild(IDP1);
-//                    IDP1.appendChild(doc.createTextNode("FormaPago"));
-//                    
-//                    Element PaymentMeansID1 = doc.createElementNS("", "cbc:PaymentMeansID");
-//                    PaymentTerms1.appendChild(PaymentMeansID1);
-//                    PaymentMeansID1.appendChild(doc.createTextNode("cuota00"+pago.getNrocuota()+""));
-//                    
-//                    Element AmountP1 = doc.createElementNS("", "cbc:Amount");
-//                    AmountP1.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
-//                    AmountP1.setIdAttributeNS(null, "currencyID", true);
-//                    PaymentTerms1.appendChild(AmountP1);
-//                    AmountP1.appendChild(doc.createTextNode(pago.getMonto()+""));
-//                    
-//                    Element PaymentDueDate = doc.createElementNS("", "cbc:PaymentDueDate");
-//                    PaymentTerms1.appendChild(PaymentDueDate);
-//                    PaymentDueDate.appendChild(doc.createTextNode(pago.getFecha()+""));
-//                    
-//
-//                    
-//                }
-            
-            
-            
-            }
+
+                Element PaymentTerms = doc.createElementNS("", "cac:PaymentTerms");
+                envelope.appendChild(PaymentTerms);
+                PaymentTerms.appendChild(doc.createTextNode("\n"));
+
+                Element IDP = doc.createElementNS("", "cbc:ID");
+                PaymentTerms.appendChild(IDP);
+                IDP.appendChild(doc.createTextNode("FormaPago"));
+
+                Element PaymentMeansID = doc.createElementNS("", "cbc:PaymentMeansID");
+                PaymentTerms.appendChild(PaymentMeansID);
+                PaymentMeansID.appendChild(doc.createTextNode("Credito"));
+
+                Element AmountP = doc.createElementNS("", "cbc:Amount");
+                AmountP.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
+                AmountP.setIdAttributeNS(null, "currencyID", true);
+                PaymentTerms.appendChild(AmountP);
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                AmountP.appendChild(doc.createTextNode(redondea(items.getDocu_total(), 2)));
+
+            } */
 
 //bloque 5
             Element TaxTotal = doc.createElementNS("", "cac:TaxTotal");
@@ -615,28 +568,30 @@ public class FacturaElectronica {
             TaxAmount.setIdAttributeNS(null, "currencyID", true);
             TaxTotal.appendChild(TaxAmount);//se anade al grupo TaxTotal
             TaxAmount.appendChild(doc.createTextNode(redondea(Double.valueOf(items.getDocu_igv()) + Double.valueOf( items.getDocu_otrostributos()),2)));
-            
+
             Element TaxSubtotal = doc.createElementNS("", "cac:TaxSubtotal");
             TaxTotal.appendChild(TaxSubtotal);//se anade al grupo TaxTotal
             TaxSubtotal.appendChild(doc.createTextNode("\n"));
 
             Element TaxableAmount1 = doc.createElementNS("", "cbc:TaxableAmount");
-            TaxableAmount1.setAttributeNS(null, "currencyID", ConversionUtils.convertirTextoDosDecimales(items.getDocu_moneda()));
+            TaxableAmount1.setAttributeNS(null, "currencyID", items.getDocu_moneda());
             TaxableAmount1.setIdAttributeNS(null, "currencyID", true);
             TaxSubtotal.appendChild(TaxableAmount1);//se anade al grupo TaxSubtotal
-            TaxableAmount1.appendChild(doc.createTextNode(ConversionUtils.formatoDosDecimales(items.getDocu_gravada())));
-            
-             Element TaxAmount1 = doc.createElementNS("", "cbc:TaxAmount");
+            // *** CORRECCIÓN: Redondear a 2 decimales ***
+            TaxableAmount1.appendChild(doc.createTextNode(redondea(items.getDocu_gravada(), 2)));
+
+            Element TaxAmount1 = doc.createElementNS("", "cbc:TaxAmount");
             TaxAmount1.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
             TaxAmount1.setIdAttributeNS(null, "currencyID", true);
             TaxSubtotal.appendChild(TaxAmount1);//se anade al grupo TaxTotal
-            TaxAmount1.appendChild(doc.createTextNode(items.getDocu_igv()+""));
+            // *** CORRECCIÓN: Redondear a 2 decimales ***
+            TaxAmount1.appendChild(doc.createTextNode(redondea(items.getDocu_igv(), 2)));
 
             Element TaxCategory = doc.createElementNS("", "cac:TaxCategory");
             TaxSubtotal.appendChild(TaxCategory);//se anade al grupo TaxSubtotal
             TaxCategory.appendChild(doc.createTextNode("\n"));
 
-            
+
             Element TaxScheme = doc.createElementNS("", "cac:TaxScheme");
             TaxCategory.appendChild(TaxScheme);//se anade al grupo TaxCategory
             TaxScheme.appendChild(doc.createTextNode("\n"));
@@ -645,7 +600,7 @@ public class FacturaElectronica {
             ID9.setAttributeNS(null, "schemeID", "UN/ECE 5153");
             ID9.setAttributeNS(null, "schemeAgencyID", "6");
             TaxScheme.appendChild(ID9);//se anade al grupo TaxScheme
-            ID9.appendChild(doc.createTextNode("1000")); 
+            ID9.appendChild(doc.createTextNode("1000"));
 
             Element Name3 = doc.createElementNS("", "cbc:Name");
             TaxScheme.appendChild(Name3);//se anade al grupo TaxScheme
@@ -654,43 +609,44 @@ public class FacturaElectronica {
             Element TaxTypeCode = doc.createElementNS("", "cbc:TaxTypeCode");
             TaxScheme.appendChild(TaxTypeCode);//se anade al grupo TaxScheme
             TaxTypeCode.appendChild(doc.createTextNode("VAT"));
-            
+
             if(Double.valueOf(items.getDocu_otrostributos())>0.00){
-            Element Taxsubtotal0 = doc.createElementNS("","cac:TaxSubtotal");
-            TaxTotal.appendChild(Taxsubtotal0);
-            Taxsubtotal0.appendChild(doc.createTextNode("\n"));
+                Element Taxsubtotal0 = doc.createElementNS("","cac:TaxSubtotal");
+                TaxTotal.appendChild(Taxsubtotal0);
+                Taxsubtotal0.appendChild(doc.createTextNode("\n"));
 
-            
-            Element TaxAmount0 = doc.createElementNS("", "cbc:TaxAmount");
-            TaxAmount0.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
-            TaxAmount0.setIdAttributeNS(null, "currencyID", true);
-            Taxsubtotal0.appendChild(TaxAmount0);//se anade al grupo TaxSubtotal
-            TaxAmount0.appendChild(doc.createTextNode(items.getDocu_otrostributos()+""));
-            
-            Element TaxCategory0 = doc.createElementNS("", "cac:TaxCategory");
-            Taxsubtotal0.appendChild(TaxCategory0);//se anade al grupo TaxSubtotal
-            TaxCategory0.appendChild(doc.createTextNode("\n"));
-            
-            Element TaxScheme0 = doc.createElementNS("", "cac:TaxScheme");
-            TaxCategory0.appendChild(TaxScheme0);//se anade al grupo TaxCategory
-            TaxScheme0.appendChild(doc.createTextNode("\n"));
-            
-            Element ID0 = doc.createElementNS("", "cbc:ID");
-            ID0.setAttributeNS(null, "schemeID", "UN/ECE 5153");
-            ID0.setAttributeNS(null, "schemeAgencyID", "6");
-            TaxScheme0.appendChild(ID0);//se anade al grupo TaxScheme
-            ID0.appendChild(doc.createTextNode("7152"));
-            
-            Element Name0 = doc.createElementNS("", "cbc:Name");
-            TaxScheme0.appendChild(Name0);//se anade al grupo TaxScheme
-            Name0.appendChild(doc.createTextNode("ICBPER"));
 
-            Element TaxTypeCode0 = doc.createElementNS("", "cbc:TaxTypeCode");
-            TaxScheme0.appendChild(TaxTypeCode0);//se anade al grupo TaxScheme
-            TaxTypeCode0.appendChild(doc.createTextNode("OTH"));
-            
+                Element TaxAmount0 = doc.createElementNS("", "cbc:TaxAmount");
+                TaxAmount0.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
+                TaxAmount0.setIdAttributeNS(null, "currencyID", true);
+                Taxsubtotal0.appendChild(TaxAmount0);//se anade al grupo TaxSubtotal
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                TaxAmount0.appendChild(doc.createTextNode(redondea(items.getDocu_otrostributos(), 2)));
+
+                Element TaxCategory0 = doc.createElementNS("", "cac:TaxCategory");
+                Taxsubtotal0.appendChild(TaxCategory0);//se anade al grupo TaxSubtotal
+                TaxCategory0.appendChild(doc.createTextNode("\n"));
+
+                Element TaxScheme0 = doc.createElementNS("", "cac:TaxScheme");
+                TaxCategory0.appendChild(TaxScheme0);//se anade al grupo TaxCategory
+                TaxScheme0.appendChild(doc.createTextNode("\n"));
+
+                Element ID0 = doc.createElementNS("", "cbc:ID");
+                ID0.setAttributeNS(null, "schemeID", "UN/ECE 5153");
+                ID0.setAttributeNS(null, "schemeAgencyID", "6");
+                TaxScheme0.appendChild(ID0);//se anade al grupo TaxScheme
+                ID0.appendChild(doc.createTextNode("7152"));
+
+                Element Name0 = doc.createElementNS("", "cbc:Name");
+                TaxScheme0.appendChild(Name0);//se anade al grupo TaxScheme
+                Name0.appendChild(doc.createTextNode("ICBPER"));
+
+                Element TaxTypeCode0 = doc.createElementNS("", "cbc:TaxTypeCode");
+                TaxScheme0.appendChild(TaxTypeCode0);//se anade al grupo TaxScheme
+                TaxTypeCode0.appendChild(doc.createTextNode("OTH"));
+
             }
-//bloque 6     
+//bloque 6
             Element LegalMonetaryTotal = doc.createElementNS("", "cac:LegalMonetaryTotal");
             envelope.appendChild(LegalMonetaryTotal);
             LegalMonetaryTotal.appendChild(doc.createTextNode("\n"));
@@ -700,26 +656,31 @@ public class FacturaElectronica {
                 AllowanceTotalAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                 AllowanceTotalAmount.setIdAttributeNS(null, "currencyID", true);
                 LegalMonetaryTotal.appendChild(AllowanceTotalAmount);//se anade al grupo LegalMonetaryTotal
-                AllowanceTotalAmount.appendChild(doc.createTextNode(items.getDocu_descuento()+""));
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                AllowanceTotalAmount.appendChild(doc.createTextNode(redondea(items.getDocu_descuento(), 2)));
             }
 
             Element LineExtensionAmount = doc.createElementNS("", "cbc:LineExtensionAmount");
             LineExtensionAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
             LineExtensionAmount.setIdAttributeNS(null, "currencyID", true);
             LegalMonetaryTotal.appendChild(LineExtensionAmount);//se anade al grupo LegalMonetaryTotal
-            LineExtensionAmount.appendChild(doc.createTextNode(items.getDocu_gravada()+""));
-            
+            // *** CORRECCIÓN: Redondear a 2 decimales ***
+            LineExtensionAmount.appendChild(doc.createTextNode(redondea(items.getDocu_gravada(), 2)));
+
             Element TaxInclusiveAmount = doc.createElementNS("", "cbc:TaxInclusiveAmount");
             TaxInclusiveAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
             TaxInclusiveAmount.setIdAttributeNS(null, "currencyID", true);
             LegalMonetaryTotal.appendChild(TaxInclusiveAmount);//se anade al grupo LegalMonetaryTotal
-            TaxInclusiveAmount.appendChild(doc.createTextNode(items.getDocu_total()+""));
-            
+            // *** CORRECCIÓN: Redondear a 2 decimales ***
+            TaxInclusiveAmount.appendChild(doc.createTextNode(redondea(items.getDocu_total(), 2)));
+
             Element PayableAmount = doc.createElementNS("", "cbc:PayableAmount");
             PayableAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
             PayableAmount.setIdAttributeNS(null, "currencyID", true);
             LegalMonetaryTotal.appendChild(PayableAmount);//se anade al grupo LegalMonetaryTotal
-            PayableAmount.appendChild(doc.createTextNode(items.getDocu_total()+""));
+            // *** CORRECCIÓN: Redondear a 2 decimales ***
+            PayableAmount.appendChild(doc.createTextNode(redondea(items.getDocu_total(), 2)));
+
 //detalle factura
             log.info("generarXMLZipiadoBoleta - Iniciamos detalle XML ");
             for (DetalleBean   listaDet : detdocelec) {
@@ -743,7 +704,8 @@ public class FacturaElectronica {
                 LineExtensionAmount1.setIdAttributeNS(null, "currencyID", true);
 
                 InvoiceLine.appendChild(LineExtensionAmount1);//se anade al grupo InvoiceLine
-                LineExtensionAmount1.appendChild(doc.createTextNode(listaDet.getItem_to_subtotal()+""));
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                LineExtensionAmount1.appendChild(doc.createTextNode(redondea(listaDet.getItem_to_subtotal(), 2)));
 
                 Element PricingReference = doc.createElementNS("", "cac:PricingReference");
                 InvoiceLine.appendChild(PricingReference);//se anade al grupo InvoiceLine
@@ -757,11 +719,18 @@ public class FacturaElectronica {
                 PriceAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                 PriceAmount.setIdAttributeNS(null, "currencyID", true);
                 AlternativeConditionPrice.appendChild(PriceAmount);//se anade al grupo AlternativeConditionPrice
-                PriceAmount.appendChild(doc.createTextNode(listaDet.getItem_pventa()+""));
+                // ═══════════════════════════════════════════════════════════════════════
+                // *** CORRECCIÓN 2: AlternativeConditionPrice = Precio CON IGV ***
+                // ═══════════════════════════════════════════════════════════════════════
+                PriceAmount.appendChild(doc.createTextNode(redondea(listaDet.getItem_pvtaigv(), 2))); // CON IGV
 
                 Element PriceTypeCode = doc.createElementNS("", "cbc:PriceTypeCode");
+                // *** CORRECCIÓN: Agregar atributos según guía SUNAT ***
+                PriceTypeCode.setAttribute("listName", "Tipo de Precio");
+                PriceTypeCode.setAttribute("listAgencyName", "PE:SUNAT");
+                PriceTypeCode.setAttribute("listURI", "urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo16");
                 AlternativeConditionPrice.appendChild(PriceTypeCode);//se anade al grupo AlternativeConditionPrice
-                PriceTypeCode.appendChild(doc.createTextNode("01")); //=================================>Faltaba especificar ite
+                PriceTypeCode.appendChild(doc.createTextNode("01")); // 01 = Precio unitario CON IGV
 
 
                 Element TaxTotal1 = doc.createElementNS("", "cac:TaxTotal");
@@ -772,54 +741,56 @@ public class FacturaElectronica {
                 TaxAmount2.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                 TaxAmount2.setIdAttributeNS(null, "currencyID", true);
                 TaxTotal1.appendChild(TaxAmount2);//se anade al grupo TaxTotal1
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
                 TaxAmount2.appendChild(doc.createTextNode(redondea(Double.parseDouble(listaDet.getItem_to_igv()+"") + Double.parseDouble(listaDet.getItem_pventa_nohonerosa()+""),2)));
-                
+
                 if (Double.valueOf(listaDet.getItem_pventa_nohonerosa())>0.0) {
                     Element TaxSubtotal00 = doc.createElementNS("", "cac:TaxSubtotal");
                     TaxTotal1.appendChild(TaxSubtotal00);//se anade al grupo TaxTotal1
                     TaxSubtotal00.appendChild(doc.createTextNode("\n"));
-                    
+
                     Element TaxAmount00 = doc.createElementNS("", "cbc:TaxAmount");
                     TaxAmount00.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                     TaxAmount00.setIdAttributeNS(null, "currencyID", true);
                     TaxSubtotal00.appendChild(TaxAmount00);
-                    TaxAmount00.appendChild(doc.createTextNode(listaDet.getItem_pventa_nohonerosa()+""));
-                    
+                    // *** CORRECCIÓN: Redondear a 2 decimales ***
+                    TaxAmount00.appendChild(doc.createTextNode(redondea(listaDet.getItem_pventa_nohonerosa(), 2)));
+
                     Element BaseUnitMeasure = doc.createElementNS("", "cbc:BaseUnitMeasure");
                     BaseUnitMeasure.setAttributeNS(null, "unitCode", items.getDocu_moneda().trim());
                     BaseUnitMeasure.setIdAttributeNS(null, "unitCode", true);
                     TaxSubtotal00.appendChild(BaseUnitMeasure);
                     BaseUnitMeasure.appendChild(doc.createTextNode(((int)listaDet.getItem_cantidad())+""));
-                    
+
                     Element TaxCategory000 = doc.createElementNS("", "cac:TaxCategory");
                     TaxSubtotal00.appendChild(TaxCategory000);//se anade al grupo TaxSubtotal1
                     TaxCategory000.appendChild(doc.createTextNode("\n"));
-                    
+
                     Element PerUnitAmount00 = doc.createElementNS("", "cbc:PerUnitAmount");
                     PerUnitAmount00.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                     PerUnitAmount00.setIdAttributeNS(null, "currencyID", true);
                     TaxCategory000.appendChild(PerUnitAmount00);//se anade al grupo TaxSubtotal1
                     PerUnitAmount00.appendChild(doc.createTextNode(redondea(Double.parseDouble(listaDet.getItem_pventa_nohonerosa()+"")/Double.parseDouble(listaDet.getItem_cantidad()+""),2)));
-                    
+
                     Element TaxScheme000 = doc.createElementNS("", "cac:TaxScheme");
                     TaxCategory000.appendChild(TaxScheme000);//se anade al grupo TaxSubtotal1
                     TaxScheme000.appendChild(doc.createTextNode("\n"));
-                    
+
                     Element ID000 = doc.createElementNS("", "cbc:ID");
                     ID000.setAttribute("schemeURI", "urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo05");
                     ID000.setAttribute("schemeAgencyName", "PE:SUNAT");
                     ID000.setAttribute("schemeName", "Codigo de tributos");
                     TaxScheme000.appendChild(ID000);
                     ID000.appendChild(doc.createTextNode("7152"));
-                    
+
                     Element Name000 = doc.createElementNS("", "cbc:Name");
                     TaxScheme000.appendChild(Name000);
                     Name000.appendChild(doc.createTextNode("ICBPER"));
-                    
+
                     Element TaxTypeCode000 = doc.createElementNS("", "cbc:TaxTypeCode");
                     TaxScheme000.appendChild(TaxTypeCode000);
                     TaxTypeCode000.appendChild(doc.createTextNode("OTH"));
-                      
+
                 }
 
                 Element TaxSubtotal1 = doc.createElementNS("", "cac:TaxSubtotal");
@@ -827,33 +798,48 @@ public class FacturaElectronica {
                 TaxSubtotal1.appendChild(doc.createTextNode("\n"));
 
                 Element TaxableAmount = doc.createElementNS("", "cbc:TaxableAmount");
-                TaxableAmount.setAttributeNS(null, "currencyID", ConversionUtils.convertirTextoDosDecimales(items.getDocu_moneda()));
+                TaxableAmount.setAttributeNS(null, "currencyID", items.getDocu_moneda());
                 TaxableAmount.setIdAttributeNS(null, "currencyID", true);
 
                 TaxSubtotal1.appendChild(TaxableAmount);//se anade al grupo TaxSubtotal1
-                TaxableAmount.appendChild(doc.createTextNode(listaDet.getItem_to_subtotal()+""));
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                TaxableAmount.appendChild(doc.createTextNode(redondea(listaDet.getItem_to_subtotal(), 2)));
 
                 Element TaxAmount3 = doc.createElementNS("", "cbc:TaxAmount");
-                TaxAmount3.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim()); //================>errror estaba con item..getItem_moneda()
+                TaxAmount3.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                 TaxAmount3.setIdAttributeNS(null, "currencyID", true);
                 TaxSubtotal1.appendChild(TaxAmount3);//se anade al grupo TaxSubtotal1
-                TaxAmount3.appendChild(doc.createTextNode(listaDet.getItem_to_igv()+""));
+                // *** CORRECCIÓN: Redondear a 2 decimales ***
+                TaxAmount3.appendChild(doc.createTextNode(redondea(listaDet.getItem_to_igv(), 2)));
 
-                
+
 
                 Element TaxCategory1 = doc.createElementNS("", "cac:TaxCategory");
                 TaxSubtotal1.appendChild(TaxCategory1);//se anade al grupo TaxSubtotal1
                 TaxCategory1.appendChild(doc.createTextNode("\n"));
 
+                // ═══════════════════════════════════════════════════════════════════════
+                // *** CORRECCIÓN 3: Agregar TaxCategory ID según guía SUNAT ***
+                // ═══════════════════════════════════════════════════════════════════════
+                Element TaxCategoryID = doc.createElementNS("", "cbc:ID");
+                TaxCategoryID.setAttribute("schemeID", "UN/ECE 5305");
+                TaxCategoryID.setAttribute("schemeName", "Categoria de Impuestos");
+                TaxCategoryID.setAttribute("schemeAgencyName", "PE:SUNAT");
+                TaxCategory1.appendChild(TaxCategoryID);
+                // S=Gravado, E=Exonerado, O=Inafecto, Z=Exportación
+                String catId = "S";
+                if (listaDet.getItem_afectacion().startsWith("2")) catId = "E";
+                else if (listaDet.getItem_afectacion().startsWith("3")) catId = "O";
+                else if (listaDet.getItem_afectacion().equals("40")) catId = "Z";
+                TaxCategoryID.appendChild(doc.createTextNode(catId));
 
-                
                 Element Percent = doc.createElementNS("", "cbc:Percent");
                 TaxCategory1.appendChild(Percent);//se anade al grupo TaxSubtotal1
                 Percent.appendChild(doc.createTextNode(items.getTasa_igv().trim().replace("%","")));
 
                 Element TaxExemptionReasonCode = doc.createElementNS("", "cbc:TaxExemptionReasonCode");
                 TaxExemptionReasonCode.setAttribute("listURI", "urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07");
-                TaxExemptionReasonCode.setAttribute("listName", "SUNAT:Codigo de Tipo de Afectación del IGV");
+                TaxExemptionReasonCode.setAttribute("listName", "Afectacion del IGV");
                 TaxExemptionReasonCode.setAttribute("listAgencyName", "PE:SUNAT");
                 TaxCategory1.appendChild(TaxExemptionReasonCode);//se anade al grupo TaxCategory1
                 TaxExemptionReasonCode.appendChild(doc.createTextNode(listaDet.getItem_afectacion().trim()));
@@ -865,8 +851,8 @@ public class FacturaElectronica {
                 TaxScheme1.appendChild(doc.createTextNode("\n"));
 
                 Element ID15 = doc.createElementNS("", "cbc:ID");
-                ID15.setAttribute("schemeAgencyName", "United Nations Economic Commission for Europe");
-                ID15.setAttribute("schemeName", "Tax Scheme Identifier");
+                ID15.setAttribute("schemeAgencyName", "PE:SUNAT");
+                ID15.setAttribute("schemeName", "Codigo de Tributos");
                 ID15.setAttribute("schemeID", "UN/ECE 5153");
                 TaxScheme1.appendChild(ID15);//se anade al grupo TaxCategory1
                 ID15.appendChild(doc.createTextNode("1000"));
@@ -904,7 +890,10 @@ public class FacturaElectronica {
                 PriceAmount2.setAttributeNS(null, "currencyID", items.getDocu_moneda().trim());
                 PriceAmount2.setIdAttributeNS(null, "currencyID", true);
                 Price.appendChild(PriceAmount2);//se anade al grupo Price
-                PriceAmount2.appendChild(doc.createTextNode(listaDet.getItem_pvtaigv()+""));
+                // ═══════════════════════════════════════════════════════════════════════
+                // *** CORRECCIÓN 4: Price/PriceAmount = Precio SIN IGV ***
+                // ═══════════════════════════════════════════════════════════════════════
+                PriceAmount2.appendChild(doc.createTextNode(redondea(listaDet.getItem_pventa(), 2))); // SIN IGV
             }
             log.info("generarXMLZipiadoBoleta - Prepara firma digital ");
             sig.setId("Sign"+items.getEmpr_nroruc());
@@ -924,9 +913,7 @@ public class FacturaElectronica {
             FileOutputStream f = new FileOutputStream(signatureFile);
             Transformer tf = TransformerFactory.newInstance().newTransformer();
             tf.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-            //tf.setOutputProperty(OutputKeys.INDENT, "yes");
             tf.setOutputProperty(OutputKeys.STANDALONE, "no");
-            //Writer out = new StringWriter();
             StreamResult sr = new StreamResult(f);
             tf.transform(new DOMSource(doc), sr);
             sr.getOutputStream().close();
@@ -943,16 +930,24 @@ public class FacturaElectronica {
         }
         return resultado;
     }
-   public static String redondea(double numero, int decimales) 
-{ 
-  double resultado;String resul="";
-    DecimalFormat f = new DecimalFormat("0.00");
-  BigDecimal res;
 
-  res = new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_DOWN);
-  resultado = res.doubleValue();
-  resul=f.format(resultado).replace(",",".");
-  return resul; 
-}
-     
+    /**
+     * Redondea un número a los decimales especificados
+     * @param numero Número a redondear
+     * @param decimales Cantidad de decimales
+     * @return String con el número redondeado
+     */
+    public static String redondea(double numero, int decimales)
+    {
+        double resultado;
+        String resul="";
+        DecimalFormat f = new DecimalFormat("0.00");
+        BigDecimal res;
+
+        res = new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_UP);
+        resultado = res.doubleValue();
+        resul=f.format(resultado).replace(",",".");
+        return resul;
+    }
+
 }

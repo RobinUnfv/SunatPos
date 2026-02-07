@@ -171,5 +171,157 @@ public class ConversionUtils {
         }
     }
 
+    // ══════════════════════════════════════════════════════════════════════════
+    // MÉTODOS PARA MANEJO DE ERRORES SOAP DE SUNAT
+    // ══════════════════════════════════════════════════════════════════════════
+
+    /**
+     * Extrae el mensaje de detalle de un SOAPFaultException.
+     *
+     * @param ex SOAPFaultException capturado
+     * @return String con el mensaje de error detallado
+     */
+    public static String extraerMensajeSOAPFault(javax.xml.ws.soap.SOAPFaultException ex) {
+        if (ex == null) return "Error desconocido";
+
+        try {
+            // Intentar obtener el detalle del fault
+            javax.xml.soap.SOAPFault fault = ex.getFault();
+            if (fault != null) {
+                // Obtener el mensaje principal
+                String faultString = fault.getFaultString();
+
+                // Intentar obtener detalles adicionales
+                javax.xml.soap.Detail detail = fault.getDetail();
+                if (detail != null) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(faultString != null ? faultString : "");
+
+                    java.util.Iterator<?> it = detail.getDetailEntries();
+                    while (it.hasNext()) {
+                        javax.xml.soap.DetailEntry entry = (javax.xml.soap.DetailEntry) it.next();
+                        sb.append(" | ").append(entry.getTextContent());
+                    }
+                    return sb.toString();
+                }
+
+                return faultString != null ? faultString : ex.getMessage();
+            }
+        } catch (Exception e) {
+            // Si falla, usar el mensaje básico
+        }
+
+        return ex.getMessage() != null ? ex.getMessage() : "Error SOAP sin mensaje";
+    }
+
+    /**
+     * Extrae el código de error de SUNAT del SOAPFaultException.
+     * Busca patrones como "errorCode 2021" o "código: 2021"
+     *
+     * @param ex SOAPFaultException capturado
+     * @return String con el código de error o null si no se encuentra
+     */
+    public static String extraerCodigoErrorSUNAT(javax.xml.ws.soap.SOAPFaultException ex) {
+        String mensaje = extraerMensajeSOAPFault(ex);
+        if (mensaje == null) return null;
+
+        // Buscar patrones comunes de código de error
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+                "(?:errorCode|código|code|error)[:\\s]*(\\d{4})",
+                java.util.regex.Pattern.CASE_INSENSITIVE
+        );
+        java.util.regex.Matcher matcher = pattern.matcher(mensaje);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        // Buscar solo números de 4 dígitos al inicio
+        pattern = java.util.regex.Pattern.compile("^(\\d{4})");
+        matcher = pattern.matcher(mensaje.trim());
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return null;
+    }
+
+    /**
+     * Formatea el error SOAP para mostrar/guardar en base de datos.
+     * Formato: "CODIGO|MENSAJE"
+     *
+     * @param ex SOAPFaultException capturado
+     * @return String formateado "CODIGO|MENSAJE"
+     */
+    public static String formatearErrorSOAP(javax.xml.ws.soap.SOAPFaultException ex) {
+        String codigo = extraerCodigoErrorSUNAT(ex);
+        String mensaje = extraerMensajeSOAPFault(ex);
+
+        if (codigo != null) {
+            return codigo + "|" + mensaje;
+        }
+        return "ERROR|" + mensaje;
+    }
+
+    /**
+     * Extrae información completa del SOAPFaultException en un arreglo.
+     *
+     * @param ex SOAPFaultException capturado
+     * @return String[] {codigo, mensaje, faultCode, faultActor}
+     */
+    public static String[] extraerInfoCompletaSOAPFault(javax.xml.ws.soap.SOAPFaultException ex) {
+        String[] info = new String[4];
+        info[0] = ""; // código
+        info[1] = ""; // mensaje
+        info[2] = ""; // faultCode
+        info[3] = ""; // faultActor
+
+        if (ex == null) return info;
+
+        try {
+            javax.xml.soap.SOAPFault fault = ex.getFault();
+            if (fault != null) {
+                info[1] = fault.getFaultString() != null ? fault.getFaultString() : "";
+                info[2] = fault.getFaultCode() != null ? fault.getFaultCode() : "";
+                info[3] = fault.getFaultActor() != null ? fault.getFaultActor() : "";
+            }
+        } catch (Exception e) {
+            info[1] = ex.getMessage() != null ? ex.getMessage() : "";
+        }
+
+        info[0] = extraerCodigoErrorSUNAT(ex);
+        if (info[0] == null) info[0] = "";
+
+        return info;
+    }
+
+    /**
+     * Verifica si el error SOAP es un error de validación de XML (códigos 2xxx).
+     *
+     * @param ex SOAPFaultException capturado
+     * @return true si es error de validación XML
+     */
+    public static boolean esErrorValidacionXML(javax.xml.ws.soap.SOAPFaultException ex) {
+        String codigo = extraerCodigoErrorSUNAT(ex);
+        if (codigo != null && codigo.length() == 4) {
+            return codigo.startsWith("2");
+        }
+        return false;
+    }
+
+    /**
+     * Verifica si el error SOAP es un error de firma digital (códigos 3xxx).
+     *
+     * @param ex SOAPFaultException capturado
+     * @return true si es error de firma
+     */
+    public static boolean esErrorFirmaDigital(javax.xml.ws.soap.SOAPFaultException ex) {
+        String codigo = extraerCodigoErrorSUNAT(ex);
+        if (codigo != null && codigo.length() == 4) {
+            return codigo.startsWith("3");
+        }
+        return false;
+    }
+
 
 }
