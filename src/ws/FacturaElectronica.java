@@ -852,7 +852,7 @@ public class FacturaElectronica {
 
                 Element ID15 = doc.createElementNS("", "cbc:ID");
                 ID15.setAttribute("schemeAgencyName", "PE:SUNAT");
-                ID15.setAttribute("schemeName", "Codigo de Tributos");
+                ID15.setAttribute("schemeName", "Codigo de tributos");
                 ID15.setAttribute("schemeID", "UN/ECE 5153");
                 TaxScheme1.appendChild(ID15);//se anade al grupo TaxCategory1
                 ID15.appendChild(doc.createTextNode("1000"));
