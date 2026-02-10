@@ -47,7 +47,7 @@ public class DisparaGeneratorws {
                         System.out.println("ENVIAR LA FACTURA : "+item.getDocu_numero());
                        // System.out.println("ENVIAR LA FACTURA : "+item.getDocu_numero());
                         result = FacturaElectronica.generarXMLZipiadoFactura(iddoc, conn);
-                       //result = DarBajaDocElectronica.generarXMLZipiadoBoleta(iddoc, conn);
+                        result = DarBajaDocElectronica.generarXMLZipiadoBoleta(iddoc, conn);
                         System.out.println("RESULTADO  FACTURA : "+result);
 
                         break;

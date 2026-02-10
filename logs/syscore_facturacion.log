@@ -1603,3 +1603,115 @@
 2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
 2026-02-09 17:30:56 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
 2026-02-09 17:30:56 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 21:41:43 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:41:43 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000034.zip
+2026-02-09 21:41:55 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:41:55 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000034.zip
+2026-02-09 21:42:15 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:42:15 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000034.zip
+2026-02-09 21:42:35 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:42:35 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000034.zip
+2026-02-09 21:48:04 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:48:04 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000034.zip
+2026-02-09 21:48:07 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000034.xml
+2026-02-09 21:48:14 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:48:14 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000032.zip
+2026-02-09 21:48:15 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000032.xml
+2026-02-09 21:48:34 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:48:34 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000033.zip
+2026-02-09 21:48:35 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000033.xml
+2026-02-09 21:53:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:53:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:53:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:53:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:53:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:53:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:54:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:54:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:54:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:54:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:54:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:54:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:55:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:55:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:55:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:55:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:55:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:55:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:56:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:56:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:56:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:56:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:56:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:56:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:57:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:57:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:57:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:57:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:57:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:57:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:58:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:58:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:58:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:58:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:58:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:58:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:59:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:59:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:59:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:59:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 21:59:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 21:59:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:00:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:00:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:00:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:00:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:00:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:00:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:01:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:01:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:01:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:01:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:01:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:01:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:02:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:02:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:02:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:02:21 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000035.zip
+2026-02-09 22:02:22 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000035.xml
+2026-02-09 22:07:26 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:07:26 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:07:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:07:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:08:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:08:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:08:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:08:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:08:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:08:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:09:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:09:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:09:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:09:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:09:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:09:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:10:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:10:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:10:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:10:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:10:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:10:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:11:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:11:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:11:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:11:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:11:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:11:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:12:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:12:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:12:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:12:25 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:12:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:12:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-09 22:13:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 22:13:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip

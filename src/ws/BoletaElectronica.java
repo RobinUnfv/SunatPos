@@ -61,7 +61,7 @@ public class BoletaElectronica {
             List<PagoBean> pagos = DElectronicoDespachador.cargarDetDocElectronicoPagos(nrodoc, conn);
 
             System.out.println("generarXMLZipiadoFactura - Extraemos datos para preparar XML ");
-            unidadEnvio = "d:\\POS-SUNAT\\\\envio\\";
+            unidadEnvio = "d:\\POS-SUNAT\\envio\\";
 
             System.out.println("generarXMLZipiadoBoleta - Iniciamos cabecera ");
             //crear el Xml firmado

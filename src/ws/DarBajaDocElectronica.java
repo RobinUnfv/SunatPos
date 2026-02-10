@@ -71,8 +71,8 @@ public class DarBajaDocElectronica {
             //crear el Xml firmado
             if (items != null) {
                 pathXMLFile = unidadEnvio + items.getEmpr_nroruc() + "-RA-" + items.getDocu_fecha().toString().replace("-","")+"-1"+ ".xml";
-//                documento=items.getDocu_numero();
-//======================crear XML =======================
+                //                documento=items.getDocu_numero();
+                //======================crear XML =======================
                 res = creaXml(items, detdocelec, leyendas, unidadEnvio,resitems,conn);
                 /*=======================ENVIO A SUNAT=============*/
                 if (items.getDocu_enviaws().equals("S")) {
@@ -83,9 +83,8 @@ public class DarBajaDocElectronica {
                     if(resultado[1].equals("nulo")){
                        // actualEnviado(docu_codigo,resultado[0], resultado[1],"L","E",id);
                        System.out.println( "Hubo problemas de conexión a Internet o a los servidores de la SUNAT, intente enviar el comprobante luego");
-                    }else if(resultado[1].length()>0){
-//                        String sql0="update resumenboletas set cdr_nota='"+resultado[1]+"'  where id='"+id+"';";
-//                        control.ejecutar(sql0);
+                    }else if(resultado[1].length() > 0) {
+
                         pedirStatus(unidadEnvio, items.getEmpr_nroruc() + "-RA-" + items.getDocu_fecha().toString().replace("-","") + "-1"+".zip", items.getEmpr_nroruc(),resultado[1]);
 //                        actualEnviado(detdocelec,resultado[0], resultado[1],"L","E",id,estado);
                         System.out.println( "Se envió la Operació a SUNAT Correctamente");
@@ -95,26 +94,15 @@ public class DarBajaDocElectronica {
                         System.out.println( "Hubo problemas de conexión a Internet o a los servidores de la SUNAT, intente enviar el comprobante luego");
                     }
                     
-                } else {
-                    /*este caso de boleta no se envia al sunat*/
-                    log.info("generarXMLZipiadoBoleta - No se envia a SUNAT");
-                    res = "0|El Comprobante numero " + items.getDocu_numero() + ", ha sido aceptado.";
-                    
                 }
 
-                //resultado = "termino de generar el archivo xml de la Boleta Electronica";
             }
         } catch (Exception ex) {
             ex.printStackTrace();
             res = "0100|Error al generar el archivo de formato xml de la Boleta.";
             log.error("generarXMLZipiadoBoleta - error  " + ex.toString());
         }
-//
-//        try {
-//            LecturaXML.guardarProcesoEstado(nrodoc, "O", resultado.split("\\|", 0), conn);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(BolElectronica.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
         return res;
     }
 
@@ -122,7 +110,7 @@ public class DarBajaDocElectronica {
     public static String[] enviarZipASunat(String path, String zipFileName, String vruc) {
         String resultado[] =new String [2];
         resultado[0]="";
-        String sws = "3";
+        String sws = "1";
         log.info("enviarASunat - Prepara ambiente: " + sws+"/"+zipFileName);
         try {
 
@@ -568,14 +556,14 @@ public class DarBajaDocElectronica {
         return resultado;
     }
    public static String redondea(double numero, int decimales) 
-{ 
-  double resultado;String resul="";
-    DecimalFormat f = new DecimalFormat("0.00");
-  BigDecimal res;
+    {
+      double resultado;String resul="";
+        DecimalFormat f = new DecimalFormat("0.00");
+      BigDecimal res;
 
-  res = new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_DOWN);
-  resultado = res.doubleValue();
-  resul=f.format(resultado).replace(",",".");
-  return resul; 
-}
+      res = new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_DOWN);
+      resultado = res.doubleValue();
+      resul=f.format(resultado).replace(",",".");
+      return resul;
+    }
 }
