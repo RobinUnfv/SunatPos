@@ -15,19 +15,10 @@ import ws.DarBajaDocElectronica;
 import ws.NotaCred;
 import ws.ResBolElectronica;
 
-
-/**
- * Clase que implementa la tarea final a ejecutar
- *
- * @author Luisinho
- *
- */
 public class DisparaGeneratorws {
 
-//private static Log log = LogFactory.getLog(DisparaGeneratorws.class);
-
     public synchronized static void generator() {
-        //System.out.println("generator");
+
         Connection conn = null;
         try {
             //System.out.println("generator - conectar a MySQl");

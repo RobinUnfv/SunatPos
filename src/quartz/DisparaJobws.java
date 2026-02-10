@@ -4,13 +4,6 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-/**
- * Clase que define el trabajo a realizar. Cuando Quartz "alcance" el momento de
- * ejecuci�n buscar� este Job y lanzara el execute.
- *
- * @author Luisinho
- *
- */
 public class DisparaJobws implements Job {
 
     @Override

@@ -35,7 +35,7 @@ public class GenFactura {
 			.withIdentity("dummyTriggerName", "group1")
 			.withSchedule(
 				                                  SimpleScheduleBuilder.simpleSchedule()
-					.withIntervalInSeconds(10).repeatForever())
+					.withIntervalInSeconds(20).repeatForever())
 			.build();
 
 		// schedule it

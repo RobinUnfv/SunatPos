@@ -1068,3 +1068,538 @@
 2026-02-07 23:40:00 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000032.zip
 2026-02-07 23:40:10 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
 2026-02-07 23:40:10 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000032.zip
+2026-02-09 16:13:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:13:41 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000062.zip
+2026-02-09 16:14:03 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000062.xml
+2026-02-09 16:27:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:27:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000061.zip
+2026-02-09 16:27:44 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000061.xml
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:35:43 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:35:43 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:35:44 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:35:52 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:35:52 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:35:52 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:36:02 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:36:02 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:36:03 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:42:07 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:42:07 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:42:08 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:42:16 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:42:16 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:42:16 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:42:26 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:42:26 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:42:26 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\envio\
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:42:36 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:42:36 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:42:36 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:47:55 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:47:55 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:47:55 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:48:04 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:48:04 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:48:04 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:48:14 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:48:14 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:48:14 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:48:24 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:48:24 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:48:24 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:48:34 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:48:34 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:48:34 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:48:44 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:48:44 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:48:44 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:48:54 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:48:54 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:48:54 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:49:04 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:49:04 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:49:04 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:49:14 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:49:14 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:49:14 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:49:24 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:49:24 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:49:24 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: Fallo al acceder al WSDL en: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl. Ha fallado con: 
+	Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl.
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:49:34 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:49:34 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:49:34 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:49:45 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\POS-SUNAT\envio\certificado.jks (El sistema no puede encontrar el archivo especificado)
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:49:45 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:49:45 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:50:11 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\POS-SUNAT\envio\certificado.jks (El sistema no puede encontrar el archivo especificado)
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:50:11 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:50:11 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:50:20 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\POS-SUNAT\envio\certificado.jks (El sistema no puede encontrar el archivo especificado)
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:50:20 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:50:20 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:50:30 ERROR [FacturaElectronica] - generarXMLZipiadoFactura - error  java.io.FileNotFoundException: d:\POS-SUNAT\envio\certificado.jks (El sistema no puede encontrar el archivo especificado)
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:50:30 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:50:30 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:51:08 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:51:08 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:51:08 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:51:08 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:51:17 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:51:17 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:51:17 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:51:17 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:51:27 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:51:27 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:51:27 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:51:27 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:51:37 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:51:37 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:51:37 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:51:37 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:51:47 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:51:47 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:51:47 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:51:47 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:51:57 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:51:57 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:51:57 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:51:57 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 16:53:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:53:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:53:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:53:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:53:38 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:53:38 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:53:49 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:53:55 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:53:55 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:54:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 16:54:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 16:54:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 16:54:07 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 16:54:35 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 16:54:35 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 16:54:35 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 16:54:35 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 16:54:35 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 16:54:35 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 16:54:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.xml
+2026-02-09 16:54:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 16:54:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000100.zip
+2026-02-09 16:54:51 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 16:54:58 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 16:55:09 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-09 16:55:19 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\envio\R-20609272016-01-F001-0000100.zip
+2026-02-09 16:55:38 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-09 16:55:39 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\envio\R-20609272016-01-F001-0000100.xml
+2026-02-09 16:55:53 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-09 17:06:31 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:06:31 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:06:31 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:06:31 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:06:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:06:34 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:06:34 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:06:34 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:06:34 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:06:34 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:06:35 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000101.xml
+2026-02-09 17:06:35 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:06:35 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000101.zip
+2026-02-09 17:06:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:06:46 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:06:48 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-09 17:06:48 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000101.zip
+2026-02-09 17:06:48 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-09 17:06:48 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000101.xml
+2026-02-09 17:06:48 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-09 17:18:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:18:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:18:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:18:17 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:18:21 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:18:21 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:18:21 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:18:21 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:18:21 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:18:21 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:18:22 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000102.xml
+2026-02-09 17:18:22 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:18:22 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000102.zip
+2026-02-09 17:18:24 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:18:25 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:18:27 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-09 17:18:27 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000102.zip
+2026-02-09 17:18:27 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-09 17:18:27 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000102.xml
+2026-02-09 17:18:27 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-09 17:21:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:21:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:21:46 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:21:46 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:21:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:21:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:22:06 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:22:06 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:22:16 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:22:16 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:22:26 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:22:26 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:23:07 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:23:07 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\\envio\20609272016-03-B001-0000063.zip
+2026-02-09 17:24:09 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000063.xml
+2026-02-09 17:28:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:28:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:28:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:28:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:28:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:28:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:28:37 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:28:37 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:28:37 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:28:37 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:28:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:28:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:28:56 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:28:56 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:29:16 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:29:16 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:29:16 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:29:17 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:29:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:29:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:29:36 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:29:36 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:29:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:29:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:29:56 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:29:57 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:30:16 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:30:16 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:30:16 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:30:16 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:30:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:30:36 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:30:36 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:30:37 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-09 17:30:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-09 17:30:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-09 17:30:56 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-09 17:30:56 ERROR [FacturaElectronica] - enviarASunat - Error javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl

@@ -540,17 +540,16 @@ public class DElectronicoDespachador {
                 noFactu, conn);
     }
 
-    public static void marcarEnviado(String noFactu, String hash, String cdr, String nota, Connection conn) {
+    public static void marcarEnviado(String noFactu, String hash, String cdr, Connection conn) {
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE FACTU.ARFAFE SET ESTADO='E', PROCE_STATUS='E', PROCE_FECHA=SYSDATE, " +
-                            "COD_HASH=?, CDR=?, CDR_NOTA=?, FEC_ENVIO=SYSDATE, FEC_MODI=SYSDATE, USU_MODI=USER " +
-                            "WHERE NO_CIA=? AND NO_FACTU=?");
+                    "UPDATE FACTU.ARFAFE SET PROCE_STATUS = 'E', PROCE_FECHA = SYSDATE, " +
+                            "COD_HASH = ?, CDR = ?, FEC_ENVIO = SYSDATE " +
+                            "WHERE NO_CIA = ? AND NO_FACTU = ?");
             ps.setString(1, hash);
             ps.setString(2, cdr);
-            ps.setString(3, nota);
-            ps.setString(4, NO_CIA_DEFAULT);
-            ps.setString(5, noFactu.replace("-", ""));
+            ps.setString(3, NO_CIA_DEFAULT);
+            ps.setString(4, noFactu.replace("-", ""));
             ps.executeUpdate();
             conn.commit();
             ps.close();

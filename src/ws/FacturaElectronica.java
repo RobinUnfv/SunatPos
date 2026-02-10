@@ -60,7 +60,7 @@ public class FacturaElectronica {
             List<PagoBean> pagos = DElectronicoDespachador.cargarDetDocElectronicoPagos(nrodoc, conn);
 
             log.info("generarXMLZipiadoFactura - Extraemos datos para preparar XML ");
-            unidadEnvio = "d:\\envio\\";
+            unidadEnvio = "d:\\POS-SUNAT\\envio\\";
 
             log.info("generarXMLZipiadoFactura - Ruta de directorios " + unidadEnvio);
             log.info("generarXMLZipiadoFactura - Iniciamos cabecera ");
@@ -72,7 +72,14 @@ public class FacturaElectronica {
                 /*=======================ENVIO A SUNAT=============*/
                 if (items.getDocu_enviaws().equals("S")) {
                     log.info("generarXMLZipiadoFactura - Preparando para enviar a SUNAT");
-                    resultado = enviarZipASunat(unidadEnvio, items.getEmpr_nroruc() + "-01-" + items.getDocu_numero() + ".zip", items.getEmpr_nroruc());
+                    String zipFileName = items.getEmpr_nroruc() + "-01-" + items.getDocu_numero() + ".zip";
+                    resultado = enviarZipASunat(unidadEnvio, zipFileName, items.getEmpr_nroruc());
+                    String[] codRespuesta = ConversionUtils.codigoRespuesta(resultado);
+                    if (codRespuesta[0].equals("0")) {
+                        String pathCdr = "d:\\POS-SUNAT\\respuesta\\R-" + zipFileName.substring(0, zipFileName.indexOf(".zip")) + ".xml";
+                        String codigoHash = LecturaXML.obtenerDigestValue(pathCdr);
+                        DElectronicoDespachador.marcarEnviado(nrodoc, codigoHash, resultado, conn);
+                    }
                 } else {
                     /*este caso de boleta no se envia al sunat*/
                     log.info("generarXMLZipiadoFactura - No se envia a SUNAT");
@@ -131,7 +138,7 @@ public class FacturaElectronica {
 
 
             //================Grabando la respuesta de sunat en archivo ZIP solo si es nulo
-            String pathRecepcion = "d:\\envio\\";
+            String pathRecepcion = "d:\\POS-SUNAT\\respuesta\\";
 
             FileOutputStream fos = new FileOutputStream(pathRecepcion + "R-" + zipFileName);
             fos.write(respuestaSunat);
@@ -194,7 +201,7 @@ public class FacturaElectronica {
             //Datos por RUC
 
             String keystoreType = "JKS";
-            String keystoreFile = "d:\\envio\\certificado.jks";
+            String keystoreFile = "d:\\POS-SUNAT\\certificado.jks";
             String keystorePass = "123456789";
             String privateKeyPass = "CORPTEx2218";
 

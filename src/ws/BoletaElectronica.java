@@ -72,14 +72,15 @@ public class BoletaElectronica {
                 /*=======================ENVIO A SUNAT=============*/
                 if (items.getDocu_enviaws().equals("S")) {
                     System.out.println("generarXMLZipiadoFactura - Preparando para enviar a SUNAT");
-                    resultado = enviarZipASunat(unidadEnvio, items.getEmpr_nroruc() + "-03-" + items.getDocu_numero() + ".zip", items.getEmpr_nroruc());
-                } else {
-                    /*este caso de boleta no se envia al sunat*/
-                    System.out.println("generarXMLZipiadoFactura - No se envia a SUNAT");
-                    resultado = "0|El Comprobante numero " + items.getDocu_numero() + ", ha sido aceptado.";
-
+                    String zipFileName = items.getEmpr_nroruc() + "-03-" + items.getDocu_numero() + ".zip";
+                    resultado = enviarZipASunat(unidadEnvio, zipFileName, items.getEmpr_nroruc());
+                    String[] codRespuesta = ConversionUtils.codigoRespuesta(resultado);
+                    if (codRespuesta[0].equals("0")) {
+                        String pathCdr = "d:\\POS-SUNAT\\respuesta\\R-" + zipFileName.substring(0, zipFileName.indexOf(".zip")) + ".xml";
+                        String codigoHash = LecturaXML.obtenerDigestValue(pathCdr);
+                        DElectronicoDespachador.marcarEnviado(nrodoc, codigoHash, resultado, conn);
+                    }
                 }
-
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -132,15 +133,14 @@ public class BoletaElectronica {
                     break;
             }
 
-
             //================Grabando la respuesta de sunat en archivo ZIP solo si es nulo
-            String pathRecepcion = "d:\\POS-SUNAT\\\\respuesta\\";
+            String pathRecepcion = "d:\\POS-SUNAT\\respuesta\\";
 
             FileOutputStream fos = new FileOutputStream(pathRecepcion + "R-" + zipFileName);
             fos.write(respuestaSunat);
             fos.close();
             //================Descompremiendo el zip de Sunat
-            System.out.println("enviarASunat - Descomprimiendo CDR " + pathRecepcion + "R-" + zipFileName);
+
             ZipFile archive = new ZipFile(pathRecepcion + "R-" + zipFileName);
             Enumeration e = archive.entries();
             while (e.hasMoreElements()) {
@@ -170,9 +170,9 @@ public class BoletaElectronica {
             //================leeyendo la resuesta de Sunat
             zipFileName = zipFileName.substring(0, zipFileName.indexOf(".zip"));
             System.out.println("enviarASunat - Lectura del contenido del CDR ");
-            resultado = LecturaXML.getRespuestaSunat(pathRecepcion + "R-" + zipFileName + ".xml");
-            System.out.println("==>El envio del Zip a sunat fue exitoso");
-            System.out.println("RESPUESTA SUNAT: " + resultado);
+            String pathCdr = pathRecepcion + "R-" + zipFileName + ".xml";
+            resultado = LecturaXML.getRespuestaSunat(pathCdr);
+
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
             String mensaje = ConversionUtils.extraerMensajeSOAPFault(ex);
             String codigo = ConversionUtils.extraerCodigoErrorSUNAT(ex);

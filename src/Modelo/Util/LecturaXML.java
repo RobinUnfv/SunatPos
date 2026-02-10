@@ -100,37 +100,24 @@ public class LecturaXML {
         String firma = null;
         try {
             DocumentBuilderFactory fabricaCreadorDocumento = DocumentBuilderFactory.newInstance();
+            // *** CORRECCIÓN 1: Habilitar namespace awareness ***
+            fabricaCreadorDocumento.setNamespaceAware(true);
+
             DocumentBuilder creadorDocumento = fabricaCreadorDocumento.newDocumentBuilder();
             Document documento = creadorDocumento.parse(path);
-            //Obtener el elemento raíz del documento
-            Element raiz = documento.getDocumentElement();
-            //Obtener la lista de nodos que tienen etiqueta "ds:Reference"
-            NodeList listaEmpleados = raiz.getElementsByTagName("ds:Reference");
-            //Recorrer la lista de empleados
-            for (int i = 0; i < listaEmpleados.getLength(); i++) {
-                //Obtener de la lista un empleado tras otro
-                Node empleado = listaEmpleados.item(i);
-                //Obtener la lista de los datos que contiene ese ds:Reference
-                NodeList datosEmpleado = empleado.getChildNodes();
-                //Recorrer la lista de los datos que contiene el ds:Reference
-                for (int j = 0; j < datosEmpleado.getLength(); j++) {
-                    //Obtener de la lista de datos un dato tras otro
-                    Node dato = datosEmpleado.item(j);
-                    //Comprobar que el dato se trata de un nodo de tipo Element
-                    if (dato.getNodeType() == Node.ELEMENT_NODE) {
-                        //Mostrar el nombre del tipo de dato
-                        if (dato.getNodeName() == "ds:DigestValue") {
-                            //El valor está contenido en un hijo del nodo Element
-                            Node datoContenido = dato.getFirstChild();
-                            //Mostrar el valor contenido en el nodo que debe ser de tipo Text
-                            if (datoContenido != null && datoContenido.getNodeType() == Node.TEXT_NODE) {
-                                //System.out.println(datoContenido.getNodeValue());
-                                if (datoContenido.getNodeValue() != null) {
-                                    firma = datoContenido.getNodeValue();
-                                }
-                            }
-                        }
-                    }
+
+            // *** CORRECCIÓN 2: Buscar DigestValue usando namespace URI ***
+            // El namespace de la firma digital es: http://www.w3.org/2000/09/xmldsig#
+            NodeList listaDigestValue = documento.getElementsByTagNameNS(
+                    "http://www.w3.org/2000/09/xmldsig#",
+                    "DigestValue"
+            );
+
+            // Si encontramos al menos un DigestValue
+            if (listaDigestValue.getLength() > 0) {
+                Node digestValueNode = listaDigestValue.item(0);
+                if (digestValueNode != null && digestValueNode.getTextContent() != null) {
+                    firma = digestValueNode.getTextContent().trim();
                 }
             }
 

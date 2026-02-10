@@ -323,5 +323,11 @@ public class ConversionUtils {
         return false;
     }
 
+    public static String[] codigoRespuesta(String texto) {
+        if (texto == null || !texto.contains("|")) {
+            return new String[]{texto, ""};
+        }
+        return texto.split("\\|", 2);
+    }
 
 }
