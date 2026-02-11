@@ -54,8 +54,8 @@ public class DarBajaDocElectronica {
         org.apache.xml.security.Init.init();
         String resultado[] = new String [2];
         String res="";
-        String nrodoc = iddocument;//"943270";// request.getParameter("nrodoc");68
-        String unidadEnvio; // = Util.getPathZipFilesEnvio();
+        String nrodoc = iddocument;
+        String unidadEnvio;
         String pathXMLFile;
         try {
             CabeceraBean items = DElectronicoDespachador.cargarDocElectronico(nrodoc, conn);
@@ -318,13 +318,6 @@ public class DarBajaDocElectronica {
             String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
             String privateKeyPass = "Peru##2026";
             String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-            //comas
-//            String keystoreType = "JKS";
-//            String keystoreFile = "d:\\envio\\certificado.pfx";
-//            String keystorePass = "UovjvAHvH6";
-//            String privateKeyAlias = "||USO TRIBUTARIO|| CHEN JIANHUA CDT 15512555427";
-//            String privateKeyPass = "UovjvAHvH6";
-//            String certificateAlias = "||USO TRIBUTARIO|| CHEN JIANHUA CDT 15512555427"; 
 
             log.info("generarXMLZipiadoBoleta - Lectura de cerificado ");
             CDATASection cdata;
@@ -347,8 +340,7 @@ public class DarBajaDocElectronica {
             dbf.setNamespaceAware(true);
             javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
             org.w3c.dom.Document doc = db.newDocument();
-            ////////////////////////////////////////////////// 
-            log.info("generarXMLZipiadoBoleta - cabecera XML ");
+
             Element envelope = doc.createElementNS("", "VoidedDocuments");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", "urn:sunat:names:specification:ubl:peru:schema:xsd:VoidedDocuments-1");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2");
@@ -386,8 +378,6 @@ public class DarBajaDocElectronica {
 //            System.out.println(sig.getElement().getAttribute("Id"));
             UBLExtension.appendChild(ExtensionContent);
             UBLExtensions.appendChild(UBLExtension);
-//    
-
 //bloque1
             Element UBLVersionID = doc.createElementNS("", "cbc:UBLVersionID");
             envelope.appendChild(UBLVersionID);
@@ -516,9 +506,6 @@ public class DarBajaDocElectronica {
 //         
             }
 
-            
-           
-            log.info("generarXMLZipiadoBoleta - Prepara firma digital ");
             sig.setId("Sign"+items.getEmpr_nroruc());
             sig.addKeyInfo(cert);
             {
@@ -528,7 +515,6 @@ public class DarBajaDocElectronica {
             }
             {
                 //Firmar el documento
-                log.info("generarXMLZipiadoBoleta - firma el XML ");
                 sig.sign(privateKey);
             }
             //--------------------fin de construccion del xml---------------------
@@ -543,13 +529,12 @@ public class DarBajaDocElectronica {
             tf.transform(new DOMSource(doc), sr);
             sr.getOutputStream().close();
 
-            log.info("generarXMLZipiadoBoleta - XML creado " + pathXMLFile);
             //====================== CREAR ZIP PARA EL ENVIO A SUNAT =======================
             resultado = GeneralFunctions.crearZip3(items, unidadEnvio, signatureFile);
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            resultado = "0100|Error al generar el archivo de formato xml de la Boleta.";
+            resultado = "0100|Error al generar el archivo de comunicacion de baja.";
             log.error("generarXMLZipiadoBoleta - error  " + ex.toString());
 
         }
