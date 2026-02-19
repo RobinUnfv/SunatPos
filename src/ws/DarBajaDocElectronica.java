@@ -1,38 +1,36 @@
 package ws;
 
-
-
-import Modelo.Beans.CabeceraBean;
-import Modelo.Beans.DetalleBean;
-import Modelo.Beans.LeyendaBean;
+import Modelo.Beans.ComunicacionBajaBean;
 import Modelo.Dispatchers.DElectronicoDespachador;
+import Modelo.Util.ConversionUtils;
 import Modelo.Util.GeneralFunctions;
 import Modelo.Util.HeaderHandlerResolver;
 import Modelo.Util.LecturaXML;
-import java.awt.event.ActionEvent;
-import java.io.BufferedOutputStream;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
 import java.security.KeyStore;
 import java.security.PrivateKey;
-
 import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xml.security.signature.XMLSignature;
@@ -41,344 +39,362 @@ import org.apache.xml.security.utils.Constants;
 import org.apache.xml.security.utils.ElementProxy;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
+
 import pe.gob.sunat.service.StatusResponse;
 
+
 public class DarBajaDocElectronica {
+
     private static Log log = LogFactory.getLog(DarBajaDocElectronica.class);
-//    static Clscontrolador Ctrl = new Clscontrolador();
-      
-   
-//    static String documento="";
-    public static String generarXMLZipiadoBoleta(String iddocument, Connection conn) { 
-        log.info("generarXMLZipiadoBoleta - Inicializamos el ambiente");
+
+    // Rutas de archivos
+    private static final String UNIDAD_ENVIO = "d:\\POS-SUNAT\\envio\\";
+    private static final String UNIDAD_RESPUESTA = "d:\\POS-SUNAT\\respuesta\\";
+
+    // Credenciales del certificado
+    private static final String KEYSTORE_TYPE = "JKS";
+    private static final String KEYSTORE_FILE = "d:\\POS-SUNAT\\certificado.jks";
+    private static final String KEYSTORE_PASS = "123456789";
+    private static final String PRIVATE_KEY_PASS = "CORPTEx2218";
+
+    // Ambiente SUNAT: 1=Beta, 2=QA, 3=Producción
+    private static final String AMBIENTE_SUNAT = "1";
+
+    /**
+     * Método principal para generar y enviar comunicación de baja
+     * @param conn Conexión a la base de datos
+     * @return Resultado del proceso
+     */
+    public static String generarComunicacionBaja(String noFactu, Connection conn) {
+        log.info("=== INICIANDO COMUNICACIÓN DE BAJA ===");
         org.apache.xml.security.Init.init();
-        String resultado[] = new String [2];
-        String res="";
-        String nrodoc = iddocument;
-        String unidadEnvio;
-        String pathXMLFile;
+
+        String resultado = "";
+
         try {
-            CabeceraBean items = DElectronicoDespachador.cargarDocElectronico(nrodoc, conn);
-            List<DetalleBean> detdocelec = DElectronicoDespachador.cargarDetDocElectronico(nrodoc, conn);
-            List<LeyendaBean> leyendas = DElectronicoDespachador.cargarDetDocElectronicoLeyenda(nrodoc, conn);
-            List<CabeceraBean> resitems = DElectronicoDespachador.ResumenDiario("N","01", conn);
-            //String nrodoc = iddocument;//"943317";// request.getParameter("nrodoc");
-            
-            log.info("generarXMLZipiadoBoleta - Extraemos datos para preparar XML ");
-             unidadEnvio = "d:\\envio\\";
-            log.info("generarXMLZipiadoBoleta - Ruta de directorios " + unidadEnvio);
-            log.info("generarXMLZipiadoBoleta - Iniciamos cabecera ");
-            //crear el Xml firmado
-            if (items != null) {
-                pathXMLFile = unidadEnvio + items.getEmpr_nroruc() + "-RA-" + items.getDocu_fecha().toString().replace("-","")+"-1"+ ".xml";
-                //                documento=items.getDocu_numero();
-                //======================crear XML =======================
-                res = creaXml(items, detdocelec, leyendas, unidadEnvio,resitems,conn);
-                /*=======================ENVIO A SUNAT=============*/
-                if (items.getDocu_enviaws().equals("S")) {
-                    log.info("generarXMLZipiadoBoleta - Preparando para enviar a SUNAT");
-                    resultado = enviarZipASunat(unidadEnvio, items.getEmpr_nroruc() + "-RA-" + items.getDocu_fecha().toString().replace("-","")+"-1"+ ".zip", items.getEmpr_nroruc());
-                    System.out.println("El resultado 03 es "+resultado[0]);
-                    System.out.println("El resultado 03 es "+resultado[1]);
-                    if(resultado[1].equals("nulo")){
-                       // actualEnviado(docu_codigo,resultado[0], resultado[1],"L","E",id);
-                       System.out.println( "Hubo problemas de conexión a Internet o a los servidores de la SUNAT, intente enviar el comprobante luego");
-                    }else if(resultado[1].length() > 0) {
+            // 1. Cargar documentos pendientes de baja desde FACTU.COMUNICACION_BAJA
+            ComunicacionBajaBean documentosBaja = DElectronicoDespachador.cargarDocumentosBajaPendientes(noFactu, conn);
 
-                        pedirStatus(unidadEnvio, items.getEmpr_nroruc() + "-RA-" + items.getDocu_fecha().toString().replace("-","") + "-1"+".zip", items.getEmpr_nroruc(),resultado[1]);
-//                        actualEnviado(detdocelec,resultado[0], resultado[1],"L","E",id,estado);
-                        System.out.println( "Se envió la Operació a SUNAT Correctamente");
-                        
-                        
-                    }else{
-                        System.out.println( "Hubo problemas de conexión a Internet o a los servidores de la SUNAT, intente enviar el comprobante luego");
-                    }
-                    
-                }
-
+            if (documentosBaja == null) {
+                log.info("No hay documentos pendientes de baja");
+                return "0|No hay documentos pendientes de comunicación de baja";
             }
+
+            // 2. Cargar datos de la empresa
+            ComunicacionBajaBean datosEmpresa = DElectronicoDespachador.cargarDatosEmpresaBaja(conn);
+            if (datosEmpresa.getEmprRuc() == null) {
+                return "0100|Error: No se pudieron cargar los datos de la empresa";
+            }
+
+            // 3. Obtener fecha de baja y correlativo
+            //String fechaBaja = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String fechaBaja = new SimpleDateFormat("yyyy-MM-dd").format( documentosBaja.getFecBaja() );
+            String fechaBajaCompacta = fechaBaja.replace("-", "");
+            //int correlativo = DElectronicoDespachador.obtenerCorrelativoBaja(fechaBaja, conn);
+            String correlativo = documentosBaja.getNroCorrelativo();
+
+            log.info("Fecha de baja: " + fechaBaja + ", Correlativo: " + correlativo);
+
+            // 4. Bloquear documentos
+            // DElectronicoDespachador.bloquearDocumentosBaja(documentosBaja, conn);
+
+            // 5. Generar nombre del archivo
+            String nombreArchivo = datosEmpresa.getEmprRuc() + "-RA-" + fechaBajaCompacta + "-" + correlativo;
+            String pathXML = UNIDAD_ENVIO + nombreArchivo + ".xml";
+            String pathZIP = UNIDAD_ENVIO + nombreArchivo + ".zip";
+
+            // 6. Crear XML
+            log.info("Generando XML: " + pathXML);
+            resultado = crearXmlComunicacionBaja(documentosBaja, datosEmpresa, fechaBaja, correlativo, UNIDAD_ENVIO);
+
+            /*if (resultado.startsWith("0100")) {
+                DElectronicoDespachador.revertirBajaPendiente(documentosBaja, conn);
+                return resultado;
+            }*/
+
+            // 7. Enviar a SUNAT
+            log.info("Enviando a SUNAT: " + nombreArchivo + ".zip");
+            String[] resultadoEnvio = enviarZipASunat(UNIDAD_ENVIO, nombreArchivo + ".zip", datosEmpresa.getEmprRuc());
+
+            // 8. Marcar en proceso
+            DElectronicoDespachador.marcarBajaEnProceso(documentosBaja, String.valueOf(correlativo), conn);
+
+
+
+            if (resultadoEnvio[1] == null || resultadoEnvio[1].equals("nulo")) {
+                DElectronicoDespachador.marcarBajaError(documentosBaja, "Error de conexión con SUNAT", conn);
+                return "0100|Error de conexión con SUNAT";
+            }
+
+            // 9. El envío retorna un ticket, consultar estado
+            String ticket = resultadoEnvio[1];
+            log.info("Ticket SUNAT: " + ticket);
+
+            // 10. Consultar estado del ticket
+            String[] resultadoStatus = pedirStatus(UNIDAD_ENVIO, nombreArchivo + ".zip", datosEmpresa.getEmprRuc(), ticket);
+
+            if (resultadoStatus[1] != null && !resultadoStatus[1].isEmpty()) {
+                // Éxito
+                DElectronicoDespachador.marcarBajaEnviada(documentosBaja, ticket, resultadoStatus[1], conn);
+                resultado = "0|Comunicación de baja enviada correctamente. Ticket: " + ticket;
+                log.info("Comunicación de baja exitosa: " + ticket);
+            } else {
+                // Guardar ticket para consulta posterior
+                DElectronicoDespachador.marcarBajaEnviada(documentosBaja, ticket, "Pendiente CDR", conn);
+                resultado = "0|Comunicación enviada. Ticket: " + ticket + ". Consultar CDR posteriormente.";
+            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
-            res = "0100|Error al generar el archivo de formato xml de la Boleta.";
-            log.error("generarXMLZipiadoBoleta - error  " + ex.toString());
+            resultado = "0100|Error al generar comunicación de baja: " + ex.getMessage();
+            log.error("Error en generarComunicacionBaja: " + ex.toString());
         }
 
-        return res;
+        return resultado;
     }
 
-//    public static String enviarZipASunat(String path, String zipFileName, String vruc) {
+    /**
+     * Envía el ZIP a SUNAT usando sendSummary
+     */
     public static String[] enviarZipASunat(String path, String zipFileName, String vruc) {
-        String resultado[] =new String [2];
-        resultado[0]="";
-        String sws = "1";
-        log.info("enviarASunat - Prepara ambiente: " + sws+"/"+zipFileName);
-        try {
+        String[] resultado = new String[2];
+        resultado[0] = "";
+        resultado[1] = "";
 
+        log.info("enviarZipASunat - Archivo: " + zipFileName);
+
+        try {
             javax.activation.FileDataSource fileDataSource = new javax.activation.FileDataSource(path + zipFileName);
             javax.activation.DataHandler dataHandler = new javax.activation.DataHandler(fileDataSource);
-//            byte[] respuestaSunat = null;
             String respuestaSunat = null;
-            //================Enviando a sunat
-            switch (sws) {
-                case "1":
-                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe ws1 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe();
+
+            switch (AMBIENTE_SUNAT) {
+                case "1": // Beta
+                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe ws1 =
+                            new pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe();
                     HeaderHandlerResolver handlerResolver1 = new HeaderHandlerResolver();
                     handlerResolver1.setVruc(vruc);
                     ws1.setHandlerResolver(handlerResolver1);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService port1 = ws1.getBillServicePort();
                     respuestaSunat = port1.sendSummary(zipFileName, dataHandler);
-                    log.info("enviarASunat - Ambiente Beta: " + sws);
+                    log.info("Ambiente Beta - Ticket: " + respuestaSunat);
                     break;
-                case "2":
-                    pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa ws2 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa();
+
+                case "2": // QA
+                    pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa ws2 =
+                            new pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa();
                     HeaderHandlerResolver handlerResolver2 = new HeaderHandlerResolver();
                     handlerResolver2.setVruc(vruc);
                     ws2.setHandlerResolver(handlerResolver2);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService port2 = ws2.getBillServicePort();
                     respuestaSunat = port2.sendSummary(zipFileName, dataHandler);
-                    log.info("enviarASunat - Ambiente QA " + sws);
+                    log.info("Ambiente QA - Ticket: " + respuestaSunat);
                     break;
-                case "3":
-                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe ws3 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe();
+
+                case "3": // Producción
+                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe ws3 =
+                            new pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe();
                     HeaderHandlerResolver handlerResolver3 = new HeaderHandlerResolver();
                     handlerResolver3.setVruc(vruc);
                     ws3.setHandlerResolver(handlerResolver3);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService port3 = ws3.getBillServicePort();
                     respuestaSunat = port3.sendSummary(zipFileName, dataHandler);
-//                    respuestaSunat = port3.sendBill(zipFileName, dataHandler);
-                    log.info("enviarASunat - Ambiente Produccion " + sws);
+                    log.info("Ambiente Producción - Ticket: " + respuestaSunat);
                     break;
             }
 
-//            javax.activation.FileDataSource fileDataSource = new javax.activation.FileDataSource(path + zipFileName);
-//            javax.activation.DataHandler dataHandler = new javax.activation.DataHandler(fileDataSource);
-            //================Grabando la respuesta de sunat en archivo ZIP solo si es nulo
-            //*String pathRecepcion = "d:\\envio\\";
-            //*FileOutputStream fos = new FileOutputStream(pathRecepcion + "R-" + zipFileName);
-            //*fos.write(respuestaSunat);
-            //*fos.close();
-            //================Descompremiendo el zip de Sunat
-            //*log.info("enviarASunat - Descomprimiendo CDR " + pathRecepcion + "R-" + zipFileName);
-//*            ZipFile archive = new ZipFile(pathRecepcion + "R-" + zipFileName);
-//*            Enumeration e = archive.entries();
-//*            while (e.hasMoreElements()) {
-//*                ZipEntry entry = (ZipEntry) e.nextElement();
-//*                File file = new File(pathRecepcion, entry.getName());
-//*                if (!file.isDirectory()) {
-//*                    if (entry.isDirectory() && !file.exists()) {
-//*                        file.mkdirs();
-//*                    } else {
-//*                        if (!file.getParentFile().exists()) {
-//*                            file.getParentFile().mkdirs();
-//*                       }
-//*                        InputStream in = archive.getInputStream(entry);
-//*                        BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-//*
-//*                        byte[] buffer = new byte[8192];
-//*                        int read;
-//*                        while (-1 != (read = in.read(buffer))) {
-//*                            out.write(buffer, 0, read);
-//*                        }
-//*                        in.close();
-//*                        out.close();
-//*                    }
-//*                }
-//*            }
-            //*archive.close();
-            //================leeyendo la resuesta de Sunat
-            //*zipFileName = zipFileName.substring(0, zipFileName.indexOf(".zip"));
-            //*log.info("enviarASunat - Lectura del contenido del CDR ");
-            //*resultado = LecturaXML.getRespuestaSunat(pathRecepcion + "R-" + zipFileName + ".xml");
-            System.out.println("==>El envio del Zip a sunat fue exitoso");
-            log.info("enviarASunat - Envio a Sunat Exitoso ");
-            resultado[0]=zipFileName;
-            if(respuestaSunat==null){
-               resultado[1]="nulo";
-           }else{
-               resultado[1]=respuestaSunat;
-           }
-           
-//            Ctrl.estadodecompelectr(documento);
+            resultado[0] = zipFileName;
+            resultado[1] = (respuestaSunat != null) ? respuestaSunat : "nulo";
+
+            log.info("Envío exitoso. Ticket: " + resultado[1]);
+
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
-            System.out.println(ex.toString());
-            //log.error("enviarASunat - Error " + ex.toString());
+            String mensaje = ConversionUtils.extraerMensajeSOAPFault(ex);
+            String codigo = ConversionUtils.extraerCodigoErrorSUNAT(ex);
+            resultado[0] = "ERROR";
+            resultado[1] = (codigo != null ? codigo : "ERROR") + "|" + mensaje;
+            log.error("Error SOAP [" + codigo + "]: " + mensaje);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("enviarASunat - Error " + e.toString());
+            resultado[1] = "nulo";
+            log.error("Error enviarZipASunat: " + e.toString());
         }
-        System.out.println("Resultado:: "+resultado[0]+" / "+resultado[1]);
+
         return resultado;
     }
-    
-    public static String[] pedirStatus(String path, String zipFileName, String vruc, String tiket) {
-        String resultado[] = new String [2];
-        resultado[0]="";
-        String sws = "1";
-        log.info("enviarASunat - Prepara ambiente: " + sws);
-        try {
 
-            javax.activation.FileDataSource fileDataSource = new javax.activation.FileDataSource(path + zipFileName);
-            javax.activation.DataHandler dataHandler = new javax.activation.DataHandler(fileDataSource);
+    /**
+     * Consulta el estado del ticket en SUNAT
+     */
+    public static String[] pedirStatus(String path, String zipFileName, String vruc, String ticket) {
+        String[] resultado = new String[2];
+        resultado[0] = "";
+        resultado[1] = "";
+
+        log.info("pedirStatus - Ticket: " + ticket);
+
+        try {
             StatusResponse respuestaSunat = null;
-            //================Enviando a sunat
-            switch (sws) {
-                case "1":
-                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe ws1 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe();
+
+            switch (AMBIENTE_SUNAT) {
+                case "1": // Beta
+                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe ws1 =
+                            new pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService_Service_fe();
                     HeaderHandlerResolver handlerResolver1 = new HeaderHandlerResolver();
                     handlerResolver1.setVruc(vruc);
                     ws1.setHandlerResolver(handlerResolver1);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service_bta.BillService port1 = ws1.getBillServicePort();
-                    respuestaSunat = port1.getStatus(tiket);
-                    log.info("enviarASunat - Ambiente Beta: " + sws);
+                    respuestaSunat = port1.getStatus(ticket);
                     break;
-                case "2":
-                    pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa ws2 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa();
+
+                case "2": // QA
+                    pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa ws2 =
+                            new pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService_Service_sqa();
                     HeaderHandlerResolver handlerResolver2 = new HeaderHandlerResolver();
                     handlerResolver2.setVruc(vruc);
                     ws2.setHandlerResolver(handlerResolver2);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.servicesqa.BillService port2 = ws2.getBillServicePort();
-                    respuestaSunat = port2.getStatus(tiket);
-                    log.info("enviarASunat - Ambiente QA " + sws);
+                    respuestaSunat = port2.getStatus(ticket);
                     break;
-                case "3":
-                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe ws3 = new pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe();
+
+                case "3": // Producción
+                    pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe ws3 =
+                            new pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService_Service_fe();
                     HeaderHandlerResolver handlerResolver3 = new HeaderHandlerResolver();
                     handlerResolver3.setVruc(vruc);
                     ws3.setHandlerResolver(handlerResolver3);
                     pe.gob.sunat.servicio.registro.comppago.factura.gem.service.BillService port3 = ws3.getBillServicePort();
-                    respuestaSunat = port3.getStatus(tiket);
-                    log.info("enviarASunat - Ambiente Produccion " + sws);
-                    log.info(handlerResolver3);
+                    respuestaSunat = port3.getStatus(ticket);
                     break;
             }
 
-//            javax.activation.FileDataSource fileDataSource = new javax.activation.FileDataSource(path + zipFileName);
-//            javax.activation.DataHandler dataHandler = new javax.activation.DataHandler(fileDataSource);
-            //================Grabando la respuesta de sunat en archivo ZIP solo si es nulo
-            String pathRecepcion = "d:\\envio\\";
-            FileOutputStream fos = new FileOutputStream(pathRecepcion + "R-" + zipFileName);
-            fos.write(respuestaSunat.getContent());
-            fos.close();
-            //================Descompremiendo el zip de Sunat
-            log.info("enviarASunat - Descomprimiendo CDR " + pathRecepcion + "R-" + zipFileName);
-            ZipFile archive = new ZipFile(pathRecepcion + "R-" + zipFileName);
-            Enumeration e = archive.entries();
-            while (e.hasMoreElements()) {
-                ZipEntry entry = (ZipEntry) e.nextElement();
-                File file = new File(pathRecepcion, entry.getName());
-                if (!file.isDirectory()) {
-                    if (entry.isDirectory() && !file.exists()) {
-                        file.mkdirs();
-                    } else {
+            if (respuestaSunat != null && respuestaSunat.getContent() != null) {
+                // Guardar y descomprimir respuesta
+                String pathRecepcion = UNIDAD_RESPUESTA;
+                FileOutputStream fos = new FileOutputStream(pathRecepcion + "R-" + zipFileName);
+                fos.write(respuestaSunat.getContent());
+                fos.close();
+
+                // Descomprimir
+                log.info("Descomprimiendo CDR: " + pathRecepcion + "R-" + zipFileName);
+                ZipFile archive = new ZipFile(pathRecepcion + "R-" + zipFileName);
+                Enumeration e = archive.entries();
+                while (e.hasMoreElements()) {
+                    ZipEntry entry = (ZipEntry) e.nextElement();
+                    File file = new File(pathRecepcion, entry.getName());
+                    if (!file.isDirectory()) {
                         if (!file.getParentFile().exists()) {
                             file.getParentFile().mkdirs();
                         }
                         InputStream in = archive.getInputStream(entry);
                         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-
                         byte[] buffer = new byte[8192];
                         int read;
-                        while (-1 != (read = in.read(buffer))) {
+                        while ((read = in.read(buffer)) != -1) {
                             out.write(buffer, 0, read);
                         }
                         in.close();
                         out.close();
                     }
                 }
+                archive.close();
+
+                // Leer respuesta
+                String xmlFileName = zipFileName.replace(".zip", ".xml");
+                resultado[1] = LecturaXML.getRespuestaSunat(pathRecepcion + "R-" + xmlFileName);
+                resultado[0] = ticket;
+
+                log.info("CDR obtenido: " + resultado[1]);
             }
-            archive.close();
-            //================leeyendo la resuesta de Sunat
-            zipFileName = zipFileName.substring(0, zipFileName.indexOf(".zip"));
-            log.info("enviarASunat - Lectura del contenido del CDR ");
-            resultado[1] = LecturaXML.getRespuestaSunat(pathRecepcion + "R-" + zipFileName + ".xml");
-            System.out.println("==>El envio del Zip a sunat fue exitoso");
-            log.info("enviarASunat - Envio a Sunat Exitoso ");
+
         } catch (javax.xml.ws.soap.SOAPFaultException ex) {
-            System.out.println(ex.toString());
-            //log.error("enviarASunat - Error " + ex.toString());
+            String mensaje = ConversionUtils.extraerMensajeSOAPFault(ex);
+            log.error("Error SOAP getStatus: " + mensaje);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("enviarASunat - Error " + e.toString());
+            log.error("Error pedirStatus: " + e.toString());
         }
-        
-        System.out.println("ResUltado 02: "+resultado[0]);
+
         return resultado;
     }
 
-    private static String creaXml(CabeceraBean items, List<DetalleBean> detdocelec, List<LeyendaBean> leyendas, String unidadEnvio,List<CabeceraBean> iteracion,Connection conn) {
+    /**
+     * Crea el XML de Comunicación de Baja
+     */
+    private static String crearXmlComunicacionBaja(ComunicacionBajaBean documentos,
+                                                   ComunicacionBajaBean datosEmpresa,
+                                                   String fechaBaja,
+                                                   String correlativo,
+                                                   String unidadEnvio) {
         String resultado = "";
+
         try {
             ElementProxy.setDefaultPrefix(Constants.SignatureSpecNS, "ds");
-            //Parametros del keystore
-           
-            //ventanilla
-            String keystoreType = "JKS";
-            String keystoreFile = "d:\\envio\\certificado.jks";
-            String keystorePass = "Peru##2026";
-            String privateKeyAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
-            String privateKeyPass = "Peru##2026";
-            String certificateAlias = "||USO TRIBUTARIO|| CORPORACION TEXTIL CELIA E.I.R.L. CDT 20609272016";
 
-            log.info("generarXMLZipiadoBoleta - Lectura de cerificado ");
-            CDATASection cdata;
-            log.info("generarXMLZipiadoBoleta - Iniciamos la generacion del XML");
-            String pathXMLFile = unidadEnvio + items.getEmpr_nroruc() + "-RA-" + items.getDocu_fecha().toString().replace("-","")+"-1"+  ".xml";
-            File signatureFile = new File(pathXMLFile);
-            ///////////////////Creación del certificado//////////////////////////////
-            KeyStore ks = KeyStore.getInstance(keystoreType);
-            FileInputStream fis = new FileInputStream(keystoreFile);
-            ks.load(fis, keystorePass.toCharArray());
-            //obtener la clave privada para firmar
-            PrivateKey privateKey = (PrivateKey) ks.getKey(privateKeyAlias, privateKeyPass.toCharArray());
+            // Cargar certificado
+            KeyStore ks = KeyStore.getInstance(KEYSTORE_TYPE);
+            FileInputStream fis = new FileInputStream(KEYSTORE_FILE);
+            ks.load(fis, KEYSTORE_PASS.toCharArray());
+            fis.close();
+
+            // Obtener alias automáticamente
+            String privateKeyAlias = ks.aliases().nextElement();
+
+            PrivateKey privateKey = (PrivateKey) ks.getKey(privateKeyAlias, PRIVATE_KEY_PASS.toCharArray());
             if (privateKey == null) {
                 throw new RuntimeException("Private key is null");
             }
-            X509Certificate cert = (X509Certificate) ks.getCertificate(certificateAlias);
-            //////////////////////////////////////////////////
+            X509Certificate cert = (X509Certificate) ks.getCertificate(privateKeyAlias);
+
+            // Preparar documento XML
             javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-            //Firma XML genera espacio para los nombres o tag
             dbf.setNamespaceAware(true);
             javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
             org.w3c.dom.Document doc = db.newDocument();
 
+            // Datos para el nombre del archivo
+            String ruc = datosEmpresa.getEmprRuc();
+            String fechaCompacta = fechaBaja.replace("-", "");
+            String identificador = "RA-" + fechaCompacta + "-" + correlativo;
+
+            String pathXMLFile = unidadEnvio + ruc + "-" + identificador + ".xml";
+            File signatureFile = new File(pathXMLFile);
+
+            log.info("Creando XML: " + pathXMLFile);
+
+            // ═══════════════════════════════════════════════════════════════════
+            // ELEMENTO RAÍZ: VoidedDocuments
+            // ═══════════════════════════════════════════════════════════════════
             Element envelope = doc.createElementNS("", "VoidedDocuments");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns", "urn:sunat:names:specification:ubl:peru:schema:xsd:VoidedDocuments-1");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:cac", "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:cbc", "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2");
-//            envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ccts", "urn:un:unece:uncefact:documentation:2");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:ext", "urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2");
-//            envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:qdt", "urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:sac", "urn:sunat:names:specification:ubl:peru:schema:xsd:SunatAggregateComponents-1");
-//            envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:udt", "urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2");
             envelope.setAttributeNS(Constants.NamespaceSpecNS, "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
             envelope.appendChild(doc.createTextNode("\n"));
-            //doc.appendChild(doc.createComment(" Preamble "));
             doc.appendChild(envelope);
-            //doc.appendChild(doc.createComment(" Postamble "));
 
+            // ═══════════════════════════════════════════════════════════════════
+            // UBLExtensions (Firma Digital)
+            // ═══════════════════════════════════════════════════════════════════
             Element UBLExtensions = doc.createElementNS("", "ext:UBLExtensions");
             envelope.appendChild(UBLExtensions);
-            Element UBLExtension2 = doc.createElementNS("", "ext:UBLExtension");
-            UBLExtension2.appendChild(doc.createTextNode("\n"));
-            Element ExtensionContent2 = doc.createElementNS("", "ext:ExtensionContent");
-            ExtensionContent2.appendChild(doc.createTextNode("\n"));
-//            2do grupo
-            Element UBLExtension = doc.createElementNS("", "ext:UBLExtension");
-            envelope.appendChild(UBLExtension);
-            Element ExtensionContent = doc.createElementNS("", "ext:ExtensionContent");
-            envelope.appendChild(ExtensionContent);
 
-//        
-            //El baseURI es la URI que se utiliza para anteponer a URIs relativos
-            String BaseURI = signatureFile.toURI().toURL().toString();
-              XMLSignature sig = new XMLSignature(doc,BaseURI, XMLSignature.ALGO_ID_SIGNATURE_RSA);
-//            sig.getId();
-            ExtensionContent.appendChild(sig.getElement());
-//            System.out.println(sig.getElement().getAttribute("Id"));
-            UBLExtension.appendChild(ExtensionContent);
+            Element UBLExtension = doc.createElementNS("", "ext:UBLExtension");
             UBLExtensions.appendChild(UBLExtension);
-//bloque1
+
+            Element ExtensionContent = doc.createElementNS("", "ext:ExtensionContent");
+            UBLExtension.appendChild(ExtensionContent);
+
+            String BaseURI = signatureFile.toURI().toURL().toString();
+            XMLSignature sig = new XMLSignature(doc, BaseURI, XMLSignature.ALGO_ID_SIGNATURE_RSA);
+            ExtensionContent.appendChild(sig.getElement());
+
+            // ═══════════════════════════════════════════════════════════════════
+            // CABECERA
+            // ═══════════════════════════════════════════════════════════════════
             Element UBLVersionID = doc.createElementNS("", "cbc:UBLVersionID");
             envelope.appendChild(UBLVersionID);
             UBLVersionID.appendChild(doc.createTextNode("2.0"));
@@ -387,168 +403,178 @@ public class DarBajaDocElectronica {
             envelope.appendChild(CustomizationID);
             CustomizationID.appendChild(doc.createTextNode("1.0"));
 
-            Element ID5 = doc.createElementNS("", "cbc:ID");
-            envelope.appendChild(ID5);
-            ID5.appendChild(doc.createTextNode("RA-"+items.getDocu_fecha().toString().replace("-","")+"-1"));
+            // ID: RA-YYYYMMDD-correlativo
+            Element ID = doc.createElementNS("", "cbc:ID");
+            envelope.appendChild(ID);
+            ID.appendChild(doc.createTextNode(identificador));
 
+            // ReferenceDate: Fecha de los documentos a dar de baja
             Element ReferenceDate = doc.createElementNS("", "cbc:ReferenceDate");
             envelope.appendChild(ReferenceDate);
-            ReferenceDate.appendChild(doc.createTextNode(items.getDocu_fecha()+""));
-            
+            // Usar la fecha de emisión del primer documento
+            if ( documentos.getFecEmision() != null) {
+                ReferenceDate.appendChild(doc.createTextNode(
+                        new SimpleDateFormat("yyyy-MM-dd").format(documentos.getFecEmision())));
+            } else {
+                ReferenceDate.appendChild(doc.createTextNode(fechaBaja));
+            }
+
+            // IssueDate: Fecha de generación de la comunicación
             Element IssueDate = doc.createElementNS("", "cbc:IssueDate");
             envelope.appendChild(IssueDate);
-            IssueDate.appendChild(doc.createTextNode(items.getDocu_fecha()+""));
-            
-//         
-//bloque2 cac:Signature--------------------------------------------------------
+            IssueDate.appendChild(doc.createTextNode(fechaBaja));
+
+            // ═══════════════════════════════════════════════════════════════════
+            // cac:Signature
+            // ═══════════════════════════════════════════════════════════════════
             Element Signature = doc.createElementNS("", "cac:Signature");
             envelope.appendChild(Signature);
-            Signature.appendChild(doc.createTextNode("\n"));
 
-            Element ID6 = doc.createElementNS("", "cbc:ID");
-            Signature.appendChild(ID6);
-//            ID6.appendChild(doc.createTextNode(items.getEmpr_nombrecomercial().trim()));
-            ID6.appendChild(doc.createTextNode("RA-"+items.getDocu_fecha().toString().replace("-","")+"-"));
+            Element SignatureID = doc.createElementNS("", "cbc:ID");
+            Signature.appendChild(SignatureID);
+            SignatureID.appendChild(doc.createTextNode(identificador));
 
             Element SignatoryParty = doc.createElementNS("", "cac:SignatoryParty");
             Signature.appendChild(SignatoryParty);
-            SignatoryParty.appendChild(doc.createTextNode("\n"));
 
             Element PartyIdentification = doc.createElementNS("", "cac:PartyIdentification");
             SignatoryParty.appendChild(PartyIdentification);
-            PartyIdentification.appendChild(doc.createTextNode("\n"));
 
-            Element ID7 = doc.createElementNS("", "cbc:ID");
-            PartyIdentification.appendChild(ID7);
-            ID7.appendChild(doc.createTextNode(items.getEmpr_nroruc().trim()));
+            Element PartyID = doc.createElementNS("", "cbc:ID");
+            PartyIdentification.appendChild(PartyID);
+            PartyID.appendChild(doc.createTextNode(ruc));
 
             Element PartyName = doc.createElementNS("", "cac:PartyName");
             SignatoryParty.appendChild(PartyName);
-            PartyName.appendChild(doc.createTextNode("\n"));
 
             Element Name = doc.createElementNS("", "cbc:Name");
             PartyName.appendChild(Name);
-            cdata = doc.createCDATASection(items.getEmpr_razonsocial().trim());
+            CDATASection cdata = doc.createCDATASection(datosEmpresa.getEmprRazonSocial());
             Name.appendChild(cdata);
 
             Element DigitalSignatureAttachment = doc.createElementNS("", "cac:DigitalSignatureAttachment");
             Signature.appendChild(DigitalSignatureAttachment);
-            DigitalSignatureAttachment.appendChild(doc.createTextNode("\n"));
 
             Element ExternalReference = doc.createElementNS("", "cac:ExternalReference");
             DigitalSignatureAttachment.appendChild(ExternalReference);
-            ExternalReference.appendChild(doc.createTextNode("\n"));
 
             Element URI = doc.createElementNS("", "cbc:URI");
             ExternalReference.appendChild(URI);
-//            URI.appendChild(doc.createTextNode(items.getEmpr_nroruc().trim()));
-            URI.appendChild(doc.createTextNode("RA-"+items.getDocu_fecha().toString().replace("-","")+"-1"));
-//bloque3 cac:AccountingSupplierParty-----------------------------------------
+            URI.appendChild(doc.createTextNode(identificador));
 
+            // ═══════════════════════════════════════════════════════════════════
+            // cac:AccountingSupplierParty (Emisor)
+            // ═══════════════════════════════════════════════════════════════════
             Element AccountingSupplierParty = doc.createElementNS("", "cac:AccountingSupplierParty");
             envelope.appendChild(AccountingSupplierParty);
-            AccountingSupplierParty.appendChild(doc.createTextNode("\n"));
 
             Element CustomerAssignedAccountID = doc.createElementNS("", "cbc:CustomerAssignedAccountID");
             AccountingSupplierParty.appendChild(CustomerAssignedAccountID);
-            CustomerAssignedAccountID.appendChild(doc.createTextNode(items.getEmpr_nroruc().trim()));
-//
+            CustomerAssignedAccountID.appendChild(doc.createTextNode(ruc));
+
             Element AdditionalAccountID = doc.createElementNS("", "cbc:AdditionalAccountID");
             AccountingSupplierParty.appendChild(AdditionalAccountID);
-            AdditionalAccountID.appendChild(doc.createTextNode(items.getEmpr_tipodoc().trim()));
-//***********************************************************
+            AdditionalAccountID.appendChild(doc.createTextNode("6")); // RUC
+
             Element Party = doc.createElementNS("", "cac:Party");
             AccountingSupplierParty.appendChild(Party);
-            Party.appendChild(doc.createTextNode("\n"));
 
-//        
             Element PartyLegalEntity = doc.createElementNS("", "cac:PartyLegalEntity");
-            Party.appendChild(PartyLegalEntity);//se anade al grupo party
-            PartyLegalEntity.appendChild(doc.createTextNode("\n"));
+            Party.appendChild(PartyLegalEntity);
 
             Element RegistrationName = doc.createElementNS("", "cbc:RegistrationName");
-            PartyLegalEntity.appendChild(RegistrationName);//se anade al grupo Country
-            cdata = doc.createCDATASection(items.getEmpr_razonsocial().trim());
+            PartyLegalEntity.appendChild(RegistrationName);
+            cdata = doc.createCDATASection(datosEmpresa.getEmprRazonSocial());
             RegistrationName.appendChild(cdata);
-            
 
-// bloque4
-            int fume=0;
-            for(CabeceraBean ITERACION : iteracion){
-            Element VoidedDocumentsLine = doc.createElementNS("", "sac:VoidedDocumentsLine");
-            envelope.appendChild(VoidedDocumentsLine);
-            VoidedDocumentsLine.appendChild(doc.createTextNode("\n"));
-            
-            Element LineID = doc.createElementNS("", "cbc:LineID");
-            VoidedDocumentsLine.appendChild(LineID);//
-            LineID.appendChild(doc.createTextNode((fume+1)+""));
-            
-            Element DocumentTypeCode = doc.createElementNS("", "cbc:DocumentTypeCode");
-            VoidedDocumentsLine.appendChild(DocumentTypeCode);//se anade al grupo AccountingCustomerParty
-//            DocumentTypeCode.appendChild(doc.createTextNode("3"));
-            DocumentTypeCode.appendChild(doc.createTextNode(ITERACION.getDocu_tipodocumento().trim()));
-            
-            String serieynumero[]=ITERACION.getDocu_numero().trim().split("-");
-            Element ID = doc.createElementNS("", "sac:DocumentSerialID");
-            VoidedDocumentsLine.appendChild(ID);//se anade al grupo AccountingCustomerParty
-            ID.appendChild(doc.createTextNode(serieynumero[0]));
-            
-            Element ID3 = doc.createElementNS("", "sac:DocumentNumberID");
-            VoidedDocumentsLine.appendChild(ID3);//se anade al grupo AccountingCustomerParty
-            ID3.appendChild(doc.createTextNode(serieynumero[1]));
-            
-            Element ID4 = doc.createElementNS("", "sac:VoidReasonDescription");
-            VoidedDocumentsLine.appendChild(ID4);//se anade al grupo AccountingCustomerParty
-            ID4.appendChild(doc.createTextNode(ITERACION.getDocu_motivoanular()));
-            
-            
-            fume++;
-//         
-            }
+            // ═══════════════════════════════════════════════════════════════════
+            // sac:VoidedDocumentsLine (Detalle de documentos a anular)
+            // ═══════════════════════════════════════════════════════════════════
+            int lineaNum = 1;
+            //for (ComunicacionBajaBean documento : documentos) {
+                Element VoidedDocumentsLine = doc.createElementNS("", "sac:VoidedDocumentsLine");
+                envelope.appendChild(VoidedDocumentsLine);
 
-            sig.setId("Sign"+items.getEmpr_nroruc());
+                // LineID
+                Element LineID = doc.createElementNS("", "cbc:LineID");
+                VoidedDocumentsLine.appendChild(LineID);
+                LineID.appendChild(doc.createTextNode(String.valueOf(lineaNum)));
+
+                // DocumentTypeCode (01=Factura, 03=Boleta, 07=NC, 08=ND)
+                Element DocumentTypeCode = doc.createElementNS("", "cbc:DocumentTypeCode");
+                VoidedDocumentsLine.appendChild(DocumentTypeCode);
+                DocumentTypeCode.appendChild(doc.createTextNode(documentos.getTipoDocumento()));
+
+                // DocumentSerialID (Serie)
+                Element DocumentSerialID = doc.createElementNS("", "sac:DocumentSerialID");
+                VoidedDocumentsLine.appendChild(DocumentSerialID);
+                DocumentSerialID.appendChild(doc.createTextNode(documentos.getSerie()));
+
+                // DocumentNumberID (Número)
+                Element DocumentNumberID = doc.createElementNS("", "sac:DocumentNumberID");
+                VoidedDocumentsLine.appendChild(DocumentNumberID);
+                DocumentNumberID.appendChild(doc.createTextNode(documentos.getNumero()));
+
+                // VoidReasonDescription (Motivo de baja)
+                Element VoidReasonDescription = doc.createElementNS("", "sac:VoidReasonDescription");
+                VoidedDocumentsLine.appendChild(VoidReasonDescription);
+                String motivo = documentos.getDescMotivo();
+                if (motivo == null || motivo.trim().isEmpty()) {
+                    motivo = "ANULACION DE COMPROBANTE";
+                }
+                VoidReasonDescription.appendChild(doc.createTextNode(motivo));
+
+                log.info("Línea " + lineaNum + ": " + documentos.getTipoDocumento() + " " +
+                        documentos.getSerie() + "-" + documentos.getNumero() + " - " + motivo);
+
+                //lineaNum++;
+            //}
+
+            // ═══════════════════════════════════════════════════════════════════
+            // FIRMAR DOCUMENTO
+            // ═══════════════════════════════════════════════════════════════════
+            sig.setId("Sign" + ruc);
             sig.addKeyInfo(cert);
-            {
-                Transforms transforms = new Transforms(doc);
-                transforms.addTransform(Transforms.TRANSFORM_ENVELOPED_SIGNATURE);
-                sig.addDocument("", transforms, Constants.ALGO_ID_DIGEST_SHA1);
-            }
-            {
-                //Firmar el documento
-                sig.sign(privateKey);
-            }
-            //--------------------fin de construccion del xml---------------------
-            ///*combinacion de firma y construccion xml////
+
+            Transforms transforms = new Transforms(doc);
+            transforms.addTransform(Transforms.TRANSFORM_ENVELOPED_SIGNATURE);
+            sig.addDocument("", transforms, Constants.ALGO_ID_DIGEST_SHA1);
+
+            sig.sign(privateKey);
+
+            // ═══════════════════════════════════════════════════════════════════
+            // GUARDAR XML
+            // ═══════════════════════════════════════════════════════════════════
             FileOutputStream f = new FileOutputStream(signatureFile);
             Transformer tf = TransformerFactory.newInstance().newTransformer();
             tf.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-            //tf.setOutputProperty(OutputKeys.INDENT, "yes");
             tf.setOutputProperty(OutputKeys.STANDALONE, "no");
-            //Writer out = new StringWriter();
             StreamResult sr = new StreamResult(f);
             tf.transform(new DOMSource(doc), sr);
             sr.getOutputStream().close();
 
-            //====================== CREAR ZIP PARA EL ENVIO A SUNAT =======================
-            resultado = GeneralFunctions.crearZip3(items, unidadEnvio, signatureFile);
+            log.info("XML creado exitosamente: " + pathXMLFile);
+
+            // ═══════════════════════════════════════════════════════════════════
+            // CREAR ZIP
+            // ═══════════════════════════════════════════════════════════════════
+            resultado = GeneralFunctions.crearZipComunicacionBaja(ruc, identificador, unidadEnvio, signatureFile);
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            resultado = "0100|Error al generar el archivo de comunicacion de baja.";
-            log.error("generarXMLZipiadoBoleta - error  " + ex.toString());
-
+            resultado = "0100|Error al generar XML de comunicación de baja: " + ex.getMessage();
+            log.error("Error crearXmlComunicacionBaja: " + ex.toString());
         }
+
         return resultado;
     }
-   public static String redondea(double numero, int decimales) 
-    {
-      double resultado;String resul="";
-        DecimalFormat f = new DecimalFormat("0.00");
-      BigDecimal res;
 
-      res = new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_DOWN);
-      resultado = res.doubleValue();
-      resul=f.format(resultado).replace(",",".");
-      return resul;
+    /**
+     * Método de utilidad para redondeo
+     */
+    public static String redondea(double numero, int decimales) {
+        DecimalFormat f = new DecimalFormat("0.00");
+        BigDecimal res = new BigDecimal(numero).setScale(decimales, BigDecimal.ROUND_HALF_UP);
+        return f.format(res.doubleValue()).replace(",", ".");
     }
 }

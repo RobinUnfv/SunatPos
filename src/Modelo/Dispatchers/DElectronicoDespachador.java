@@ -1,10 +1,8 @@
 
 package Modelo.Dispatchers;
 
-import Modelo.Beans.CabeceraBean;
-import Modelo.Beans.DetalleBean;
-import Modelo.Beans.LeyendaBean;
-import Modelo.Beans.PagoBean;
+import Modelo.Beans.*;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,10 +45,10 @@ public class DElectronicoDespachador {
                     "AND A.PROCE_STATUS = 'N' " +
                     "AND A.ENVIAWS = 'S' " +
                     "AND ROWNUM = 1 "; */
-            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU " +
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.ESTADO " +
                         "FROM FACTU.ARFAFE A " +
                         "WHERE A.NO_CIA = ? " +
-                        "AND A.ESTADO = 'D' " +
+                        //"AND A.ESTADO = 'D' " +
                         "AND A.PROCE_STATUS = 'N' " +
                         "AND A.ENVIAWS = 'S' " +
                         "AND ROWNUM = 1 ";
@@ -63,10 +61,12 @@ public class DElectronicoDespachador {
                // String noCia = rs.getString("NO_CIA");
                 String tipoDoc = rs.getString("TIPO_DOC");
                 String noFactu = rs.getString("NO_FACTU");
+                String estado  = rs.getString("ESTADO");
 
                 cabeceraBean.setDocu_codigo(noFactu);
                 cabeceraBean.setDocu_tipodocumento(ConversionUtils.convertirTipoDoc(tipoDoc));
                 cabeceraBean.setDocu_numero(ConversionUtils.formatearNumeroDocumento(noFactu));
+                cabeceraBean.setCdr(estado);
 
             }
             rs.close();
@@ -670,4 +670,178 @@ public class DElectronicoDespachador {
         } else if (n > 0) sb.append(u[n]);
         return sb.toString().trim();
     }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR DOCUMENTOS PENDIENTES DE BAJA
+    // ══════════════════════════════════════════════════════════════════════════
+
+    /**
+     * Obtiene todos los documentos pendientes de comunicación de baja (estado = 'N')
+     * @param conn Conexión a la base de datos
+     * @return Lista de documentos a dar de baja
+     */
+    public static ComunicacionBajaBean cargarDocumentosBajaPendientes(String noFactu, Connection conn) {
+        ComunicacionBajaBean baja = new ComunicacionBajaBean();
+        try {
+            String sql = "SELECT CB.NO_CIA, CB.NO_FACTU, CB.FEC_EMISION, CB.FEC_BAJA, " +
+                    "CB.COD_MOTIVO, CB.DESC_MOTIVO, CB.ESTADO, CB.NRO_CORRELATIVO " +
+                    "FROM FACTU.COMUNICACION_BAJA CB " +
+                    "WHERE CB.NO_CIA = ? " +
+                    "AND CB.NO_FACTU = ? " +
+                    "AND CB.ESTADO = 'N' ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, noFactu);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                baja = mapearComunicacionBaja(rs);
+
+            }
+            rs.close();
+            ps.close();
+
+        } catch (Exception ex) {
+            System.out.println("Error cargarDocumentosBajaPendientes: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+        return baja;
+    }
+
+    /**
+     * Mapea un ResultSet a ComunicacionBajaBean
+     */
+    private static ComunicacionBajaBean mapearComunicacionBaja(ResultSet rs) throws SQLException {
+        ComunicacionBajaBean bean = new ComunicacionBajaBean();
+
+        bean.setNoCia(rs.getString("NO_CIA"));
+        bean.setNoFactu(rs.getString("NO_FACTU"));
+        bean.setFecEmision(rs.getDate("FEC_EMISION"));
+        bean.setFecBaja(rs.getDate("FEC_BAJA"));
+        bean.setCodMotivo(rs.getString("COD_MOTIVO"));
+        bean.setDescMotivo(rs.getString("DESC_MOTIVO"));
+        bean.setEstado(rs.getString("ESTADO"));
+        bean.setNroCorrelativo(rs.getString("NRO_CORRELATIVO"));
+        //bean.setTicketSunat(rs.getString("TICKET_SUNAT"));
+        //bean.setCdrSunat(rs.getString("CDR_SUNAT"));
+
+        // Convertir tipo de documento Oracle a código SUNAT
+        String noFactu = bean.getNoFactu();
+        String tipoDocOracle = noFactu.toUpperCase().substring(0, 1);
+        tipoDocOracle = "N".equals(tipoDocOracle) ? "NC" : tipoDocOracle; // Ajuste para NC/ND
+        bean.setTipoDocumento(ConversionUtils.convertirTipoDoc(tipoDocOracle));
+
+        // Parsear serie y número del NO_FACTU
+
+        if (noFactu.length() >= 4) {
+            bean.setSerie(noFactu.substring(0, 4));
+            bean.setNumero(noFactu.substring(4));
+        }
+
+        return bean;
+    }
+
+    /**
+     * Obtiene los datos de la empresa para la comunicación de baja
+     * @param conn Conexión a la base de datos
+     * @return ComunicacionBajaBean con datos de la empresa
+     */
+    public static ComunicacionBajaBean cargarDatosEmpresaBaja(Connection conn) {
+        ComunicacionBajaBean bean = new ComunicacionBajaBean();
+        try {
+            String sql = "SELECT NOMBRE, NO_CLIENTE_ONLINE FROM FACTU.ARFAMC WHERE NO_CIA = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                bean.setEmprRazonSocial(rs.getString("NOMBRE"));
+                bean.setEmprRuc(rs.getString("NO_CLIENTE_ONLINE"));
+                bean.setEmprTipoDoc("6"); // RUC
+            }
+            rs.close();
+            ps.close();
+
+        } catch (Exception ex) {
+            System.out.println("Error cargarDatosEmpresaBaja: " + ex.getMessage());
+        }
+        return bean;
+    }
+
+    /**
+     * Marca los documentos como en proceso (estado = 'P')
+     */
+    public static void marcarBajaEnProceso(ComunicacionBajaBean documentos, String correlativo, Connection conn) {
+        try {
+            String sql = "UPDATE FACTU.COMUNICACION_BAJA SET ESTADO = 'P' " +
+                    "WHERE NO_CIA = ? AND NO_FACTU = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //for (ComunicacionBajaBean doc : documentos) {
+                ps.setString(1, documentos.getNoCia());
+                ps.setString(2, documentos.getNoFactu());
+                ps.addBatch();
+           // }
+            ps.executeBatch();
+            conn.commit();
+            ps.close();
+
+        } catch (Exception ex) {
+            System.out.println("Error marcarBajaEnProceso: " + ex.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    /**
+     * Marca los documentos con error (estado = 'X')
+     */
+    public static void marcarBajaError(ComunicacionBajaBean documentos, String cdr, Connection conn) {
+        try {
+            String sql = "UPDATE FACTU.COMUNICACION_BAJA SET ESTADO = 'X', CDR_SUNAT = ? " +
+                    "WHERE NO_CIA = ? AND NO_FACTU = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+           // for (ComunicacionBajaBean doc : documentos) {
+                ps.setString(1, cdr);
+                ps.setString(2, documentos.getNoCia());
+                ps.setString(3, documentos.getNoFactu());
+                ps.addBatch();
+           // }
+            ps.executeBatch();
+            conn.commit();
+            ps.close();
+
+        } catch (Exception ex) {
+            System.out.println("Error marcarBajaError: " + ex.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    /**
+     * Marca los documentos como enviados exitosamente (estado = 'E')
+     */
+    public static void marcarBajaEnviada(ComunicacionBajaBean documentos, String ticket, String cdr, Connection conn) {
+        try {
+            String sql = "UPDATE FACTU.COMUNICACION_BAJA SET ESTADO = 'E', TICKET_SUNAT = ?, CDR_SUNAT = ? " +
+                    "WHERE NO_CIA = ? AND NO_FACTU = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            //for (ComunicacionBajaBean doc : documentos) {
+                ps.setString(1, ticket);
+                ps.setString(2, cdr);
+                ps.setString(3, documentos.getNoCia());
+                ps.setString(4, documentos.getNoFactu());
+                ps.addBatch();
+            //}
+            ps.executeBatch();
+            conn.commit();
+            ps.close();
+
+        } catch (Exception ex) {
+            System.out.println("Error marcarBajaEnviada: " + ex.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
 }

@@ -125,6 +125,48 @@ public class GeneralFunctions {
         return resultado;
     }
 
+    /**
+     * Crea el archivo ZIP para la Comunicación de Baja
+     * @param ruc RUC del emisor
+     * @param identificador Identificador (RA-YYYYMMDD-correlativo)
+     * @param unidadEnvio Ruta de la carpeta de envío
+     * @param signatureFile Archivo XML firmado
+     * @return Resultado del proceso
+     */
+    public static String crearZipComunicacionBaja(String ruc, String identificador, String unidadEnvio, File signatureFile) {
+        String resultado = "";
+        try {
+            String nombreZip = ruc + "-" + identificador + ".zip";
+            String nombreXml = ruc + "-" + identificador + ".xml";
+
+            FileOutputStream fos = new FileOutputStream(unidadEnvio + nombreZip);
+            java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(fos);
+
+            // Agregar el XML al ZIP
+            java.util.zip.ZipEntry ze = new java.util.zip.ZipEntry(nombreXml);
+            zos.putNextEntry(ze);
+
+            FileInputStream fis = new FileInputStream(signatureFile);
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = fis.read(buffer)) > 0) {
+                zos.write(buffer, 0, len);
+            }
+            fis.close();
+            zos.closeEntry();
+            zos.close();
+            fos.close();
+
+            resultado = "0|ZIP creado: " + nombreZip;
+            System.out.println("ZIP creado exitosamente: " + unidadEnvio + nombreZip);
+
+        } catch (Exception e) {
+            resultado = "0100|Error al crear ZIP: " + e.getMessage();
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+
     
 }
 

@@ -29,11 +29,12 @@ public class DisparaGeneratorws {
             String tipodoc = null;
             String iddoc = null;
             String result = "x";
+            String estado = null;
             if (item != null) {
                 System.out.println("generator - Existe pendiente");
                 iddoc = item.getDocu_codigo().trim();
                 tipodoc = item.getDocu_tipodocumento().trim();//  BOLETA 03   FACTURAS 01    NOTAS CRED 07
-
+                estado = item.getCdr();
                 System.out.println("Tipo Doc: " + tipodoc + " NoFactu: " + iddoc);
 
                 switch (tipodoc) {
@@ -44,11 +45,13 @@ public class DisparaGeneratorws {
                         System.out.println("RESULTADO BOLETA : "+result);
                         break;
                     case "01":
-                        System.out.println("ENVIAR LA FACTURA : "+item.getDocu_numero());
-                       // System.out.println("ENVIAR LA FACTURA : "+item.getDocu_numero());
-                        result = FacturaElectronica.generarXMLZipiadoFactura(iddoc, conn);
-                        result = DarBajaDocElectronica.generarXMLZipiadoBoleta(iddoc, conn);
-                        System.out.println("RESULTADO  FACTURA : "+result);
+
+                        if (estado.equals("D")) {
+                            result = FacturaElectronica.generarXMLZipiadoFactura(iddoc, conn);
+                        } else if (estado.equals("A")) {
+                            //result = DarBajaDocElectronica.generarXMLZipiadoBoleta(iddoc, conn);
+                            result = DarBajaDocElectronica.generarComunicacionBaja(iddoc, conn);
+                        }
 
                         break;
                     case "07":

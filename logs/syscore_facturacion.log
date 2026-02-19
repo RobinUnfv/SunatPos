@@ -1715,3 +1715,56 @@
 2026-02-09 22:12:45 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
 2026-02-09 22:13:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
 2026-02-09 22:13:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000036.zip
+2026-02-12 17:25:06 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-12 17:25:06 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-12 17:25:06 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-12 17:25:06 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-12 17:25:09 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-12 17:25:09 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-12 17:25:09 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-12 17:25:09 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-12 17:25:09 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-12 17:25:09 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-12 17:25:10 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.xml
+2026-02-12 17:25:10 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-12 17:25:10 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000103.zip
+2026-02-12 17:25:11 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-12 17:25:12 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-12 17:25:15 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-12 17:25:15 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000103.zip
+2026-02-12 17:25:15 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-12 17:25:15 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000103.xml
+2026-02-12 17:25:15 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Inicializamos el ambiente
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Extraemos datos para preparar XML 
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Ruta de directorios d:\envio\
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Iniciamos cabecera 
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Lectura de cerificado 
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Iniciamos la generacion del XML
+2026-02-12 17:25:31 ERROR [DarBajaDocElectronica] - generarXMLZipiadoBoleta - error  java.io.FileNotFoundException: d:\envio\certificado.jks (El sistema no puede encontrar la ruta especificada)
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - generarXMLZipiadoBoleta - Preparando para enviar a SUNAT
+2026-02-12 17:25:31 INFO  [DarBajaDocElectronica] - enviarASunat - Prepara ambiente: 1/20609272016-RA-20260209-1.zip
+2026-02-12 17:25:32 ERROR [DarBajaDocElectronica] - generarXMLZipiadoBoleta - error  java.lang.NullPointerException
+2026-02-19 12:05:01 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-19 12:10:34 INFO  [DarBajaDocElectronica] - Fecha de baja: 2026-02-14, Correlativo: 2
+2026-02-19 12:10:34 INFO  [DarBajaDocElectronica] - Generando XML: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-19 12:10:34 INFO  [DarBajaDocElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-19 12:10:34 INFO  [DarBajaDocElectronica] - Línea 1: 01 F001-0000106 - PRUEBAS PARA CREALIZAR UNA BAJA
+2026-02-19 12:18:51 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-19 12:19:00 INFO  [DarBajaDocElectronica] - Fecha de baja: 2026-02-14, Correlativo: 2
+2026-02-19 12:19:14 INFO  [DarBajaDocElectronica] - Generando XML: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-19 12:19:40 INFO  [DarBajaDocElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-19 12:21:52 INFO  [DarBajaDocElectronica] - Línea 1: 01 F001-0000106 - PRUEBAS PARA CREALIZAR UNA BAJA
+2026-02-19 12:22:38 INFO  [DarBajaDocElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-19 12:23:20 INFO  [DarBajaDocElectronica] - Enviando a SUNAT: 20609272016-RA-20260214-2.zip
+2026-02-19 12:23:21 INFO  [DarBajaDocElectronica] - enviarZipASunat - Archivo: 20609272016-RA-20260214-2.zip
+2026-02-19 12:23:23 INFO  [DarBajaDocElectronica] - Ambiente Beta - Ticket: 1771522064560
+2026-02-19 12:23:23 INFO  [DarBajaDocElectronica] - Envío exitoso. Ticket: 1771522064560
+2026-02-19 12:23:35 INFO  [DarBajaDocElectronica] - Ticket SUNAT: 1771522064560
+2026-02-19 12:23:37 INFO  [DarBajaDocElectronica] - pedirStatus - Ticket: 1771522064560
+2026-02-19 12:23:37 INFO  [DarBajaDocElectronica] - Descomprimiendo CDR: d:\POS-SUNAT\respuesta\R-20609272016-RA-20260214-2.zip
+2026-02-19 12:23:37 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-RA-20260214-2.xml
+2026-02-19 12:23:37 INFO  [DarBajaDocElectronica] - CDR obtenido: 0|La Comunicacion de baja RA-20260214-2, ha sido aceptada
+2026-02-19 12:24:19 INFO  [DarBajaDocElectronica] - Comunicación de baja exitosa: 1771522064560
+2026-02-19 12:26:43 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-19 12:26:43 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
