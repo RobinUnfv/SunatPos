@@ -162,7 +162,7 @@ public class DElectronicoDespachador {
 
     // ══════════════════════════════════════════════════════════════════════════
     // LISTA PARA RESUMEN DIARIO
-    // ══════════════════════════════════════════════════════════════════════════
+    /* ══════════════════════════════════════════════════════════════════════════
     public static List<CabeceraBean> ResumenDiario(String pendiente, String tipodoc, Connection conn) {
         List<CabeceraBean> resumen = new ArrayList<CabeceraBean>();
         String tipoDocOracle = ConversionUtils.convertirTipoDocInverso(tipodoc);
@@ -200,7 +200,7 @@ public class DElectronicoDespachador {
         }
         return resumen;
     }
-
+    */
     // ══════════════════════════════════════════════════════════════════════════
     // MAPEAR RESULTSET A CABECERABEAN
     // ══════════════════════════════════════════════════════════════════════════
@@ -842,6 +842,289 @@ public class DElectronicoDespachador {
             System.out.println("Error marcarBajaEnviada: " + ex.getMessage());
             try { conn.rollback(); } catch (Exception x) {}
         }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════════════════
+// MÉTODO REFACTORIZADO ResumenDiario - AGREGAR/REEMPLAZAR EN DElectronicoDespachador.java
+// ══════════════════════════════════════════════════════════════════════════════════════
+//
+// CAMBIOS REALIZADOS:
+// 1. Incluye boletas con estado 'D' (Despachado) y 'A' (Anulado)
+// 2. Límite de 100 boletas por resumen diario (requisito SUNAT)
+// 3. Agrega campo ESTADO al bean para determinar el ConditionCode
+// 4. Ordena por fecha y número de documento
+// ══════════════════════════════════════════════════════════════════════════════════════
+
+    /**
+     * ══════════════════════════════════════════════════════════════════════════
+     * LISTA PARA RESUMEN DIARIO DE BOLETAS
+     * ══════════════════════════════════════════════════════════════════════════
+     *
+     * Obtiene las boletas pendientes de envío en resumen diario.
+     *
+     * ESTADOS DE BOLETA (FACTU.ARFAFE.ESTADO):
+     * - 'D' = Despachado (boleta emitida normalmente) → ConditionCode = 1 (Adicionar)
+     * - 'A' = Anulado (boleta anulada) → ConditionCode = 3 (Anular)
+     *
+     * ESTADOS DE PROCESO (FACTU.ARFAFE.PROCE_STATUS):
+     * - 'N' = Nuevo/Pendiente de envío
+     * - 'B' = Bloqueado para proceso
+     * - 'P' = En proceso
+     * - 'E' = Enviado exitosamente
+     * - 'X' = Error de envío
+     *
+     * @param pendiente Estado de proceso ('N' para pendientes)
+     * @param tipodoc Tipo de documento SUNAT ('03' para boletas)
+     * @param conn Conexión a la base de datos
+     * @return Lista de boletas para el resumen (máximo 100)
+     */
+    public static List<CabeceraBean> ResumenDiario(String pendiente, String tipodoc, Connection conn) {
+        List<CabeceraBean> resumen = new ArrayList<CabeceraBean>();
+
+        // Convertir tipo documento SUNAT a código Oracle
+        // '03' (Boleta SUNAT) → 'B' (Boleta Oracle)
+        String tipoDocOracle = ConversionUtils.convertirTipoDocInverso(tipodoc);
+
+        // Límite máximo de documentos por resumen diario según SUNAT
+        final int LIMITE_BOLETAS = 100;
+
+        try {
+            // ══════════════════════════════════════════════════════════════════
+            // SQL: Obtener boletas despachadas (D) y anuladas (A)
+            // ══════════════════════════════════════════════════════════════════
+            String sql = "SELECT A.NO_CIA, A.TIPO_DOC, A.NO_FACTU, A.FECHA, " +
+                    "TO_CHAR(A.FEC_CREA, 'HH24:MI:SS') AS HORA, " +
+                    "A.NO_CLIENTE, A.NBR_CLIENTE, " +
+                    "CXC.PR_CLIENTE.GET_DIRECCION(A.NO_CIA, A.NO_CLIENTE) AS DIRECCION, " +
+                    "A.TIPO_DOC_CLI, A.NUM_DOC_CLI, A.RUC, " +
+                    "A.MONEDA, " +
+                    "ROUND(A.VALOR_VENTA, 2) AS VALOR_VENTA, " +
+                    "ROUND(A.SUB_TOTAL, 2) AS SUB_TOTAL, " +
+                    "ROUND(A.IMPUESTO, 2) AS IMPUESTO, " +
+                    "ROUND(A.TOTAL, 2) AS TOTAL, " +
+                    "ROUND(A.T_DESCUENTO, 2) AS T_DESCUENTO, " +
+                    "ROUND(A.OPER_GRAVADAS, 2) AS OPER_GRAVADAS, " +
+                    "ROUND(A.OPER_EXONERADAS, 2) AS OPER_EXONERADAS, " +
+                    "ROUND(A.OPER_INAFECTAS, 2) AS OPER_INAFECTAS, " +
+                    "ROUND(A.OPER_GRATUITAS, 2) AS OPER_GRATUITAS, " +
+                    "A.IMP_ISC, " +
+                    "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
+                    //"A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
+                    //"A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
+                    //"A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
+                    //"A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
+                    "A.ENVIAWS, A.NOMBRE_RQ, " +
+                    "A.ESTADO, " +           // D=Despachado, A=Anulado
+                    "A.PROCE_STATUS " +
+                    "FROM FACTU.ARFAFE A " +
+                    "WHERE A.NO_CIA = ? " +
+                    "AND A.ENVIAWS = ? " +                   // S=ENVIAR A SUNAT
+                    "AND A.PROCE_STATUS = ? " +              // N=Pendiente
+                    "AND A.TIPO_DOC = ? " +                   // B=Boleta
+                    "AND A.ESTADO IN ('D', 'A') " +           // D=Despachado, A=Anulado
+                    "AND ROWNUM <= ? " +                      // Límite de 100 boletas
+                    "ORDER BY A.FECHA, A.NO_FACTU";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setString(2, "S");        // 'S' para enviar a SUNAT
+            ps.setString(3, pendiente);        // 'N' para pendientes
+            ps.setString(4, tipoDocOracle);    // 'B' para boletas
+            ps.setInt(5, LIMITE_BOLETAS);      // Máximo 100 boletas
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                CabeceraBean bean = mapearCabeceraResumen(rs, conn);
+                resumen.add(bean);
+            }
+
+            rs.close();
+            ps.close();
+
+            System.out.println("ResumenDiario: " + resumen.size() + " boletas encontradas (máx " + LIMITE_BOLETAS + ")");
+
+        } catch (Exception ex) {
+            System.out.println("Error ResumenDiario: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        return resumen;
+    }
+
+    /**
+     * ══════════════════════════════════════════════════════════════════════════
+     * MAPEAR RESULTSET A CABECERABEAN PARA RESUMEN DIARIO
+     * ══════════════════════════════════════════════════════════════════════════
+     *
+     * Mapea los datos del ResultSet incluyendo el campo ESTADO para determinar
+     * si la boleta es para alta (D) o baja (A) en el resumen.
+     */
+    private static CabeceraBean mapearCabeceraResumen(ResultSet rs, Connection conn) throws SQLException {
+        CabeceraBean b = new CabeceraBean();
+
+        String noCia = rs.getString("NO_CIA");
+        String tipoDocOracle = rs.getString("TIPO_DOC");
+        String noFactu = rs.getString("NO_FACTU");
+        String codTienda = rs.getString("COD_TIENDA");
+        String noCliente = rs.getString("NO_CLIENTE");
+        codTienda = (codTienda != null && !codTienda.trim().isEmpty()) ? codTienda.trim() : "000";
+
+        // ══════════════════════════════════════════════════════════════════
+        // ESTADO DE LA BOLETA (importante para ConditionCode)
+        // ══════════════════════════════════════════════════════════════════
+        String estadoBoleta = rs.getString("ESTADO"); // D=Despachado, A=Anulado
+        b.setEstadoBoleta(estadoBoleta);
+
+        // Datos documento
+        b.setDocu_codigo(noFactu);
+        b.setDocu_tipodocumento(ConversionUtils.convertirTipoDoc(tipoDocOracle)); // "03" para boleta
+        b.setDocu_numero(ConversionUtils.formatearNumeroDocumento(noFactu));
+
+        Date fecha = rs.getDate("FECHA");
+        if (fecha != null) {
+            b.setDocu_fecha(new SimpleDateFormat("yyyy-MM-dd").format(fecha));
+        }
+        b.setDocu_hora(rs.getString("HORA") != null ? rs.getString("HORA") : "00:00:00");
+        b.setDocu_moneda(ConversionUtils.convertirMoneda(rs.getString("MONEDA")));
+
+        // Montos (ya redondeados en el SQL)
+        b.setDocu_gravada(rs.getDouble("OPER_GRAVADAS"));
+        b.setDocu_exonerada(rs.getDouble("OPER_EXONERADAS"));
+        b.setDocu_inafecta(rs.getDouble("OPER_INAFECTAS"));
+        b.setDocu_gratuita(rs.getDouble("OPER_GRATUITAS"));
+        b.setDocu_subtotal(rs.getDouble("VALOR_VENTA"));
+        b.setDocu_igv(rs.getDouble("IMPUESTO"));
+        b.setDocu_total(rs.getDouble("TOTAL"));
+        b.setDocu_descuento(rs.getDouble("T_DESCUENTO"));
+        b.setDocu_isc(rs.getDouble("IMP_ISC"));
+        b.setTasa_igv(String.valueOf((int)rs.getDouble("TASA_IGV")));
+        b.setTasa_isc("0");
+        b.setDocu_otrostributos(0.0);
+        b.setTasa_otrostributos("0");
+        b.setDocu_otroscargos(0.0);
+        b.setDocu_percepcion(0.0);
+
+        // Cliente
+        String tipoDocCli = rs.getString("TIPO_DOC_CLI");
+        String numDocCli = rs.getString("NUM_DOC_CLI");
+        String docCliente = (numDocCli != null && !numDocCli.trim().isEmpty()) ? numDocCli.trim() : noCliente;
+
+        if (tipoDocCli == null || tipoDocCli.trim().isEmpty()) {
+            tipoDocCli = ConversionUtils.determinarTipoDocPorLongitud(docCliente);
+        } else {
+            tipoDocCli = ConversionUtils.convertirTipoDocIdentidad(tipoDocCli);
+        }
+
+        b.setClie_tipodoc(tipoDocCli);
+        b.setClie_numero(docCliente);
+        b.setClie_nombre(limpiar(rs.getString("NBR_CLIENTE")));
+
+        // Datos SUNAT
+        b.setHashcode(rs.getString("COD_HASH"));
+        b.setCdr(rs.getString("CDR"));
+        b.setCdr_nota(rs.getString("CDR_NOTA"));
+        b.setCdr_observacion(rs.getString("CDR_OBSERVACION"));
+        b.setDocu_enviaws(rs.getString("ENVIAWS") != null ? rs.getString("ENVIAWS") : "S");
+
+        // Cargar datos adicionales de empresa
+        CabeceraBean cabeceraBean = cargarDatosEmpresa(b, NO_CIA_DEFAULT, codTienda, conn);
+
+        return cabeceraBean;
+    }
+
+    /**
+     * ══════════════════════════════════════════════════════════════════════════
+     * MARCAR BOLETAS DEL RESUMEN COMO ENVIADAS
+     * ══════════════════════════════════════════════════════════════════════════
+     */
+    public static void marcarResumenEnviado(List<CabeceraBean> boletas, String ticket, String cdr, Connection conn) {
+        try {
+            String sql = "UPDATE FACTU.ARFAFE SET PROCE_STATUS = 'E', PROCE_FECHA = SYSDATE, " +
+                    "CDR = ?, CDR_NOTA = ? " +
+                    "WHERE NO_CIA = ? AND NO_FACTU = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            for (CabeceraBean boleta : boletas) {
+                ps.setString(1, cdr);
+                ps.setString(2, "Ticket: " + ticket);
+                ps.setString(3, NO_CIA_DEFAULT);
+                ps.setString(4, boleta.getDocu_codigo().replace("-", ""));
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+            conn.commit();
+            ps.close();
+
+            System.out.println("Resumen enviado: " + boletas.size() + " boletas marcadas");
+
+        } catch (Exception e) {
+            System.out.println("Error marcarResumenEnviado: " + e.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    /**
+     * ══════════════════════════════════════════════════════════════════════════
+     * BLOQUEAR BOLETAS PARA RESUMEN DIARIO
+     * ══════════════════════════════════════════════════════════════════════════
+     */
+    public static void bloquearBoletasResumen(List<CabeceraBean> boletas, Connection conn) {
+        try {
+            String sql = "UPDATE FACTU.ARFAFE SET PROCE_STATUS = 'B', PROCE_FECHA = SYSDATE " +
+                    "WHERE NO_CIA = ? AND NO_FACTU = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            for (CabeceraBean boleta : boletas) {
+                ps.setString(1, NO_CIA_DEFAULT);
+                ps.setString(2, boleta.getDocu_codigo().replace("-", ""));
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+            conn.commit();
+            ps.close();
+
+        } catch (Exception e) {
+            System.out.println("Error bloquearBoletasResumen: " + e.getMessage());
+            try { conn.rollback(); } catch (Exception x) {}
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // CARGAR DATOS EMPRESA
+    // ══════════════════════════════════════════════════════════════════════════
+    public static CabeceraBean cargarDatoEmpresa(Connection conn) {
+        CabeceraBean datosEmpresa = new CabeceraBean();
+        try {
+            PreparedStatement ps1 = conn.prepareStatement(
+                    "SELECT NOMBRE, NO_CLIENTE_ONLINE FROM FACTU.ARFAMC WHERE NO_CIA = ?");
+            ps1.setString(1, NO_CIA_DEFAULT);
+            ResultSet rs1 = ps1.executeQuery();
+            String ruc = null;
+            if (rs1.next()) {
+                datosEmpresa.setEmpr_razonsocial(limpiar(rs1.getString("NOMBRE")));
+                datosEmpresa.setEmpr_nombrecomercial(limpiar(rs1.getString("NOMBRE")));
+                ruc = rs1.getString("NO_CLIENTE_ONLINE");
+                datosEmpresa.setEmpr_nroruc(ruc);
+            }
+            rs1.close();
+            ps1.close();
+
+             // Cargar tipo de documento, país y ubigeo con valores por defecto si no se encuentran
+             datosEmpresa.setEmpr_tipodoc("6"); // RUC
+             datosEmpresa.setEmpr_pais("PE");
+             datosEmpresa.setEmpr_ubigeo("150101");
+
+        } catch (Exception ex) {
+            datosEmpresa.setEmpr_tipodoc("6");
+            datosEmpresa.setEmpr_pais("PE");
+            datosEmpresa.setEmpr_ubigeo("150101");
+        }
+        return datosEmpresa;
     }
 
 }

@@ -137,11 +137,14 @@ public class DarBajaDocElectronica {
                 // Éxito
                 DElectronicoDespachador.marcarBajaEnviada(documentosBaja, ticket, resultadoStatus[1], conn);
                 resultado = "0|Comunicación de baja enviada correctamente. Ticket: " + ticket;
+                DElectronicoDespachador.marcarEnviado(noFactu, ticket, resultado, conn);
+
                 log.info("Comunicación de baja exitosa: " + ticket);
             } else {
                 // Guardar ticket para consulta posterior
                 DElectronicoDespachador.marcarBajaEnviada(documentosBaja, ticket, "Pendiente CDR", conn);
                 resultado = "0|Comunicación enviada. Ticket: " + ticket + ". Consultar CDR posteriormente.";
+                DElectronicoDespachador.marcarEnviado(noFactu, ticket, resultado, conn);
             }
 
         } catch (Exception ex) {

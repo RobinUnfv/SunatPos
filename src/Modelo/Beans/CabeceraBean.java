@@ -61,6 +61,8 @@ public class CabeceraBean {
  private String docu_tipodcocumento_numero;
  private String docu_motivoanular;
 
+    private String estadoBoleta; // D=Despachado, A=Anulado
+
     public String getDocu_tipodcocumento_anular() {
         return docu_tipodcocumento_anular;
     }
@@ -461,6 +463,11 @@ public class CabeceraBean {
         this.clie_correo_cpe2 = clie_correo_cpe2;
     }
 
- 
+    public String getEstadoBoleta() {
+        return estadoBoleta;
+    }
+    public void setEstadoBoleta(String estadoBoleta) {
+        this.estadoBoleta = estadoBoleta;
+    }
  
 }
