@@ -919,7 +919,7 @@ public class DElectronicoDespachador {
                     "FROM FACTU.ARFAFE A " +
                     "WHERE A.NO_CIA = ? " +
                     "AND A.ENVIAWS = ? " +                   // S=ENVIAR A SUNAT
-                    "AND A.PROCE_STATUS = ? " +              // N=Pendiente
+                    "AND A.PROCE_STATUS = ? " +              // E=Enviado
                     "AND A.TIPO_DOC = ? " +                   // B=Boleta
                     "AND A.ESTADO IN ('D', 'A') " +           // D=Despachado, A=Anulado
                     "AND ROWNUM <= ? " +                      // Límite de 100 boletas
@@ -928,7 +928,7 @@ public class DElectronicoDespachador {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, NO_CIA_DEFAULT);
             ps.setString(2, "S");        // 'S' para enviar a SUNAT
-            ps.setString(3, pendiente);        // 'N' para pendientes
+            ps.setString(3, pendiente);        // 'E' de Enviado
             ps.setString(4, tipoDocOracle);    // 'B' para boletas
             ps.setInt(5, LIMITE_BOLETAS);      // Máximo 100 boletas
 
@@ -1125,6 +1125,41 @@ public class DElectronicoDespachador {
             datosEmpresa.setEmpr_ubigeo("150101");
         }
         return datosEmpresa;
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // LISTA DE FECHAS DE BOLETAS PARA RESUMEN DIARIO
+    // ══════════════════════════════════════════════════════════════════════════
+    public static List<Date> listaFechaResumenDiario(Connection conn) {
+
+        List<Date> fechas = new ArrayList<>();
+        try {
+            String sql = "DISTINCT TRUNC(FECHA) AS FECHA " +
+                    "FROM FACTU.ARFAFE "+
+                    "WHERE NO_CIA = ? "+
+                    "AND ENVIAWS = ? "+
+                    "AND PROCE_STATUS = ? "+
+                    "AND TIPO_DOC = ? "+
+                    "AND ESTADO IN ('D', 'A') "+
+                    "ORDER BY TRUNC(FECHA) ASC";
+            PreparedStatement ps1 = conn.prepareStatement(sql);
+            ps1.setString(1, NO_CIA_DEFAULT);
+            ps1.setString(2, "S");        // 'S' para enviar a SUNAT
+            ps1.setString(3, "E");
+            ps1.setString(4, "B");        // 'B' para boletas
+            ResultSet rs1 = ps1.executeQuery();
+            String ruc = null;
+            if (rs1.next()) {
+                Date fecha = rs1.getDate("FECHA");
+                fechas.add(fecha);
+            }
+            rs1.close();
+            ps1.close();
+
+        } catch (Exception ex) {
+            fechas.add(null);
+        }
+        return fechas;
     }
 
 }

@@ -112,7 +112,7 @@ public class ResBolElectronica {
             // 2. Cargar boletas pendientes de resumen (máximo 100)
             // ══════════════════════════════════════════════════════════════════
             // Parámetros: "N"=Pendiente, "03"=Boleta
-            List<CabeceraBean> boletas = DElectronicoDespachador.ResumenDiario("N", "03", conn);
+            List<CabeceraBean> boletas = DElectronicoDespachador.ResumenDiario("E", "03", conn);
 
             if (boletas.isEmpty()) {
                 log.info("No hay boletas pendientes para el resumen diario");
