@@ -9,12 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import Modelo.Util.ConversionUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
 
 public class DElectronicoDespachador {
 
@@ -878,7 +877,7 @@ public class DElectronicoDespachador {
      * @param conn Conexión a la base de datos
      * @return Lista de boletas para el resumen (máximo 100)
      */
-    public static List<CabeceraBean> ResumenDiario(String pendiente, String tipodoc, Connection conn) {
+    public static List<CabeceraBean> ResumenDiario(Date fecha, String pendiente, String tipodoc, Connection conn) {
         List<CabeceraBean> resumen = new ArrayList<CabeceraBean>();
 
         // Convertir tipo documento SUNAT a código Oracle
@@ -907,20 +906,21 @@ public class DElectronicoDespachador {
                     "ROUND(A.OPER_EXONERADAS, 2) AS OPER_EXONERADAS, " +
                     "ROUND(A.OPER_INAFECTAS, 2) AS OPER_INAFECTAS, " +
                     "ROUND(A.OPER_GRATUITAS, 2) AS OPER_GRATUITAS, " +
-                    "A.IMP_ISC, " +
+                    //"A.IMP_ISC, " +
                     "NVL(A.IGV, 18) AS TASA_IGV, A.TIPO_OPERACION, " +
                     //"A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
                     //"A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
                     //"A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
                     //"A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
-                    "A.ENVIAWS, A.NOMBRE_RQ, " +
-                    "A.ESTADO, " +           // D=Despachado, A=Anulado
-                    "A.PROCE_STATUS " +
+                    //"A.ENVIAWS, A.NOMBRE_RQ, " +
+                    "A.ESTADO " +           // D=Despachado, A=Anulado
+                    //"A.PROCE_STATUS " +
                     "FROM FACTU.ARFAFE A " +
                     "WHERE A.NO_CIA = ? " +
                     "AND A.ENVIAWS = ? " +                   // S=ENVIAR A SUNAT
                     "AND A.PROCE_STATUS = ? " +              // E=Enviado
                     "AND A.TIPO_DOC = ? " +                   // B=Boleta
+                    "AND TRUNC(A.FECHA) = TO_DATE(TO_CHAR(?, 'DD/MM/YYYY'),'DD/MM/YYYY')" +
                     "AND A.ESTADO IN ('D', 'A') " +           // D=Despachado, A=Anulado
                     "AND ROWNUM <= ? " +                      // Límite de 100 boletas
                     "ORDER BY A.FECHA, A.NO_FACTU";
@@ -930,6 +930,7 @@ public class DElectronicoDespachador {
             ps.setString(2, "S");        // 'S' para enviar a SUNAT
             ps.setString(3, pendiente);        // 'E' de Enviado
             ps.setString(4, tipoDocOracle);    // 'B' para boletas
+            ps.setDate (5, fecha);
             ps.setInt(5, LIMITE_BOLETAS);      // Máximo 100 boletas
 
             ResultSet rs = ps.executeQuery();

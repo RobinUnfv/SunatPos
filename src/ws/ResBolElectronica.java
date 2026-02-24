@@ -19,7 +19,7 @@ import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -97,94 +97,107 @@ public class ResBolElectronica {
         String[] resultado = new String[2];
         String res = "";
 
-        try {
-            // ══════════════════════════════════════════════════════════════════
-            // 1. Cargar datos de la empresa (de cualquier documento)
-            // ══════════════════════════════════════════════════════════════════
-            //CabeceraBean datosEmpresa = DElectronicoDespachador.cargarDocElectronico(iddocument, conn);
-            CabeceraBean datosEmpresa = DElectronicoDespachador.cargarDatoEmpresa(conn);
+        List<Date> fechasBajas = DElectronicoDespachador.listaFechaResumenDiario(conn);
 
-            if (datosEmpresa == null) {
-                return "0100|Error: No se encontraron datos de la empresa";
-            }
+        if (fechasBajas.isEmpty()) {
+            log.info("No hay fechas de resumen diario pendientes");
+            res = "0|No hay fechas de resumen diario pendientes";
+            return res;
+        }
 
-            // ══════════════════════════════════════════════════════════════════
-            // 2. Cargar boletas pendientes de resumen (máximo 100)
-            // ══════════════════════════════════════════════════════════════════
-            // Parámetros: "N"=Pendiente, "03"=Boleta
-            List<CabeceraBean> boletas = DElectronicoDespachador.ResumenDiario("E", "03", conn);
+        // ══════════════════════════════════════════════════════════════════
+        // 1. Cargar datos de la empresa (de cualquier documento)
+        // ══════════════════════════════════════════════════════════════════
+        //CabeceraBean datosEmpresa = DElectronicoDespachador.cargarDocElectronico(iddocument, conn);
+        CabeceraBean datosEmpresa = DElectronicoDespachador.cargarDatoEmpresa(conn);
 
-            if (boletas.isEmpty()) {
-                log.info("No hay boletas pendientes para el resumen diario");
-                return "0|No hay boletas pendientes para el resumen diario";
-            }
+        if (datosEmpresa == null) {
+            res = "0100|Error: No se encontraron datos de la empresa";
+            return res;
+        }
 
-            log.info("Boletas encontradas: " + boletas.size() + " (máximo " + MAX_BOLETAS_RESUMEN + ")");
+        for (Date fechaBaja : fechasBajas) {
+            try {
 
-            // ══════════════════════════════════════════════════════════════════
-            // 3. Bloquear boletas para proceso
-            // ══════════════════════════════════════════════════════════════════
-            DElectronicoDespachador.bloquearBoletasResumen(boletas, conn);
+                // ══════════════════════════════════════════════════════════════════
+                // 2. Cargar boletas pendientes de resumen (máximo 100)
+                // ══════════════════════════════════════════════════════════════════
 
-            // ══════════════════════════════════════════════════════════════════
-            // 4. Generar nombre del archivo
-            // ══════════════════════════════════════════════════════════════════
-            String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(new Date());
-            int correlativo = 1; // TODO: Obtener correlativo dinámico si hay múltiples resúmenes por día
-            String identificador = "RC-" + fechaHoy + "-" + correlativo;
-            String nombreArchivo = datosEmpresa.getEmpr_nroruc() + "-" + identificador;
+                List<CabeceraBean> boletas = DElectronicoDespachador.ResumenDiario(fechaBaja,"E", "03", conn);
 
-            log.info("Generando archivo: " + nombreArchivo);
-
-            // ══════════════════════════════════════════════════════════════════
-            // 5. Crear XML del resumen
-            // ══════════════════════════════════════════════════════════════════
-            res = crearXmlResumenDiario(datosEmpresa, boletas, UNIDAD_ENVIO, conn);
-
-            if (res.startsWith("0100")) {
-                // Error al crear XML, revertir bloqueo
-                return res;
-            }
-
-            // ══════════════════════════════════════════════════════════════════
-            // 6. Enviar a SUNAT (si está configurado)
-            // ══════════════════════════════════════════════════════════════════
-            if (datosEmpresa.getDocu_enviaws() != null && datosEmpresa.getDocu_enviaws().equals("S")) {
-                log.info("Enviando resumen a SUNAT...");
-
-                resultado = enviarZipASunat(UNIDAD_ENVIO, nombreArchivo + ".zip", datosEmpresa.getEmpr_nroruc());
-
-                if (resultado[1] == null || resultado[1].equals("nulo")) {
-                    log.error("Error de conexión con SUNAT");
-                    return "0100|Error de conexión con SUNAT";
+                if (boletas.isEmpty()) {
+                    log.info("No hay boletas pendientes para el resumen diario");
+                    return "0|No hay boletas pendientes para el resumen diario";
                 }
 
-                // Obtener ticket
-                String ticket = resultado[1];
-                log.info("Ticket SUNAT: " + ticket);
+                log.info("Boletas encontradas: " + boletas.size() + " (máximo " + MAX_BOLETAS_RESUMEN + ")");
 
-                // Consultar estado del ticket
-                String[] resultadoStatus = pedirStatus(UNIDAD_ENVIO, nombreArchivo + ".zip",
-                        datosEmpresa.getEmpr_nroruc(), ticket);
+                // ══════════════════════════════════════════════════════════════════
+                // 3. Bloquear boletas para proceso
+                // ══════════════════════════════════════════════════════════════════
+                DElectronicoDespachador.bloquearBoletasResumen(boletas, conn);
 
-                if (resultadoStatus[1] != null && !resultadoStatus[1].isEmpty()) {
-                    // Marcar boletas como enviadas
-                    DElectronicoDespachador.marcarResumenEnviado(boletas, ticket, resultadoStatus[1], conn);
-                    res = "0|Resumen diario enviado correctamente. Ticket: " + ticket;
-                    log.info("Resumen enviado exitosamente");
+                // ══════════════════════════════════════════════════════════════════
+                // 4. Generar nombre del archivo
+                // ══════════════════════════════════════════════════════════════════
+                //String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
+                String fechaEmision = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
+                int correlativo = 1; // TODO: Obtener correlativo dinámico si hay múltiples resúmenes por día
+                String identificador = "RC-" + fechaEmision + "-" + correlativo;
+                String nombreArchivo = datosEmpresa.getEmpr_nroruc() + "-" + identificador;
+
+                log.info("Generando archivo: " + nombreArchivo);
+
+                // ══════════════════════════════════════════════════════════════════
+                // 5. Crear XML del resumen
+                // ══════════════════════════════════════════════════════════════════
+                res = crearXmlResumenDiario(datosEmpresa, boletas, UNIDAD_ENVIO, conn);
+
+                if (res.startsWith("0100")) {
+                    // Error al crear XML, revertir bloqueo
+                    return res;
+                }
+
+                // ══════════════════════════════════════════════════════════════════
+                // 6. Enviar a SUNAT (si está configurado)
+                // ══════════════════════════════════════════════════════════════════
+                if (datosEmpresa.getDocu_enviaws() != null && datosEmpresa.getDocu_enviaws().equals("S")) {
+                    log.info("Enviando resumen a SUNAT...");
+
+                    resultado = enviarZipASunat(UNIDAD_ENVIO, nombreArchivo + ".zip", datosEmpresa.getEmpr_nroruc());
+
+                    if (resultado[1] == null || resultado[1].equals("nulo")) {
+                        log.error("Error de conexión con SUNAT");
+                        return "0100|Error de conexión con SUNAT";
+                    }
+
+                    // Obtener ticket
+                    String ticket = resultado[1];
+                    log.info("Ticket SUNAT: " + ticket);
+
+                    // Consultar estado del ticket
+                    String[] resultadoStatus = pedirStatus(UNIDAD_ENVIO, nombreArchivo + ".zip",
+                            datosEmpresa.getEmpr_nroruc(), ticket);
+
+                    if (resultadoStatus[1] != null && !resultadoStatus[1].isEmpty()) {
+                        // Marcar boletas como enviadas
+                        DElectronicoDespachador.marcarResumenEnviado(boletas, ticket, resultadoStatus[1], conn);
+                        res = "0|Resumen diario enviado correctamente. Ticket: " + ticket;
+                        log.info("Resumen enviado exitosamente");
+                    } else {
+                        res = "0|Resumen enviado. Ticket: " + ticket + ". Consultar CDR posteriormente.";
+                    }
+
                 } else {
-                    res = "0|Resumen enviado. Ticket: " + ticket + ". Consultar CDR posteriormente.";
+                    log.info("Resumen generado (sin envío a SUNAT)");
+                    res = "0|Resumen diario generado correctamente";
                 }
 
-            } else {
-                log.info("Resumen generado (sin envío a SUNAT)");
-                res = "0|Resumen diario generado correctamente";
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                res = "0100|Error al generar resumen diario: " + ex.getMessage();
+                log.error("Error en generarResumenDiario: " + ex.toString());
             }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            res = "0100|Error al generar resumen diario: " + ex.getMessage();
-            log.error("Error en generarResumenDiario: " + ex.toString());
         }
 
         return res;
