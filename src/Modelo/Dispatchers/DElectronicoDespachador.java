@@ -1095,6 +1095,29 @@ public class DElectronicoDespachador {
         }
     }
 
+    /*
+    * FUNCION QUE CARGA EL CORRELATIVO DE BOLETAS PARA RESUMEN DIARIO
+     */
+    public static String cargarCorrelativoResumenDiario( Date fecEmision, Connection conn) {
+        String correlativo = "0";
+        try {
+            String sql = "SELECT FACTU.PR_FACTURA.GET_CORRE_RESDIA(?, ?) AS CORRELATIVO FROM DUAL";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NO_CIA_DEFAULT);
+            ps.setDate (2, fecEmision);        // fecha emision para obtener correlativo específico del día emisión
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                correlativo = rs.getString("CORRELATIVO");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error cargarCorrelativoResumenDiario: " + e.getMessage());
+        }
+        return correlativo;
+    }
+
+
     // ══════════════════════════════════════════════════════════════════════════
     // CARGAR DATOS EMPRESA
     // ══════════════════════════════════════════════════════════════════════════

@@ -142,7 +142,7 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 //String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
                 String fechaEmision = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
-                int correlativo = 1; // TODO: Obtener correlativo dinámico si hay múltiples resúmenes por día
+                String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario(fechaBaja, conn);
                 String identificador = "RC-" + fechaEmision + "-" + correlativo;
                 String nombreArchivo = datosEmpresa.getEmpr_nroruc() + "-" + identificador;
 
@@ -151,7 +151,7 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 // 5. Crear XML del resumen
                 // ══════════════════════════════════════════════════════════════════
-                res = crearXmlResumenDiario(datosEmpresa, boletas, UNIDAD_ENVIO, conn);
+                res = crearXmlResumenDiario(nombreArchivo, datosEmpresa, boletas, UNIDAD_ENVIO, conn);
 
                 if (res.startsWith("0100")) {
                     // Error al crear XML, revertir bloqueo
@@ -220,7 +220,7 @@ public class ResBolElectronica {
      *   - AccountingSupplierParty (datos del emisor)
      *   - SummaryDocumentsLine (detalle de cada boleta)
      */
-    private static String crearXmlResumenDiario(CabeceraBean datosEmpresa, List<CabeceraBean> boletas,
+    private static String crearXmlResumenDiario(String nombreArchivo, CabeceraBean datosEmpresa, List<CabeceraBean> boletas,
                                                 String unidadEnvio, Connection conn) {
         String resultado = "";
 
@@ -253,6 +253,7 @@ public class ResBolElectronica {
             org.w3c.dom.Document doc = db.newDocument();
 
             // Datos para el nombre del archivo
+            /*
             String ruc = datosEmpresa.getEmpr_nroruc();
             String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(new Date());
             String fechaReferencia = datosEmpresa.getDocu_fecha(); // Fecha de las boletas
@@ -260,6 +261,11 @@ public class ResBolElectronica {
             String identificador = "RC-" + fechaHoy + "-" + correlativo;
 
             String pathXMLFile = unidadEnvio + ruc + "-" + identificador + ".xml";
+             */
+            String ruc = datosEmpresa.getEmpr_nroruc();
+            String identificador = nombreArchivo.substring(nombreArchivo.indexOf("-") + 1);
+            String fechaReferencia = ConversionUtils.formatearFecha(ConversionUtils.cortarTexto(nombreArchivo, "-", 2));
+            String pathXMLFile = unidadEnvio + nombreArchivo + ".xml";
             File signatureFile = new File(pathXMLFile);
 
             log.info("Creando XML: " + pathXMLFile);
@@ -349,8 +355,8 @@ public class ResBolElectronica {
             // ══════════════════════════════════════════════════════════════════════════════════════
             Element IssueDate = doc.createElementNS("", "cbc:IssueDate");
             envelope.appendChild(IssueDate);
-            String fechaEmision = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            IssueDate.appendChild(doc.createTextNode(fechaEmision)); // Fecha de hoy
+            String fecGeneResu = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+            IssueDate.appendChild(doc.createTextNode(fecGeneResu)); // Fecha de hoy
 
             // ══════════════════════════════════════════════════════════════════════════════════════
             // cac:Signature - Información de la firma digital

@@ -330,4 +330,21 @@ public class ConversionUtils {
         return texto.split("\\|", 2);
     }
 
+    public static String cortarTexto(String texto, String separador, int posicion) {
+        String[] partes = texto.split(separador);
+        return partes[posicion];
+    }
+
+    public static String formatearFecha(String fecha) {
+        if (fecha == null || fecha.length() != 8) {
+            throw new IllegalArgumentException("La fecha debe tener 8 caracteres (YYYYMMDD)");
+        }
+
+        String año = fecha.substring(0, 4);
+        String mes = fecha.substring(4, 6);
+        String dia = fecha.substring(6, 8);
+
+        return año + "-" + mes + "-" + dia;
+    }
+
 }
