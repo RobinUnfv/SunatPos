@@ -1768,3 +1768,382 @@
 2026-02-19 12:24:19 INFO  [DarBajaDocElectronica] - Comunicación de baja exitosa: 1771522064560
 2026-02-19 12:26:43 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
 2026-02-19 12:26:43 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 07:57:16 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 07:57:16 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 07:57:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 07:57:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - Fecha de baja: 2026-02-14, Correlativo: 2
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - Generando XML: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - Línea 1: 01 F001-0000106 - PRUEBAS PARA CREALIZAR UNA BAJA
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RA-20260214-2.xml
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - Enviando a SUNAT: 20609272016-RA-20260214-2.zip
+2026-02-25 09:32:02 INFO  [DarBajaDocElectronica] - enviarZipASunat - Archivo: 20609272016-RA-20260214-2.zip
+2026-02-25 09:32:03 ERROR [DarBajaDocElectronica] - Error enviarZipASunat: javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-25 09:32:21 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 09:32:21 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 09:32:41 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 09:32:41 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 09:33:01 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 09:33:01 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 09:33:21 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 09:33:21 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:03:50 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-25 10:04:00 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-25 10:04:01 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-25 10:04:01 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-25 10:04:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-25 10:04:04 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-25 10:04:04 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-25 10:04:04 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-25 10:04:04 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-25 10:04:04 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-25 10:04:05 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000107.xml
+2026-02-25 10:04:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 10:04:05 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000107.zip
+2026-02-25 10:04:06 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-25 10:04:08 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-25 10:04:10 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-25 10:04:10 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000107.zip
+2026-02-25 10:04:10 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-25 10:04:10 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000107.xml
+2026-02-25 10:04:10 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-25 10:05:13 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-25 10:10:35 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-25 10:10:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-25 10:10:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-25 10:10:36 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-25 10:10:38 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-25 10:10:38 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-25 10:10:38 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-25 10:10:38 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-25 10:10:38 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-25 10:10:38 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-25 10:10:39 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000108.xml
+2026-02-25 10:10:39 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 10:10:39 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000108.zip
+2026-02-25 10:10:40 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-25 10:10:41 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-25 10:10:43 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-25 10:10:43 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000108.zip
+2026-02-25 10:10:43 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-25 10:10:43 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000108.xml
+2026-02-25 10:10:43 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - Fecha de baja: 2026-02-13, Correlativo: 1
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - Generando XML: d:\POS-SUNAT\envio\20609272016-RA-20260213-1.xml
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RA-20260213-1.xml
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - Línea 1: 01 F001-0000104 - EL MONTO FUE SUPERIOR
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RA-20260213-1.xml
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - Enviando a SUNAT: 20609272016-RA-20260213-1.zip
+2026-02-25 10:11:36 INFO  [DarBajaDocElectronica] - enviarZipASunat - Archivo: 20609272016-RA-20260213-1.zip
+2026-02-25 10:11:36 ERROR [DarBajaDocElectronica] - Error enviarZipASunat: javax.xml.ws.WebServiceException: java.io.IOException: Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?ns1.wsdl
+2026-02-25 10:11:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:11:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:12:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:12:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:12:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:12:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:12:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:12:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:13:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:13:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:13:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:13:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:13:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:13:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:14:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:14:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:14:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:14:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:14:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:14:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:15:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:15:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:15:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:15:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:15:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:15:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:16:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:16:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:16:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:16:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:16:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:16:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:17:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:17:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:17:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:17:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:17:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:17:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:18:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:18:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:18:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:18:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:18:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:18:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:19:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:19:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:19:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:19:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:19:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:19:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:20:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:20:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:20:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:20:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:20:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:20:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:21:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:21:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:21:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:21:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:21:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:21:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:22:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:22:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:22:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:22:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:22:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:22:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:23:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:23:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:23:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:23:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:23:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:23:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:24:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:24:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:24:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:24:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:24:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:24:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:25:15 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:25:15 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:25:35 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:25:35 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:25:55 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 10:25:55 ERROR [DarBajaDocElectronica] - Error en generarComunicacionBaja: java.lang.NullPointerException
+2026-02-25 10:30:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-25 10:30:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-25 10:30:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-25 10:30:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-25 10:30:49 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-25 10:30:49 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-25 10:30:49 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-25 10:30:49 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-25 10:30:49 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-25 10:30:49 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-25 10:30:50 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000105.xml
+2026-02-25 10:30:50 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 10:30:50 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000105.zip
+2026-02-25 10:30:53 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-25 10:30:57 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-25 10:30:59 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-25 10:30:59 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000105.zip
+2026-02-25 10:30:59 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-25 10:30:59 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000105.xml
+2026-02-25 10:30:59 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-25 10:33:52 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 10:33:52 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 10:33:52 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 10:36:49 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 10:38:42 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 10:38:42 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000064.zip
+2026-02-25 10:39:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 10:39:01 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000064.zip
+2026-02-25 10:39:01 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000064.xml
+2026-02-25 11:25:43 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Inicializamos el ambiente
+2026-02-25 11:25:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Extraemos datos para preparar XML 
+2026-02-25 11:25:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Ruta de directorios d:\POS-SUNAT\envio\
+2026-02-25 11:25:44 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos cabecera 
+2026-02-25 11:25:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Lectura de cerificado 
+2026-02-25 11:25:47 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Iniciamos la generacion del XML
+2026-02-25 11:25:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - cabecera XML 
+2026-02-25 11:25:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Iniciamos detalle XML 
+2026-02-25 11:25:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - Prepara firma digital 
+2026-02-25 11:25:47 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - firma el XML 
+2026-02-25 11:25:48 INFO  [FacturaElectronica] - generarXMLZipiadoBoleta - XML creado d:\POS-SUNAT\envio\20609272016-01-F001-0000109.xml
+2026-02-25 11:25:48 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 11:25:48 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-01-F001-0000109.zip
+2026-02-25 11:25:51 INFO  [FacturaElectronica] - generarXMLZipiadoFactura - Preparando para enviar a SUNAT
+2026-02-25 11:25:53 INFO  [FacturaElectronica] - enviarASunat - Prepara ambiente: 1
+2026-02-25 11:25:55 INFO  [FacturaElectronica] - enviarASunat - Ambiente Beta: 1
+2026-02-25 11:25:55 INFO  [FacturaElectronica] - enviarASunat - Descomprimiendo CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000109.zip
+2026-02-25 11:25:55 INFO  [FacturaElectronica] - enviarASunat - Lectura del contenido del CDR 
+2026-02-25 11:25:55 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-01-F001-0000109.xml
+2026-02-25 11:25:55 INFO  [FacturaElectronica] - enviarASunat - Envio a Sunat Exitoso 
+2026-02-25 11:30:25 INFO  [DarBajaDocElectronica] - === INICIANDO COMUNICACIÓN DE BAJA ===
+2026-02-25 11:30:25 INFO  [DarBajaDocElectronica] - Fecha de baja: 2026-02-25, Correlativo: 2
+2026-02-25 11:30:25 INFO  [DarBajaDocElectronica] - Generando XML: d:\POS-SUNAT\envio\20609272016-RA-20260225-2.xml
+2026-02-25 11:30:25 INFO  [DarBajaDocElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RA-20260225-2.xml
+2026-02-25 11:30:25 INFO  [DarBajaDocElectronica] - Línea 1: 01 F001-0000109 - Error en la emision de la factura
+2026-02-25 11:30:26 INFO  [DarBajaDocElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RA-20260225-2.xml
+2026-02-25 11:30:26 INFO  [DarBajaDocElectronica] - Enviando a SUNAT: 20609272016-RA-20260225-2.zip
+2026-02-25 11:30:26 INFO  [DarBajaDocElectronica] - enviarZipASunat - Archivo: 20609272016-RA-20260225-2.zip
+2026-02-25 11:30:28 INFO  [DarBajaDocElectronica] - Ambiente Beta - Ticket: 1772037294208
+2026-02-25 11:30:28 INFO  [DarBajaDocElectronica] - Envío exitoso. Ticket: 1772037294208
+2026-02-25 11:30:28 INFO  [DarBajaDocElectronica] - Ticket SUNAT: 1772037294208
+2026-02-25 11:30:28 INFO  [DarBajaDocElectronica] - pedirStatus - Ticket: 1772037294208
+2026-02-25 11:30:28 ERROR [DarBajaDocElectronica] - Error pedirStatus: javax.xml.ws.WebServiceException: Fallo al acceder al WSDL en: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl. Ha fallado con: 
+	Server returned HTTP response code: 401 for URL: https://e-beta.sunat.gob.pe/ol-ti-itcpfegem-beta/billService?wsdl.
+2026-02-25 11:47:20 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 11:47:20 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000065.zip
+2026-02-25 11:47:22 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000065.xml
+2026-02-25 11:52:20 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 11:52:21 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 11:52:21 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 11:57:30 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 11:58:40 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 11:58:40 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 11:58:41 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:02:00 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 12:02:27 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:02:28 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 12:02:28 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:06:33 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 12:10:57 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:10:57 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 12:10:57 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:14:31 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:14:31 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 12:14:31 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:21:21 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 12:22:11 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:22:12 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 12:22:12 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:38:25 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 12:38:25 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:38:25 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 12:38:25 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:38:25 INFO  [ResBolElectronica] - No hay boletas pendientes para el resumen diario
+2026-02-25 12:39:10 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:39:10 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 12:39:11 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 12:47:44 INFO  [ResBolElectronica] - Boletas encontradas: 1 (máximo 100)
+2026-02-25 12:47:44 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260225-1
+2026-02-25 12:47:44 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 13:01:58 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 13:01:59 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 13:02:00 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 13:02:57 INFO  [ResBolElectronica] - Boletas encontradas: 2 (máximo 100)
+2026-02-25 13:03:45 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260225-1
+2026-02-25 13:03:48 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 13:03:48 INFO  [ResBolElectronica] - Procesando boleta 1: B001-0000064 - Estado: D
+2026-02-25 13:03:48 INFO  [ResBolElectronica] - Procesando boleta 2: B001-0000065 - Estado: A
+2026-02-25 13:03:48 INFO  [ResBolElectronica] - Firmando documento...
+2026-02-25 13:03:48 INFO  [ResBolElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 13:03:48 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 13:03:48 ERROR [LecturaXML] - generarXMLZipiadoFactura - error  java.lang.NullPointerException
+2026-02-25 13:04:13 INFO  [ResBolElectronica] - Enviando resumen a SUNAT...
+2026-02-25 13:04:13 INFO  [ResBolElectronica] - Enviando a SUNAT: 20609272016-RC-20260225-1.zip
+2026-02-25 15:44:34 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 15:44:34 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 15:44:34 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 15:44:46 INFO  [ResBolElectronica] - Boletas encontradas: 2 (máximo 100)
+2026-02-25 15:45:16 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260225-1
+2026-02-25 15:45:33 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 15:46:12 INFO  [ResBolElectronica] - Procesando boleta 1: B001-0000064 - Estado: D
+2026-02-25 15:46:30 INFO  [ResBolElectronica] - Procesando boleta 2: B001-0000065 - Estado: A
+2026-02-25 15:47:01 INFO  [ResBolElectronica] - Firmando documento...
+2026-02-25 15:47:20 INFO  [ResBolElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 15:47:28 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 15:49:08 INFO  [ResBolElectronica] - Enviando resumen a SUNAT...
+2026-02-25 15:49:15 INFO  [ResBolElectronica] - Enviando a SUNAT: 20609272016-RC-20260225-1.zip
+2026-02-25 15:49:17 ERROR [ResBolElectronica] - Error SOAP: El XML no contiene el tag de la tasa del tributo de la línea - Detalle: xxx.xxx.xxx value='ticket: 1772052824023 error: Error en la linea: 1. Tasa del tributo faltante para código 1000.: 2992 (nodo: "/" valor: "")'
+2026-02-25 15:49:39 INFO  [ResBolElectronica] - Ticket SUNAT: 1000|El XML no contiene el tag de la tasa del tributo de la línea - Detalle: xxx.xxx.xxx value='ticket: 1772052824023 error: Error en la linea: 1. Tasa del tributo faltante para código 1000.: 2992 (nodo: "/" valor: "")'
+2026-02-25 15:52:55 INFO  [ResBolElectronica] - Consultando ticket: 1000|El XML no contiene el tag de la tasa del tributo de la línea - Detalle: xxx.xxx.xxx value='ticket: 1772052824023 error: Error en la linea: 1. Tasa del tributo faltante para código 1000.: 2992 (nodo: "/" valor: "")'
+2026-02-25 16:17:28 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 16:17:28 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 16:17:29 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 16:17:49 INFO  [ResBolElectronica] - Boletas encontradas: 2 (máximo 100)
+2026-02-25 16:17:54 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260225-1
+2026-02-25 16:17:57 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 16:17:57 INFO  [ResBolElectronica] - Procesando boleta 1: B001-0000064 - Estado: D
+2026-02-25 16:17:57 INFO  [ResBolElectronica] - Procesando boleta 2: B001-0000065 - Estado: A
+2026-02-25 16:17:57 INFO  [ResBolElectronica] - Firmando documento...
+2026-02-25 16:17:57 INFO  [ResBolElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RC-20260225-1.xml
+2026-02-25 16:17:57 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 16:18:00 INFO  [ResBolElectronica] - Enviando resumen a SUNAT...
+2026-02-25 16:18:02 INFO  [ResBolElectronica] - Enviando a SUNAT: 20609272016-RC-20260225-1.zip
+2026-02-25 16:18:05 INFO  [ResBolElectronica] - Ambiente Beta - Ticket: 1772054551356
+2026-02-25 16:18:13 INFO  [ResBolElectronica] - Ticket SUNAT: 1772054551356
+2026-02-25 16:18:38 INFO  [ResBolElectronica] - Consultando ticket: 1772054551356
+2026-02-25 16:18:39 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-RC-20260225-1.xml
+2026-02-25 16:18:39 INFO  [ResBolElectronica] - CDR obtenido: 0|El Resumen diario RC-20260225-1, ha sido aceptado
+2026-02-25 16:20:39 INFO  [ResBolElectronica] - Resumen enviado exitosamente
+2026-02-25 16:52:09 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 16:52:09 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000068.zip
+2026-02-25 16:52:28 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 16:52:28 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000068.zip
+2026-02-25 16:53:46 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 16:53:46 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000068.zip
+2026-02-25 16:53:48 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000068.xml
+2026-02-25 16:54:34 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 16:54:34 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000066.zip
+2026-02-25 16:54:36 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000066.xml
+2026-02-25 16:55:15 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 16:55:15 INFO  [LecturaXML] - generarXMLZipiadoFactura - Zip creado d:\POS-SUNAT\envio\20609272016-03-B001-0000067.zip
+2026-02-25 16:55:17 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-03-B001-0000067.xml
+2026-02-25 16:58:28 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 16:58:28 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 16:58:28 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 16:58:33 INFO  [ResBolElectronica] - No hay fechas de resumen diario pendientes
+2026-02-25 17:00:18 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:00:18 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 17:00:19 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:02:57 INFO  [ResBolElectronica] - No hay fechas de resumen diario pendientes
+2026-02-25 17:03:09 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:03:10 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 17:03:10 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:04:36 INFO  [ResBolElectronica] - Boletas encontradas: 1 (máximo 100)
+2026-02-25 17:04:42 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260204-1
+2026-02-25 17:04:42 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260204-1.xml
+2026-02-25 17:04:42 INFO  [ResBolElectronica] - Procesando boleta 1: B001-0000061 - Estado: D
+2026-02-25 17:04:42 INFO  [ResBolElectronica] - Firmando documento...
+2026-02-25 17:04:43 INFO  [ResBolElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RC-20260204-1.xml
+2026-02-25 17:04:43 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 17:04:47 INFO  [ResBolElectronica] - Enviando resumen a SUNAT...
+2026-02-25 17:04:48 INFO  [ResBolElectronica] - Enviando a SUNAT: 20609272016-RC-20260204-1.zip
+2026-02-25 17:04:50 ERROR [ResBolElectronica] - Error SOAP: La fecha de generación del resumen debe ser igual a la fecha consignada en el nombre del archivo - Detalle: xxx.xxx.xxx value='ticket: 1772057357016 error: INFO : 2346 (nodo: "SummaryDocuments/cbc:ID" valor: "RC-20260204-1")'
+2026-02-25 17:07:22 INFO  [ResBolElectronica] - Ticket SUNAT: ERROR|La fecha de generación del resumen debe ser igual a la fecha consignada en el nombre del archivo - Detalle: xxx.xxx.xxx value='ticket: 1772057357016 error: INFO : 2346 (nodo: "SummaryDocuments/cbc:ID" valor: "RC-20260204-1")'
+2026-02-25 17:07:27 INFO  [ResBolElectronica] - Consultando ticket: ERROR|La fecha de generación del resumen debe ser igual a la fecha consignada en el nombre del archivo - Detalle: xxx.xxx.xxx value='ticket: 1772057357016 error: INFO : 2346 (nodo: "SummaryDocuments/cbc:ID" valor: "RC-20260204-1")'
+2026-02-25 17:07:28 ERROR [ResBolElectronica] - Error pedirStatus: java.util.zip.ZipException: error in opening zip file
+2026-02-25 17:08:22 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:08:22 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 17:08:22 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:08:50 INFO  [ResBolElectronica] - Boletas encontradas: 2 (máximo 100)
+2026-02-25 17:08:54 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260209-1
+2026-02-25 17:08:55 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260209-1.xml
+2026-02-25 17:08:55 INFO  [ResBolElectronica] - Procesando boleta 1: B001-0000062 - Estado: A
+2026-02-25 17:08:55 INFO  [ResBolElectronica] - Procesando boleta 2: B001-0000063 - Estado: A
+2026-02-25 17:08:55 INFO  [ResBolElectronica] - Firmando documento...
+2026-02-25 17:08:56 INFO  [ResBolElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RC-20260209-1.xml
+2026-02-25 17:08:56 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 17:08:58 INFO  [ResBolElectronica] - Enviando resumen a SUNAT...
+2026-02-25 17:08:59 INFO  [ResBolElectronica] - Enviando a SUNAT: 20609272016-RC-20260209-1.zip
+2026-02-25 17:09:01 ERROR [ResBolElectronica] - Error SOAP: La fecha de generación del resumen debe ser igual a la fecha consignada en el nombre del archivo - Detalle: xxx.xxx.xxx value='ticket: 1772057607732 error: INFO : 2346 (nodo: "SummaryDocuments/cbc:ID" valor: "RC-20260209-1")'
+2026-02-25 17:09:49 INFO  [ResBolElectronica] - Ticket SUNAT: ERROR|La fecha de generación del resumen debe ser igual a la fecha consignada en el nombre del archivo - Detalle: xxx.xxx.xxx value='ticket: 1772057607732 error: INFO : 2346 (nodo: "SummaryDocuments/cbc:ID" valor: "RC-20260209-1")'
+2026-02-25 17:09:51 INFO  [ResBolElectronica] - Consultando ticket: ERROR|La fecha de generación del resumen debe ser igual a la fecha consignada en el nombre del archivo - Detalle: xxx.xxx.xxx value='ticket: 1772057607732 error: INFO : 2346 (nodo: "SummaryDocuments/cbc:ID" valor: "RC-20260209-1")'
+2026-02-25 17:09:52 ERROR [ResBolElectronica] - Error pedirStatus: java.util.zip.ZipException: error in opening zip file
+2026-02-25 17:10:27 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:10:28 INFO  [ResBolElectronica] - INICIANDO RESUMEN DIARIO DE BOLETAS
+2026-02-25 17:10:28 INFO  [ResBolElectronica] - ═══════════════════════════════════════════════════════════════
+2026-02-25 17:11:18 INFO  [ResBolElectronica] - Boletas encontradas: 3 (máximo 100)
+2026-02-25 17:11:24 INFO  [ResBolElectronica] - Generando archivo: 20609272016-RC-20260225-2
+2026-02-25 17:11:25 INFO  [ResBolElectronica] - Creando XML: d:\POS-SUNAT\envio\20609272016-RC-20260225-2.xml
+2026-02-25 17:11:25 INFO  [ResBolElectronica] - Procesando boleta 1: B001-0000066 - Estado: D
+2026-02-25 17:11:25 INFO  [ResBolElectronica] - Procesando boleta 2: B001-0000067 - Estado: D
+2026-02-25 17:11:25 INFO  [ResBolElectronica] - Procesando boleta 3: B001-0000068 - Estado: D
+2026-02-25 17:11:25 INFO  [ResBolElectronica] - Firmando documento...
+2026-02-25 17:11:26 INFO  [ResBolElectronica] - XML creado exitosamente: d:\POS-SUNAT\envio\20609272016-RC-20260225-2.xml
+2026-02-25 17:11:26 INFO  [LecturaXML] - generarXMLZipiadoFactura - Crear ZIP 
+2026-02-25 17:11:28 INFO  [ResBolElectronica] - Enviando resumen a SUNAT...
+2026-02-25 17:11:29 INFO  [ResBolElectronica] - Enviando a SUNAT: 20609272016-RC-20260225-2.zip
+2026-02-25 17:11:31 INFO  [ResBolElectronica] - Ambiente Beta - Ticket: 1772057757389
+2026-02-25 17:11:35 INFO  [ResBolElectronica] - Ticket SUNAT: 1772057757389
+2026-02-25 17:12:00 INFO  [ResBolElectronica] - Consultando ticket: 1772057757389
+2026-02-25 17:12:01 INFO  [LecturaXML] - LecturaXML.getRespuestaSunat - iniciamos Lectura del contenido del CDR d:\POS-SUNAT\respuesta\R-20609272016-RC-20260225-2.xml
+2026-02-25 17:12:01 INFO  [ResBolElectronica] - CDR obtenido: 0|El Resumen diario RC-20260225-2, ha sido aceptado
+2026-02-25 17:12:06 INFO  [ResBolElectronica] - Resumen enviado exitosamente

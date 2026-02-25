@@ -3,13 +3,9 @@ package Modelo.Dispatchers;
 
 import Modelo.Beans.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 import Modelo.Util.ConversionUtils;
@@ -911,16 +907,17 @@ public class DElectronicoDespachador {
                     //"A.TIPO_FPAGO, A.COD_FPAGO, A.FECHA_VENCE, " +
                     //"A.TIPO_REFE_FACTU, A.NO_REFE_FACTU, A.MOTIVO_NC, " +
                     //"A.COD_TIENDA, A.CENTRO, A.BODEGA, " +
-                    //"A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
-                    //"A.ENVIAWS, A.NOMBRE_RQ, " +
-                    "A.ESTADO " +           // D=Despachado, A=Anulado
-                    //"A.PROCE_STATUS " +
+                    "A.COD_HASH, A.CDR, A.CDR_NOTA, A.CDR_OBSERVACION, " +
+                    "A.ENVIAWS, A.NOMBRE_RQ, " +
+                    "A.ESTADO, " +           // D=Despachado, A=Anulado
+                    "A.PROCE_STATUS " +
                     "FROM FACTU.ARFAFE A " +
                     "WHERE A.NO_CIA = ? " +
                     "AND A.ENVIAWS = ? " +                   // S=ENVIAR A SUNAT
-                    "AND A.PROCE_STATUS = ? " +              // E=Enviado
+                   // "AND A.PROCE_STATUS = ? " +              // E=Enviado
+                    "AND A.PROCE_STATUS IN ('E', 'N') " +       // E=Enviado ; N=Nuevo
                     "AND A.TIPO_DOC = ? " +                   // B=Boleta
-                    "AND TRUNC(A.FECHA) = TO_DATE(TO_CHAR(?, 'DD/MM/YYYY'),'DD/MM/YYYY')" +
+                    "AND A.FECHA = ? " +
                     "AND A.ESTADO IN ('D', 'A') " +           // D=Despachado, A=Anulado
                     "AND ROWNUM <= ? " +                      // Límite de 100 boletas
                     "ORDER BY A.FECHA, A.NO_FACTU";
@@ -928,9 +925,9 @@ public class DElectronicoDespachador {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, NO_CIA_DEFAULT);
             ps.setString(2, "S");        // 'S' para enviar a SUNAT
-            ps.setString(3, pendiente);        // 'E' de Enviado
-            ps.setString(4, tipoDocOracle);    // 'B' para boletas
-            ps.setDate (5, fecha);
+            //ps.setString(3, pendiente);        // 'E' de Enviado
+            ps.setString(3, tipoDocOracle);    // 'B' para boletas
+            ps.setDate (4, fecha);
             ps.setInt(5, LIMITE_BOLETAS);      // Máximo 100 boletas
 
             ResultSet rs = ps.executeQuery();
@@ -967,9 +964,10 @@ public class DElectronicoDespachador {
         String noCia = rs.getString("NO_CIA");
         String tipoDocOracle = rs.getString("TIPO_DOC");
         String noFactu = rs.getString("NO_FACTU");
-        String codTienda = rs.getString("COD_TIENDA");
+        //String codTienda = rs.getString("COD_TIENDA");
+        String codTienda = "000";
         String noCliente = rs.getString("NO_CLIENTE");
-        codTienda = (codTienda != null && !codTienda.trim().isEmpty()) ? codTienda.trim() : "000";
+
 
         // ══════════════════════════════════════════════════════════════════
         // ESTADO DE LA BOLETA (importante para ConditionCode)
@@ -998,7 +996,8 @@ public class DElectronicoDespachador {
         b.setDocu_igv(rs.getDouble("IMPUESTO"));
         b.setDocu_total(rs.getDouble("TOTAL"));
         b.setDocu_descuento(rs.getDouble("T_DESCUENTO"));
-        b.setDocu_isc(rs.getDouble("IMP_ISC"));
+        //b.setDocu_isc(rs.getDouble("IMP_ISC"));
+        b.setDocu_isc(0.0);
         b.setTasa_igv(String.valueOf((int)rs.getDouble("TASA_IGV")));
         b.setTasa_isc("0");
         b.setDocu_otrostributos(0.0);
@@ -1039,27 +1038,38 @@ public class DElectronicoDespachador {
      * MARCAR BOLETAS DEL RESUMEN COMO ENVIADAS
      * ══════════════════════════════════════════════════════════════════════════
      */
-    public static void marcarResumenEnviado(List<CabeceraBean> boletas, String ticket, String cdr, Connection conn) {
+    public static void marcarResumenEnviado(List<CabeceraBean> boletas, Date fechaEmision, String ticket, String cdr, Connection conn) {
+        CallableStatement cstmt = null;
         try {
-            String sql = "UPDATE FACTU.ARFAFE SET PROCE_STATUS = 'E', PROCE_FECHA = SYSDATE, " +
-                    "CDR = ?, CDR_NOTA = ? " +
-                    "WHERE NO_CIA = ? AND NO_FACTU = ?";
+            String sql = "{ call FACTU.PR_FACTURA.REG_RESUM_DIARIO(?, ?, ?, ?, ?, ?) }";
+            cstmt = conn.prepareCall(sql);
+            cstmt.setString(1, NO_CIA_DEFAULT);
+            cstmt.setDate (2, fechaEmision);
+            cstmt.setString(3, "E"); // Estado 'E' para Enviado
+            cstmt.setString(4, null);
+            cstmt.setString(5, ticket);
+            cstmt.setString(6, cdr);
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+            // Ejecutar el procedimiento
+            cstmt.execute();
+
+            conn.commit();
+            cstmt.close();
+
+            String sql2 = "{ call FACTU.PR_FACTURA.ACTU_ESTADO_ENVIO(?, ?, ?, ?) }";
 
             for (CabeceraBean boleta : boletas) {
-                ps.setString(1, cdr);
-                ps.setString(2, "Ticket: " + ticket);
-                ps.setString(3, NO_CIA_DEFAULT);
-                ps.setString(4, boleta.getDocu_codigo().replace("-", ""));
-                ps.addBatch();
+                  cstmt = conn.prepareCall(sql2);
+                  cstmt.setString(1, NO_CIA_DEFAULT);
+                  cstmt.setString(2, null);
+                  cstmt.setString(3, boleta.getDocu_codigo().replace("-", ""));
+                  cstmt.setString(4, "R");
+                  // Ejecutar el procedimiento
+                  cstmt.execute();
             }
 
-            ps.executeBatch();
             conn.commit();
-            ps.close();
-
-            System.out.println("Resumen enviado: " + boletas.size() + " boletas marcadas");
+            cstmt.close();
 
         } catch (Exception e) {
             System.out.println("Error marcarResumenEnviado: " + e.getMessage());
@@ -1158,19 +1168,20 @@ public class DElectronicoDespachador {
 
         List<Date> fechas = new ArrayList<>();
         try {
-            String sql = "DISTINCT TRUNC(FECHA) AS FECHA " +
+            String sql = "SELECT DISTINCT TRUNC(FECHA) AS FECHA " +
                     "FROM FACTU.ARFAFE "+
                     "WHERE NO_CIA = ? "+
                     "AND ENVIAWS = ? "+
-                    "AND PROCE_STATUS = ? "+
+                    //"AND PROCE_STATUS = ? "+
+                    "AND PROCE_STATUS IN ('E', 'N') "+
                     "AND TIPO_DOC = ? "+
                     "AND ESTADO IN ('D', 'A') "+
                     "ORDER BY TRUNC(FECHA) ASC";
             PreparedStatement ps1 = conn.prepareStatement(sql);
             ps1.setString(1, NO_CIA_DEFAULT);
             ps1.setString(2, "S");        // 'S' para enviar a SUNAT
-            ps1.setString(3, "E");
-            ps1.setString(4, "B");        // 'B' para boletas
+           // ps1.setString(3, "N");
+            ps1.setString(3, "B");        // 'B' para boletas
             ResultSet rs1 = ps1.executeQuery();
             String ruc = null;
             if (rs1.next()) {
