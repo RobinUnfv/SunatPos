@@ -1041,19 +1041,19 @@ public class DElectronicoDespachador {
     public static void marcarResumenEnviado(List<CabeceraBean> boletas, Date fechaEmision, String ticket, String cdr, Connection conn) {
         CallableStatement cstmt = null;
         try {
-            String sql = "{ call FACTU.PR_FACTURA.REG_RESUM_DIARIO(?, ?, ?, ?, ?, ?) }";
+            String sql = "{ call FACTU.PR_FACTURA.REG_RESUM_DIARIO(?, ?, ?, ?, ?) }";
             cstmt = conn.prepareCall(sql);
             cstmt.setString(1, NO_CIA_DEFAULT);
             cstmt.setDate (2, fechaEmision);
             cstmt.setString(3, "E"); // Estado 'E' para Enviado
-            cstmt.setString(4, null);
-            cstmt.setString(5, ticket);
-            cstmt.setString(6, cdr);
+            //cstmt.setString(4, null);
+            cstmt.setString(4, ticket);
+            cstmt.setString(5, cdr);
 
             // Ejecutar el procedimiento
             cstmt.execute();
 
-            conn.commit();
+            //conn.commit();
             cstmt.close();
 
             String sql2 = "{ call FACTU.PR_FACTURA.ACTU_ESTADO_ENVIO(?, ?, ?, ?) }";
@@ -1068,7 +1068,7 @@ public class DElectronicoDespachador {
                   cstmt.execute();
             }
 
-            conn.commit();
+            //conn.commit();
             cstmt.close();
 
         } catch (Exception e) {

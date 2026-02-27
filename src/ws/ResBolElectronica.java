@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -140,10 +141,12 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 // 4. Generar nombre del archivo
                 // ══════════════════════════════════════════════════════════════════
-                //String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
-                String fechaEmision = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
-                String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario(fechaBaja, conn);
-                String identificador = "RC-" + fechaEmision + "-" + correlativo;
+
+                String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
+                //String fechaEmision = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
+                //String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario(fechaBaja, conn);
+                String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario( ConversionUtils.convertirDate(fechaHoy) , conn);
+                String identificador = "RC-" + fechaHoy + "-" + correlativo;
                 String nombreArchivo = datosEmpresa.getEmpr_nroruc() + "-" + identificador;
 
                 log.info("Generando archivo: " + nombreArchivo);
@@ -151,7 +154,7 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 // 5. Crear XML del resumen
                 // ══════════════════════════════════════════════════════════════════
-                res = crearXmlResumenDiario(nombreArchivo, datosEmpresa, boletas, UNIDAD_ENVIO, conn);
+                res = crearXmlResumenDiario(nombreArchivo, datosEmpresa, boletas, UNIDAD_ENVIO, fechaBaja, conn);
 
                 if (res.startsWith("0100")) {
                     // Error al crear XML, revertir bloqueo
@@ -181,7 +184,7 @@ public class ResBolElectronica {
 
                     if (resultadoStatus[1] != null && !resultadoStatus[1].isEmpty()) {
                         // Marcar boletas como enviadas
-                        DElectronicoDespachador.marcarResumenEnviado(boletas, fechaBaja , ticket, resultadoStatus[1], conn);
+                        DElectronicoDespachador.marcarResumenEnviado(boletas, ConversionUtils.convertirDate(fechaHoy) , ticket, resultadoStatus[1], conn);
                         res = "0|Resumen diario enviado correctamente. Ticket: " + ticket;
                         log.info("Resumen enviado exitosamente");
                     } else {
@@ -222,7 +225,7 @@ public class ResBolElectronica {
      *   - SummaryDocumentsLine (detalle de cada boleta)
      */
     private static String crearXmlResumenDiario(String nombreArchivo, CabeceraBean datosEmpresa, List<CabeceraBean> boletas,
-                                                String unidadEnvio, Connection conn) {
+                                                String unidadEnvio, java.util.Date fechaBaja, Connection conn) {
         String resultado = "";
 
         try {
@@ -265,7 +268,8 @@ public class ResBolElectronica {
              */
             String ruc = datosEmpresa.getEmpr_nroruc();
             String identificador = nombreArchivo.substring(nombreArchivo.indexOf("-") + 1);
-            String fechaReferencia = ConversionUtils.formatearFecha(ConversionUtils.cortarTexto(nombreArchivo, "-", 2));
+            //String fechaReferencia = ConversionUtils.formatearFecha(ConversionUtils.cortarTexto(nombreArchivo, "-", 2));
+            String fechaReferencia = new SimpleDateFormat("yyyy-MM-dd").format(fechaBaja);
             String pathXMLFile = unidadEnvio + nombreArchivo + ".xml";
             File signatureFile = new File(pathXMLFile);
 
