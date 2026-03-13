@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -88,7 +89,7 @@ public class ResBolElectronica {
      * MÉTODO PRINCIPAL - Generar y enviar resumen diario de boletas
      * ══════════════════════════════════════════════════════════════════════════
      */
-    public static String generarResumenDiario(String iddocument, Connection conn) {
+    public static String generarResumenDiario(Connection conn) {
         log.info("═══════════════════════════════════════════════════════════════");
         log.info("INICIANDO RESUMEN DIARIO DE BOLETAS");
         log.info("═══════════════════════════════════════════════════════════════");
@@ -140,10 +141,12 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 // 4. Generar nombre del archivo
                 // ══════════════════════════════════════════════════════════════════
-                //String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
-                String fechaEmision = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
-                String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario(fechaBaja, conn);
-                String identificador = "RC-" + fechaEmision + "-" + correlativo;
+
+                String fechaHoy = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
+                //String fechaEmision = new SimpleDateFormat("yyyyMMdd").format(fechaBaja);
+                //String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario(fechaBaja, conn);
+                String correlativo = DElectronicoDespachador.cargarCorrelativoResumenDiario( ConversionUtils.convertirDate(fechaHoy) , conn);
+                String identificador = "RC-" + fechaHoy + "-" + correlativo;
                 String nombreArchivo = datosEmpresa.getEmpr_nroruc() + "-" + identificador;
 
                 log.info("Generando archivo: " + nombreArchivo);
@@ -151,7 +154,7 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 // 5. Crear XML del resumen
                 // ══════════════════════════════════════════════════════════════════
-                res = crearXmlResumenDiario(nombreArchivo, datosEmpresa, boletas, UNIDAD_ENVIO, conn);
+                res = crearXmlResumenDiario(nombreArchivo, datosEmpresa, boletas, UNIDAD_ENVIO, fechaBaja, conn);
 
                 if (res.startsWith("0100")) {
                     // Error al crear XML, revertir bloqueo
@@ -161,7 +164,7 @@ public class ResBolElectronica {
                 // ══════════════════════════════════════════════════════════════════
                 // 6. Enviar a SUNAT (si está configurado)
                 // ══════════════════════════════════════════════════════════════════
-                if (datosEmpresa.getDocu_enviaws() != null && datosEmpresa.getDocu_enviaws().equals("S")) {
+                //if (datosEmpresa.getDocu_enviaws() != null && datosEmpresa.getDocu_enviaws().equals("S")) {
                     log.info("Enviando resumen a SUNAT...");
 
                     resultado = enviarZipASunat(UNIDAD_ENVIO, nombreArchivo + ".zip", datosEmpresa.getEmpr_nroruc());
@@ -181,17 +184,18 @@ public class ResBolElectronica {
 
                     if (resultadoStatus[1] != null && !resultadoStatus[1].isEmpty()) {
                         // Marcar boletas como enviadas
-                        DElectronicoDespachador.marcarResumenEnviado(boletas, ticket, resultadoStatus[1], conn);
+                        DElectronicoDespachador.marcarResumenEnviado(boletas, ConversionUtils.convertirDate(fechaHoy) , ticket, resultadoStatus[1], conn);
                         res = "0|Resumen diario enviado correctamente. Ticket: " + ticket;
                         log.info("Resumen enviado exitosamente");
                     } else {
                         res = "0|Resumen enviado. Ticket: " + ticket + ". Consultar CDR posteriormente.";
                     }
-
-                } else {
+                /*
+                }
+                else {
                     log.info("Resumen generado (sin envío a SUNAT)");
                     res = "0|Resumen diario generado correctamente";
-                }
+                } */
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -221,7 +225,7 @@ public class ResBolElectronica {
      *   - SummaryDocumentsLine (detalle de cada boleta)
      */
     private static String crearXmlResumenDiario(String nombreArchivo, CabeceraBean datosEmpresa, List<CabeceraBean> boletas,
-                                                String unidadEnvio, Connection conn) {
+                                                String unidadEnvio, java.util.Date fechaBaja, Connection conn) {
         String resultado = "";
 
         try {
@@ -264,7 +268,8 @@ public class ResBolElectronica {
              */
             String ruc = datosEmpresa.getEmpr_nroruc();
             String identificador = nombreArchivo.substring(nombreArchivo.indexOf("-") + 1);
-            String fechaReferencia = ConversionUtils.formatearFecha(ConversionUtils.cortarTexto(nombreArchivo, "-", 2));
+            //String fechaReferencia = ConversionUtils.formatearFecha(ConversionUtils.cortarTexto(nombreArchivo, "-", 2));
+            String fechaReferencia = new SimpleDateFormat("yyyy-MM-dd").format(fechaBaja);
             String pathXMLFile = unidadEnvio + nombreArchivo + ".xml";
             File signatureFile = new File(pathXMLFile);
 
@@ -612,6 +617,15 @@ public class ResBolElectronica {
                 Element TaxCategory = doc.createElementNS("", "cac:TaxCategory");
                 TaxSubtotal.appendChild(TaxCategory);
 
+                Element Percent = doc.createElementNS("", "cbc:Percent");
+                TaxCategory.appendChild(Percent);
+                // Obtener la tasa del IGV del bean, si no existe usar 18 por defecto
+                String tasaIgv = boleta.getTasa_igv();
+                if (tasaIgv == null || tasaIgv.isEmpty()) {
+                    tasaIgv = "18";
+                }
+                Percent.appendChild(doc.createTextNode(tasaIgv + ".00")); // 18.00
+
                 // cac:TaxScheme - Esquema del tributo
                 Element TaxScheme = doc.createElementNS("", "cac:TaxScheme");
                 TaxCategory.appendChild(TaxScheme);
@@ -705,7 +719,8 @@ public class ResBolElectronica {
             // ══════════════════════════════════════════════════════════════════════════════════════
             // CREAR ZIP
             // ══════════════════════════════════════════════════════════════════════════════════════
-            resultado = GeneralFunctions.crearZip2(datosEmpresa, unidadEnvio, signatureFile);
+            //resultado = GeneralFunctions.crearZip2(datosEmpresa, unidadEnvio, nombreArchivo, signatureFile);
+            resultado = GeneralFunctions.crearZip2( unidadEnvio, nombreArchivo, signatureFile);
 
         } catch (Exception ex) {
             ex.printStackTrace();

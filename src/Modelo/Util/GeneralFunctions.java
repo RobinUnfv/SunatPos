@@ -1,19 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Modelo.Util;
 
-/**
- *
- * @author LUISINHO
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package Modelo.Util;
 
 import Modelo.Beans.CabeceraBean;
 import java.io.File;
@@ -62,20 +48,22 @@ public class GeneralFunctions {
         return resultado;
     }
     
-    public static String crearZip2(CabeceraBean items, String unidadEnvio, File signatureFile) {
+    public static String crearZip2(String unidadEnvio, String nombreArchivo, File signatureFile) {
         String resultado = "";
         try {
             //Mandar a zip
             log.info("generarXMLZipiadoFactura - Crear ZIP ");
             String inputFile = signatureFile.toString();
             FileInputStream in = new FileInputStream(inputFile);
-            FileOutputStream out = new FileOutputStream(unidadEnvio + items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.zip");
+            //FileOutputStream out = new FileOutputStream(unidadEnvio + items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.zip");
+            FileOutputStream out = new FileOutputStream(unidadEnvio + nombreArchivo +".zip");
 
             byte b[] = new byte[2048];
             try (ZipOutputStream zipOut = new ZipOutputStream(out)) {
-                ZipEntry entry2 = new ZipEntry(items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.xml");
+                //ZipEntry entry2 = new ZipEntry(items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.xml");
+                ZipEntry entry2 = new ZipEntry(nombreArchivo+".xml");
                 zipOut.putNextEntry(entry2);
-                System.out.println("==>Zip generado: " + items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.zip");
+                System.out.println("Zip generado ==> " +nombreArchivo+".zip");
                 int len = 0;
                 while ((len = in.read(b)) != -1) {
                     zipOut.write(b, 0, len);
@@ -84,7 +72,7 @@ public class GeneralFunctions {
             }
             out.close();
             in.close();
-            log.info("generarXMLZipiadoFactura - Zip creado " + unidadEnvio + items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.zip");
+            //log.info("generarXMLZipiadoFactura - Zip creado " + unidadEnvio + items.getEmpr_nroruc() + "-RC-" + items.getDocu_fecha().replace("-", "")+"-1.zip");
 
         } catch (Exception ex) {
             ex.printStackTrace();

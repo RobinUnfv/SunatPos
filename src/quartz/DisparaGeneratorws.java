@@ -30,6 +30,9 @@ public class DisparaGeneratorws {
             String iddoc = null;
             String result = "x";
             String estado = null;
+
+            result = ResBolElectronica.generarResumenDiario(conn);
+
             if (item != null) {
                 System.out.println("generator - Existe pendiente");
                 iddoc = item.getDocu_codigo().trim();
@@ -41,7 +44,7 @@ public class DisparaGeneratorws {
                     case "03":
                         System.out.println("ENVIAR LA BOLETA : "+iddoc);
                         result = BoletaElectronica.generarXMLZipiadoBoleta( iddoc, conn);
-                        //result = ResBolElectronica.generarXMLZipiadoBoleta(iddoc, conn);
+
                         System.out.println("RESULTADO BOLETA : "+result);
                         break;
                     case "01":

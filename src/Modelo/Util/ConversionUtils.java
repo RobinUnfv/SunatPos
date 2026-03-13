@@ -2,7 +2,10 @@ package Modelo.Util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ConversionUtils {
 
@@ -345,6 +348,17 @@ public class ConversionUtils {
         String dia = fecha.substring(6, 8);
 
         return año + "-" + mes + "-" + dia;
+    }
+
+    public static Date convertirDate(String fecha) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            LocalDate localDate = LocalDate.parse(fecha, formatter);
+            Date sqlDate = Date.valueOf(localDate);
+            return sqlDate;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
