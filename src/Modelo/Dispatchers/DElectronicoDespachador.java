@@ -16,6 +16,11 @@ public class DElectronicoDespachador {
     //private static Log log = LogFactory.getLog(DElectronicoDespachador.class);
     private static String NO_CIA_DEFAULT = "01";
 
+    // Variable estática para cachear la configuración (evita consultas repetidas)
+    private static ConfigSunatBean configSunatCache = null;
+    private static long configSunatCacheTime = 0;
+    private static final long CACHE_DURATION = 300000; // 5 minutos en milisegundos
+
     public static CabeceraBean pendienteDocElectronico(Connection conn) {
         System.out.println("ENTRO A pendienteDocElectronico");
         CabeceraBean cabeceraBean = new CabeceraBean();
@@ -1195,6 +1200,200 @@ public class DElectronicoDespachador {
             fechas.add(null);
         }
         return fechas;
+    }
+
+    /**
+     * ══════════════════════════════════════════════════════════════════════════
+     * CARGAR CONFIGURACIÓN SUNAT DESDE LA TABLA FACTU.CONFIG_SUNAT
+     * ══════════════════════════════════════════════════════════════════════════
+     *
+     * Este método carga todos los parámetros de configuración desde la tabla
+     * FACTU.CONFIG_SUNAT y los datos de empresa desde FACTU.ARFAMC.
+     *
+     * Implementa caché de 5 minutos para evitar consultas repetidas a la BD.
+     *
+     * @param conn Conexión a la base de datos
+     * @return ConfigSunatBean con toda la configuración cargada
+     *
+     * ══════════════════════════════════════════════════════════════════════════
+     */
+    public static ConfigSunatBean cargarConfiguracionSunat(Connection conn) {
+
+        // Verificar si hay caché válido
+        long currentTime = System.currentTimeMillis();
+        if (configSunatCache != null && (currentTime - configSunatCacheTime) < CACHE_DURATION) {
+            System.out.println("cargarConfiguracionSunat: Usando configuración en caché");
+            return configSunatCache;
+        }
+
+        System.out.println("══════════════════════════════════════════════════════════════════");
+        System.out.println("CARGANDO CONFIGURACIÓN SUNAT DESDE BD");
+        System.out.println("══════════════════════════════════════════════════════════════════");
+
+        ConfigSunatBean config = new ConfigSunatBean();
+
+        try {
+            // ══════════════════════════════════════════════════════════════════
+            // 1. CARGAR PARÁMETROS DESDE FACTU.CONFIG_SUNAT
+            // ══════════════════════════════════════════════════════════════════
+            String sqlConfig = "SELECT CODIGO, VALOR FROM FACTU.CONFIG_SUNAT " +
+                    "WHERE NO_CIA = ? AND ACTIVO = ?";
+
+            PreparedStatement psConfig = conn.prepareStatement(sqlConfig);
+            psConfig.setString(1, NO_CIA_DEFAULT);
+            psConfig.setString(2, "S");
+            ResultSet rsConfig = psConfig.executeQuery();
+
+            while (rsConfig.next()) {
+                String codigo = rsConfig.getString("CODIGO");
+                String valor = rsConfig.getString("VALOR");
+
+                if (codigo != null && valor != null) {
+                    switch (codigo) {
+                        // RUTAS
+                        case "RUTA_ENVIO":
+                            config.setRutaEnvio(valor);
+                            break;
+                        case "RUTA_RESPUESTA":
+                            config.setRutaRespuesta(valor);
+                            break;
+                        case "RUTA_CERTIFICADO":
+                            config.setRutaCertificado(valor);
+                            break;
+
+                        // CERTIFICADO
+                        case "KEYSTORE_TYPE":
+                            config.setKeystoreType(valor);
+                            break;
+                        case "KEYSTORE_PASS":
+                            config.setKeystorePass(valor);
+                            break;
+                        case "PRIVATE_KEY_PASS":
+                            config.setPrivateKeyPass(valor);
+                            break;
+
+                        // AMBIENTE SUNAT
+                        case "AMBIENTE_SUNAT":
+                            config.setAmbienteSunat(valor);
+                            break;
+                        case "ENVIAR_SUNAT":
+                            config.setEnviarSunat(valor);
+                            break;
+
+                        // CREDENCIALES BETA
+                        case "SUNAT_BETA_USUARIO":
+                            config.setSunatBetaUsuario(valor);
+                            break;
+                        case "SUNAT_BETA_CLAVE":
+                            config.setSunatBetaClave(valor);
+                            break;
+                        case "SUNAT_BETA_URL":
+                            config.setSunatBetaUrl(valor);
+                            break;
+
+                        // CREDENCIALES PRODUCCIÓN
+                        case "SUNAT_PROD_USUARIO":
+                            config.setSunatProdUsuario(valor);
+                            break;
+                        case "SUNAT_PROD_CLAVE":
+                            config.setSunatProdClave(valor);
+                            break;
+                        case "SUNAT_PROD_URL":
+                            config.setSunatProdUrl(valor);
+                            break;
+
+                        // LÍMITES
+                        case "MAX_BOLETAS_RESUMEN":
+                            config.setMaxBoletasResumen(Integer.parseInt(valor));
+                            break;
+                        case "MAX_REINTENTOS":
+                            config.setMaxReintentos(Integer.parseInt(valor));
+                            break;
+                        case "TIMEOUT_CONEXION":
+                            config.setTimeoutConexion(Integer.parseInt(valor));
+                            break;
+                    }
+                }
+            }
+            rsConfig.close();
+            psConfig.close();
+
+            // ══════════════════════════════════════════════════════════════════
+            // 2. CARGAR DATOS DE EMPRESA DESDE FACTU.ARFAMC
+            // ══════════════════════════════════════════════════════════════════
+            String sqlEmpresa = "SELECT NO_CLIENTE_ONLINE AS RUC, RAZON_SOCIAL, " +
+                    "CONTA.F_PORC_TASA(NO_CIA, TIPO_TASA_IGV, CLAVE) AS PORC_IGV " +
+                    "FROM FACTU.ARFAMC WHERE NO_CIA = ?";
+
+            PreparedStatement psEmpresa = conn.prepareStatement(sqlEmpresa);
+            psEmpresa.setString(1, NO_CIA_DEFAULT);
+            ResultSet rsEmpresa = psEmpresa.executeQuery();
+
+            if (rsEmpresa.next()) {
+                String ruc = rsEmpresa.getString("RUC");
+                String razonSocial = rsEmpresa.getString("RAZON_SOCIAL");
+                double porcIgv = rsEmpresa.getDouble("PORC_IGV");
+
+                if (ruc != null && !ruc.trim().isEmpty()) {
+                    config.setEmpresaRuc(ruc.trim());
+                }
+                if (razonSocial != null && !razonSocial.trim().isEmpty()) {
+                    config.setEmpresaRazonSocial(razonSocial.trim());
+                }
+                if (porcIgv > 0) {
+                    config.setPorcentajeIgv(porcIgv);
+                }
+            }
+            rsEmpresa.close();
+            psEmpresa.close();
+
+            // Guardar en caché
+            configSunatCache = config;
+            configSunatCacheTime = currentTime;
+
+            // Imprimir configuración cargada
+            config.imprimirConfiguracion();
+
+            System.out.println("cargarConfiguracionSunat: Configuración cargada exitosamente");
+
+        } catch (Exception ex) {
+            System.out.println("Error cargarConfiguracionSunat: " + ex.getMessage());
+            ex.printStackTrace();
+            // Retornar bean con valores por defecto
+            System.out.println("cargarConfiguracionSunat: Usando valores por defecto");
+        }
+
+        return config;
+    }
+
+    /**
+     * Fuerza la recarga de la configuración SUNAT (invalida el caché)
+     * @param conn Conexión a la base de datos
+     * @return ConfigSunatBean con la configuración actualizada
+     */
+    public static ConfigSunatBean recargarConfiguracionSunat(Connection conn) {
+        System.out.println("recargarConfiguracionSunat: Invalidando caché y recargando...");
+        configSunatCache = null;
+        configSunatCacheTime = 0;
+        return cargarConfiguracionSunat(conn);
+    }
+
+    /**
+     * Obtiene la configuración SUNAT del caché sin consultar BD
+     * Si no hay caché, retorna null
+     * @return ConfigSunatBean o null si no hay caché
+     */
+    public static ConfigSunatBean getConfiguracionSunatCache() {
+        return configSunatCache;
+    }
+
+    /**
+     * Verifica si la configuración está en caché y es válida
+     * @return true si hay caché válido
+     */
+    public static boolean tieneConfiguracionEnCache() {
+        long currentTime = System.currentTimeMillis();
+        return configSunatCache != null && (currentTime - configSunatCacheTime) < CACHE_DURATION;
     }
 
 }
